@@ -1,0 +1,84 @@
+    .container{
+        height: 100%;
+        width: 100%;
+        top:0;
+        left:0;
+        right: 0;
+        
+    }    
+    
+    
+    .Search{
+        position: absolute;
+        
+    }
+
+   .front-container1{
+    position: absolute;
+    top:40px;
+    left:0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+   }
+  
+    .chat-top{
+    background-color: #ebeceb;
+    height: 60px;
+    }
+    
+   .profile-image{
+    margin-top: 20px;
+    height: 30px;
+    width: 30px;
+   }
+
+   .contacts{
+    background-color: white;
+    height: 640px;
+   }
+     
+   .contact-table-scroll{
+    overflow-y: scroll;
+    height: 640px;
+   } 
+   
+   .message-area{
+    background-color:  #e4e1de;
+    height: 600px;
+   }
+
+   .message-table-scroll{
+    overflow-y: scroll;
+    height: 600px;
+
+   }
+
+   .my_msg{
+       content: '';
+       position: absolute;
+       top:0;
+       right: -12px;
+       width: 20px;
+       height: 20px;
+       background: linear-gradient(135deg, #dcf8c6,#dcf8c6,transparent 50%,transparent);
+   }
+     
+   /* .message-table-scroll{
+    overflow-y: scroll;
+    height: 550px;
+   }
+   
+    */
+   .message-box{
+    background-color: #e4e1de;
+    height: 40px;
+    
+   }
+    
+   .float-left{
+       padding-left: 100px;
+       color: black;
+   }
+
+

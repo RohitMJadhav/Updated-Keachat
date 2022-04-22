@@ -1,0 +1,16 @@
+.btn_green:hover{
+    color:green;   
+}
+
+.btn_red:hover{
+  
+    color: red;
+}
+
+btn btn-success:hover{
+    color: green;
+}
+
+btn btn-primary:hover{
+    color: blue;
+}

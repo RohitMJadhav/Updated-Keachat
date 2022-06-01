@@ -1,16 +1,22 @@
-.btn_green:hover{
-    color:green;   
+.row{
+    margin:10px;
+    padding-bottom: 20px;
+   
 }
 
-.btn_red:hover{
-  
+.msg{
     color: red;
 }
 
-btn btn-success:hover{
-    color: green;
+.selectmenu{
+    padding: 10px;
+    margin:10px;
 }
 
-btn btn-primary:hover{
-    color: blue;
+.form-control{
+    font-size: 16px;
+}
+
+.bposition{
+    margin-left: 111px;
 }

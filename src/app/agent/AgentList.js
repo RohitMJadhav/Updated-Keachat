@@ -1,48 +1,42 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom';
-import { ProgressBar } from 'react-bootstrap';
 import Axios from "axios";
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
 import  { useState,useEffect} from 'react'
-// import { ProgressBar } from 'react-bootstrap';
-
-import AgentAdd from './AgentAdd';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function AgentList(){
   const [employees, setEmployees] = useState([])
   const [popup, setPopup] = useState(false);
-  const URL='https://jsonplaceholder.typicode.com/users'
+
    
-
-    
-
   useEffect(() => {
-      getData()
-  }, [])
+    getInformation()
+}, [])
 
-  const getData = async () => {
+const getInformation = async ( ) => {
 
-      const response = await Axios.get(URL)
-      setEmployees(response.data)
-  }
+    const result = await Axios.get(`${process.env.REACT_APP_API_URL}api/v1/agents`)
+    setEmployees(result.data)
+}
 
-  const removeData = (id) => {
-      
-      Axios.delete(`${URL}/${id}`).then(res => {
-          const del = employees.filter(employee => id !== employee.id)
-          setEmployees(del);
-          setPopup(true);
-         
-      })
-  }
+  const removeData = ( index) => {
+
+    Axios.delete(`${process.env.REACT_APP_API_URL+"api/v1/agents/"}${index}`)
+    .then(res => {
+        const del = employees.filter(employee => index !== employee._id.$oid)
+        setEmployees(del)
+        setPopup(true);
+    },
+    toast.error("Deleted Sucessfully!", {
+      position: toast.POSITION.TOP_CENTER
+    }))
+}
 
   const renderHeader = () => {
-      let headerElement = [ 'id', 'name', 'email', 'phone', 'operation']
-
+      // let headerElement = [ 'id', 'first_name','last_name', 'email',"address","city","state","country","client_id","group_id","agentshift_id", 'operation']
+      let headerElement = [ 'id','first_name','last_name', 'email',"address",'operation']
       return headerElement.map((key, index) => {
           return <th key={index}>{key.toUpperCase()}</th>
       })
@@ -52,41 +46,44 @@ function AgentList(){
   alert("are you sure want to delete?");
     
   }
-
+let id=1;
   const renderBody = () => {
-    return employees && employees.map(({ id, name, email, phone }) => {
-        return (
-            <tr key={id}>
-                <td>{id}</td>
-                <td>{name} </td>
-                <td>{email}</td>
-                <td>{phone}</td>
-                <td className='opration'>
-                 <button type='button' className='btn btn-dark' onClick={editForm } >Edit</button>
+    return employees && employees.map(({ _id, first_name,last_name,email,address }) => {
+      // console.log(JSON.stringify(client_id)+"client_id")
+      // console.log(JSON.stringify(group_id)+"group_id")
+      // console.log(JSON.stringify(agentshift_id)+"agentshift_id")
+      return (
+          <tr key={_id.$oid}>
+              <td>{id++}</td>
+              <td>{first_name} </td>
+                 <td>{last_name} </td>
+                 <td>{email}</td>
+                 <td>{address}</td>
+                 {/* <td>{city}</td>
+                 <td>{state}</td>
+                 <td>{country}</td>
+                 <td>{pincode}</td> */}
+                 {/* <td>{client_id.$oid}</td>
+                 <td>{group_id.$oid}</td>
+                 <td>{agentshift_id.$oid}</td> */}
+                 <td className='opration'>
+                 <Link to={`/agent/AgentEdit/${_id.$oid}`}> <button type="button" className='btn btn-dark mr-1'>Edit</button></Link>
                  
-                    <button type="button" className="btn btn-danger" onClick={() =>removeData(id) }>Delet</button>
-                    {/* <Tooltip title = "Delete"> <Button variant="outlined"  className = "btn_red" onClick={() => removeData(id)}><DeleteIcon fontSize="small"/></Button></Tooltip> */}
+                    <button type="button" className="btn btn-danger mr-1" onClick={() =>removeData(_id.$oid) }>Delete</button>
+                    <ToastContainer autoClose={1500} />
                 </td>
-            </tr>
-        )
+                </tr>)
     })
 }
 
-
-
   return(<>
-
-     {/* <h1 id='title'>React Table</h1> */}
-        {/* <table id='employee'> */}
         <div>
        
     <div className="page-header">
        <h3 className="page-title"> Agent</h3>
        <nav aria-label="breadcrumb">
          <ol className="breadcrumb">
-           {/* <li className="breadcrumb-item"><a href="!#" onClick={event => event.preventDefault()}>AgentAdd</a></li> */}
            <li> <Link to="/agent/AgentAdd"> <button type="button" className='btn btn-primary'>Add Agent</button></Link></li>
-            {/* <li className="breadcrumb-item active" aria-current="page">List</li> */}
          </ol>
        </nav>
      </div>

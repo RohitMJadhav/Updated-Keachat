@@ -1,0 +1,32 @@
+.row{
+    margin:10px;
+    padding-bottom: 20px;
+  
+}
+
+
+.form-control{
+    font-size: 16px;
+}
+
+.bposition{
+    margin-left: 100px;
+}
+
+
+
+.textboxend{
+    margin-left: 22px;
+}
+
+.textboxstart{
+margin-left: 3px;
+}
+
+.labelposition{
+    margin-left: 5px;
+}
+
+.labelpositionstart{
+    margin-left: 2px;
+}

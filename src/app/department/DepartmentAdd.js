@@ -1,321 +1,157 @@
-import React from 'react';
-import { useForm } from 'react-hook-form';
+import React from "react";
+import { useForm } from "react-hook-form";
 import Axios from "axios";
-import {Link} from "react-router-dom"
+import { Link } from "react-router-dom";
+import "./department.css";
+import { useHistory } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import {useState,useEffect} from "react"
 
-function DepartmentAdd(){
- 
- const {
-  register,
-  handleSubmit,
-  formState: { errors },
-} = useForm();
+function DepartmentAdd() {
 
-const onSubmit = data => {
-  Axios
-   .post(
-    "https://reqres.in/api/users",
-       data,
-    )
-   .then(response => {console.log(response.data)})
-   .catch(error => {console.log(error.data)});
-};
+    const [orgid, setOrgid] = useState([])
 
-  // const onSubmit = (data) => console.log(data);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  let history = useHistory();
+
+  const onSubmit = (data) => {
+    Axios.post(process.env.REACT_APP_API_URL + "api/v1/departments", data)
+      .then(
+        (response) => {
+          history.push("/department/department-list");
+        },
+        toast.success("Thanks for Submitting!", {
+          position: toast.POSITION.TOP_CENTER,
+        })
+      )
+      .catch((error) => {
+        history.push("/department/department-list");
+      });
+  };
 
 
-    return (
-      <div>
-        <div className="page-header">
-          <h3 className="page-title"> Department</h3>
-          <nav aria-label="breadcrumb">
-            <ol className="breadcrumb">
-              {/* <li className="breadcrumb-item"><a href="!#" onClick={event => event.preventDefault()}>Department</a></li>
-              <li className="breadcrumb-item active" aria-current="page">Add</li> */}
-                <li> <Link to="/department/DepartmentList"> <button type="button" className='btn btn-primary'>Back</button></Link></li>
-            </ol>
-          </nav>
-        </div>
-        <div className="row">
-         
-          <div className="col-md-12 grid-margin stretch-card">
-            <div className="card">
-              <div className="card-body">
-               
-               
+  useEffect(() => {
+    getData()
+    
+}, [])
+
+  const getData = async () => {
+    const response = await Axios.get( process.env.REACT_APP_API_URL+"api/v1/organizations")
+    setOrgid(response.data)  
+}
+
+  const renderBody = () => {
+   return <select {...register("org_id")} className="form-control" style={{fontSize:"16px",fontWeight:"bold"}}>
+    {orgid.map(({ _id, name }, index) =><option key={index} value={_id.$oid} >{name}</option>)}
+    </select>
+}
+
+  return (
+    <div>
+      <div className="page-header">
+        <h3 className="page-title"> Department</h3>
+        <nav aria-label="breadcrumb">
+          <ol className="breadcrumb">
+            <li>
+              <Link to="/department/department-List"><button type="button" className="btn btn-primary">Back</button></Link>
+            </li>
+          </ol>
+        </nav>
+      </div>
+      <div className="row">
+        <div className="col-md-12 grid-margin stretch-card">
+          <div className="card">
+            <div className="card-body">
               <form onSubmit={handleSubmit(onSubmit)}>
-                  <div className="row">
-                    <label htmlFor="fname" className="col-sm-1 col-form-label">Name</label>
+                <div className="row">
+                   <label htmlFor="name" className="col-sm-1 col-form-label"> Name </label>
                     <div className="col-sm-5">
-                    
-                    <input
-                    type="text" 
-                    className="form-control"
-                    id="fname" 
-                    placeholder="Username"
-                    autoComplete='off'
-                    {...register('fname',{required:"Name is required"})}
-                    />
-                    {errors.fname && <p className='msg'>*First name will be more than 3 words*</p>}
-                    
-                    </div>
-
-                    <label htmlFor="email" className="col-sm-1 col-form-label">Email</label>
-                    <div className="col-sm-5">
-                    <input 
-                    type="email" 
-                    className="form-control" 
-                    id="email" 
-                    placeholder="abc@gmail.com" 
-                    autoComplete='off'
-                    {...register("email",{required:"Email is required"})}/>
-                    {errors.email && <p className='msg'>*Email is required.*</p>}
-                    </div>
-                    </div>
-                  
-                  <div className="row">
-                    <label htmlFor="contact" className="col-sm-1 col-form-label">Contact</label>
-                    <div className="col-sm-5">
-
-                     <input
-                    type="tel" 
-                    className="form-control" 
-                    id="contact" 
-                    placeholder="Enter your contact"
-                    autoComplete='off'
-                    {...register("contact",{validate:(value)=>value.length>9 && value.length<11 })}
-                    />
-                    {errors.contact && <p className='msg'>*contact number will be 10 digits.*</p>}
-                    </div>
-                    <label htmlFor="address" className="col-sm-1 col-form-label">Address</label>
-                    <div className="col-sm-5">
-                    <input
-                    type="text" 
-                    className="form-control" 
-                    id="address" 
-                    placeholder="address"
-                    autoComplete='off'
-                    {...register("address",{required:"Adress is required"},{validate:(value)=>value.length>15 || value.length<30 })}
-                    />
-                    {errors.address && <p className='msg'>*Address is required.*</p>}
-                    
-                    </div>
+                  <input
+                    type="text"
+                    name="name"
+                    autoComplete="off"
+                    className={`form-control ${
+                      errors.name ? "is-invalid" : ""
+                    }`}
+                    placeholder="Name"
+                    {...register("name", {
+                      required: "Name is required",
+                      pattern: {
+                        value: /^[a-zA-Z ]+$/,
+                        message: "Name must be a valid string",
+                      },
+                      minLength: {
+                        value: 3,
+                        message: "Name should be greater than 3 characters",
+                      },
+                      maxLength: {
+                        value: 20,
+                        message: "Name shouldn't be greater than 20 characters",
+                      },
+                    })}
+                  />
+                  <div className="invalid-feedback">
+                    {errors?.name?.message}
+                  </div>
                   </div>
 
- 
-                  <button type="submit" className="btn btn-primary mr-2">Submit</button>
-                  <button className="btn btn-light">Cancel</button> 
-                  
-               
-                  </form>
+                  <label htmlFor="org_id" className="col-sm-1.1 col-form-label">
+                    Organization Id
+                  </label>
+                   <div className="col-sm-4">{renderBody()}</div>  
+                </div>
+                <div className="position">
+                <div className="row">
+                <label htmlFor="name" className="col-sm-1.1 col-form-label"> Description </label>
+                    <div className="col-sm-5">
+                  <textarea
+                    type="text"
+                    name="description"
+                    autoComplete="off"
+                    rows={5}
+                    className={`form-control ${
+                      errors.description ? "is-invalid" : ""
+                    }`}
+                    placeholder="Description"
+                    {...register("description", {
+                      required: "Decsription is required",
+                      pattern: {
+                        value: /^[a-zA-Z ]+$/,
+                        message: "Decsription must be a valid string",
+                      },
+                      minLength: {
+                        value: 15,
+                        message: "Decsription should be greater than 15 characters",
+                      },
+                      maxLength: {
+                        value: 50,
+                        message: "Decsription shouldn't be greater than 50 characters",
+                      },
+                    })}
+                  />
+                  <div className="invalid-feedback">
+                    {errors?.description?.message}
+                  </div>
+                  </div>
+                </div>
+                </div>
+                <div className="bposition">
+                <button type="submit" className="btn btn-primary" style={{fontSize:"16px"}}>Submit</button>
+                </div>
+                <ToastContainer autoClose={1500} />
+              </form>
             </div>
-           </div>
           </div>
-          </div>
-          </div>
-             
-    )
-  
-    }
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default DepartmentAdd;
-
-
-
-
-
-// import React, { Component } from 'react';
-// import { Link, withRouter } from 'react-router-dom';
-// import { Form } from 'react-bootstrap';
-// import DatePicker from "react-datepicker";
-// import bsCustomFileInput from 'bs-custom-file-input';
-
-// export class BasicElements extends Component {
-
-
-//   state = {
-//     startDate: new Date()
-//   };
-
-//   handleChange = date => {
-//     this.setState({
-//       startDate: date
-//     });
-//   };
-
-//   componentDidMount() {
-//     bsCustomFileInput.init()
-//   }
-
-
-
-
-//   render() {
-//     return (
-//       <div>
-//         <div className="page-header">
-//           <h3 className="page-title"> Organization </h3>
-//           <nav aria-label="breadcrumb">
-//             <ol className="breadcrumb">
-//               <li className="breadcrumb-item"><a href="!#" onClick={event => event.preventDefault()}>Organization</a></li>
-//               <li className="breadcrumb-item active" aria-current="page">Add</li>
-//             </ol>
-//           </nav>
-//         </div>
-//         <div className="row">
-
-//           <div className="col-md-12 grid-margin stretch-card">
-//             <div className="card">
-//               <div className="card-body">
-//                 <form className="forms-sample">
-//                   <Form.Group className="row">
-//                     <label htmlFor="exampleInputUsername2" className="col-sm-2 col-form-label">Name</label>
-//                     <div className="col-sm-4">
-//                       <Form.Control type="text" className="form-control" id="exampleInputUsername2" placeholder="Username" />
-//                     </div>
-//                     <label htmlFor="exampleInputEmail2" className="col-sm-2 col-form-label">Email</label>
-//                     <div className="col-sm-4">
-//                       <Form.Control type="email" className="form-control" id="exampleInputEmail2" placeholder="abc@gmail.com" />
-//                     </div>
-//                   </Form.Group>
-//                   <Form.Group className="row">
-//                     <label htmlFor="exampleInputUsername2" className="col-sm-2 col-form-label">Contact</label>
-//                     <div className="col-sm-4">
-//                       <Form.Control type="number" className="form-control" id="exampleInputUsername2" placeholder="98223354**" />
-//                     </div>
-//                     <label htmlFor="exampleInputEmail2" className="col-sm-2 col-form-label">Address</label>
-//                     <div className="col-sm-4">
-//                       <Form.Control type="text" className="form-control" id="exampleInputEmail2" placeholder="Address" />
-//                     </div>
-//                   </Form.Group>
-//                   <Form.Group className="row">
-//                     <label htmlFor="exampleInputUsername2" className="col-sm-2 col-form-label">City</label>
-//                     <div className="col-sm-4">
-//                       <Form.Control type="text" className="form-control" id="exampleInputUsername2" placeholder="City" />
-//                     </div>
-//                     <label htmlFor="exampleInputEmail2" className="col-sm-2 col-form-label">State</label>
-//                     <div className="col-sm-4">
-//                       <Form.Control type="text" className="form-control" id="exampleInputEmail2" placeholder="State" />
-//                     </div>
-//                   </Form.Group>
-//                   <Form.Group className="row">
-//                     <label htmlFor="exampleInputEmail2" className="col-sm-2 col-form-label">Country</label>
-//                     <div className="col-sm-4">
-//                       <Form.Control type="text" className="form-control" id="exampleInputEmail2" placeholder="Country" />
-//                     </div>
-//                     <label htmlFor="exampleInputUsername2" className="col-sm-2 col-form-label">Pincode</label>
-//                     <div className="col-sm-4">
-//                       <Form.Control type="number" className="form-control" id="exampleInputUsername2" placeholder="Pincode" />
-//                     </div>
-//                   </Form.Group>
-
-
-//                   <div className="form-check">
-
-//                   </div>
-//                   <button type="submit" className="btn btn-primary mr-2">Submit</button>
-//                   <button className="btn btn-light">Cancel</button>
-//                 </form>
-//               </div>
-//             </div>
-//           </div>
-
-//         </div>
-//       </div>
-
-
-
-
-//     )
-//   }
-// }
-
-// export default BasicElements
-
-
-
-
-
-// import React, { Component } from 'react';
-// import { Link, withRouter } from 'react-router-dom';
-// import { Form } from 'react-bootstrap';
-// import DatePicker from "react-datepicker";
-// import bsCustomFileInput from 'bs-custom-file-input';
-
-// export class DepartmentAdd extends Component {
- 
-
-//   state = {
-//     startDate: new Date()
-//   };
- 
-//   handleChange = date => {
-//     this.setState({
-//       startDate: date
-//     });
-//   };
-
-//   componentDidMount() {
-//     bsCustomFileInput.init()
-//   }
-
-  
-
-
-//   render() {
-//     return (
-//       <div>
-//         <div className="page-header">
-//           <h3 className="page-title"> Department </h3>
-//           <nav aria-label="breadcrumb">
-//             <ol className="breadcrumb">
-//               <li className="breadcrumb-item"><a href="!#" onClick={event => event.preventDefault()}>Department</a></li>
-//               <li className="breadcrumb-item active" aria-current="page">Add</li>
-//             </ol>
-//           </nav>
-//         </div>
-//         <div className="row">
-         
-//           <div className="col-md-12 grid-margin stretch-card">
-//             <div className="card">
-//               <div className="card-body">
-               
-//                 <form className="forms-sample">
-//                 <Form.Group className="row" >
-//                   <label htmlFor="exampleInputUsername2" className="col-sm-2 col-form-label">Name</label>
-//                     <div className='col-sm-4'>
-//                     <Form.Control type="text-area" className="form-control" id="exampleInputUsername2" placeholder="Username" /><br/>
-//                     </div>
-
-//                     <label htmlFor="exampleInputUsername2" className="col-sm-2 col-form-label" >Organization</label>
-//                     <div className='col-sm-4'>
-//                     <Form.Control type="number" className="form-control" id="exampleInputUsername2" placeholder="Organization id" /><br/>
-//                     </div>
-//                     </Form.Group>
-//                     <Form.Group className="row" >
-                                    
-//                                     <label htmlFor="exampleInputUsername2" className="col-sm-2 col-form-label">Description</label>
-//                                      <div className='col-sm-4'>
-//                                       <textarea className="form-control" id="exampletextarea" rows="6" placeholder='Description'></textarea> 
-//                                       </div>
-//                                       </Form.Group>
-                 
-
-//                   <div className="form-check">
-                   
-//                   </div>
-//                   <button type="submit" className="btn btn-primary mr-2">Submit</button>  <button className="btn btn-light">Cancel</button>
-                  
-                
-//                 </form>
-//               </div>
-//             </div>
-//           </div>
-//               </div>
-//              </div>
-      
-//     )
-//   }
-// }
-
-// export default DepartmentAdd

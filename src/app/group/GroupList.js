@@ -1,108 +1,16 @@
-// import React, { Component } from 'react'
-// import { Link } from 'react-router-dom';
-// import { ProgressBar } from 'react-bootstrap';
-// import Axios from "axios";
-// import DeleteIcon from '@mui/icons-material/Delete';
-// import EditIcon from '@mui/icons-material/Edit';
-// import Button from '@mui/material/Button';
-// import Tooltip from '@mui/material/Tooltip';
-
-// function GroupList(){
-//   const [users, setUsers] = React.useState([]);
-//     const url="https://reqres.in/api/users"
-
-//   React.useEffect(() => {
-//     Axios.get(url).then((response) => {
-//       setUsers(response.data.data);
-//     });
-//   }, []);
-
-//     const updateTableList=
-//       users.map(function(user){
-//         return   <tr align = "center" key={user.id}>
-//           <td> {user.first_name} </td>
-//           <td>
-//             <p>{user.description}</p>
-//           </td>
-//           {/* <td>{user.Action}</td> */}
-                         
-//           <td><div className="btn-group" role="group" aria-label="Basic example">
-//           <Tooltip title = "Edit">
-//                            <Button variant="outlined" className = "btn_green" ><EditIcon fontSize="small"/></Button></Tooltip>
-//                            <Tooltip title = "Delete">
-//                            <Button variant="outlined"  className = "btn_red"><DeleteIcon fontSize="small"/></Button></Tooltip>
-//                          </div></td>
-//        </tr>
-//       })
-
-//     return (
-//       <div>
-//         <div className="page-header">
-//           <h3 className="page-title"> Group </h3>
-//           <nav aria-label="breadcrumb">
-//             <ol className="breadcrumb">
-//               <li className="breadcrumb-item"><a href="!#" onClick={event => event.preventDefault()}></a></li>
-//               <li> <Link to="/department/DepartmentAdd"> <button type="button" className='btn btn-primary'>Add Group</button></Link></li>
-//               <li className="breadcrumb-item active" aria-current="page"></li>
-//             </ol>
-//           </nav>
-//         </div>
-//         <div className="row">
-        
-//           <div className="col-lg-12 grid-margin stretch-card">
-//             <div className="card">
-//               <div className="card-body">
-//                 <h4 className="card-title"></h4>
-                
-//                 <div className="table-responsive">
-//                   <table className="table table-striped">
-//                     <thead>
-//                       <tr align ="center">
-//                         <th> Name </th>
-//                         <th> Description </th>       
-//                         <th> Actions</th>
-//                       </tr>
-//                     </thead>
-//                     <tbody>
-//                    {updateTableList}
-//                     </tbody>
-//                   </table>
-//                 </div>
-//               </div>
-//             </div>
-//           </div>
-          
-//         </div>
-//       </div>
-//     );
-//   }
-
-// export default GroupList
-
-
-
 
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
-import { ProgressBar } from 'react-bootstrap';
 import Axios from "axios";
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
 import  { useState,useEffect} from 'react'
-// import { ProgressBar } from 'react-bootstrap';
-
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function GroupList(){
   const [employees, setEmployees] = useState([])
   const [popup, setPopup] = useState(false);
-  const URL='https://jsonplaceholder.typicode.com/users'
-    // const URL="https://reqres.in/api/users/2"
-
-    
+ 
 
   useEffect(() => {
       getData()
@@ -110,21 +18,26 @@ function GroupList(){
 
   const getData = async () => {
 
-      const response = await Axios.get(URL)
+      const response = await Axios.get(process.env.REACT_APP_API_URL+"api/v1/groups")
       setEmployees(response.data)
   }
 
-  const removeData = (id) => {
+  const removeData = ( index) => {
 
-      Axios.delete(`${URL}/${id}`).then(res => {
-          const del = employees.filter(employee => id !== employee.id)
-          setEmployees(del)
-          setPopup(true);
-      })
-  }
+    Axios.delete(`${process.env.REACT_APP_API_URL+"api/v1/groups/"}${index}`)
+    .then(res => {
+        const del = employees.filter(employee => index !== employee._id.$oid)
+        console.log(del)
+        setEmployees(del)
+        setPopup(true);
+    },
+    toast.error("Deleted Sucessfully!", {
+      position: toast.POSITION.TOP_CENTER
+    }))
+}
 
   const renderHeader = () => {
-      let headerElement = [ 'id', 'name', 'email', 'phone', 'operation']
+      let headerElement = [ 'id', 'name', 'description', 'operation']
 
       return headerElement.map((key, index) => {
           return <th key={index}>{key.toUpperCase()}</th>
@@ -135,42 +48,39 @@ function GroupList(){
     alert("hello how are you");
     
   }
-
+ let id=1;
   const renderBody = () => {
-    return employees && employees.map(({ id, name, email, phone }) => {
+    return employees && employees.map(({_id, name, description}) => {
         return (
-            <tr key={id}>
-                <td>{id}</td>
+            <tr key={_id.$oid}>
+                 <td>{id++}</td>
                 <td>{name} </td>
-                <td>{email}</td>
-                <td>{phone}</td>
+                <td>{description}</td>
                 <td className='opration'>
-                 <button type='button' className='btn btn-dark' onClick={editForm } >Edit</button>
+                <Link to={`/group/GroupEdit/${_id.$oid}`}> <button type="button" className='btn btn-dark mr-1'>Edit</button></Link>
                  
-                    <button type="button" className="btn btn-danger" onClick={() => removeData(id)}>Delet</button>
-                    {/* <Tooltip title = "Delete"> <Button variant="outlined"  className = "btn_red" onClick={() => removeData(id)}><DeleteIcon fontSize="small"/></Button></Tooltip> */}
+                    <button type="button" className="btn btn-danger mr-1" onClick={() =>  
+                    {const confirmBox=window.confirm("Are you sure want to delete") 
+                    if(confirmBox===true)
+                    {removeData(_id.$oid)}
+                    }}>Delet</button>
+                    <ToastContainer autoClose={1500} />
                 </td>
             </tr>
         )
     })
 }
 
-
-
   return(<>
 
-     {/* <h1 id='title'>React Table</h1> */}
-        {/* <table id='employee'> */}
         <div>
        
     <div className="page-header">
        <h3 className="page-title"> Group</h3>
        <nav aria-label="breadcrumb">
          <ol className="breadcrumb">
-           {/* <li className="breadcrumb-item"><a href="!#" onClick={event => event.preventDefault()}>AgentAdd</a></li> */}
            <li> <Link to="/group/GroupAdd"> <button type="button" className='btn btn-primary'>Add Group</button></Link></li>
-            {/* <li className="breadcrumb-item active" aria-current="page">List</li> */}
-         </ol>
+        </ol>
        </nav>
      </div>
      <div className="row">

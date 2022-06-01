@@ -5,6 +5,8 @@ import App from './app/App';
 import "./i18n";
 import * as serviceWorker from './serviceWorker';
 
+
+
 ReactDOM.render(
   <BrowserRouter basename="/app/">
     <App />
@@ -12,3 +14,4 @@ ReactDOM.render(
 , document.getElementById('root'));
 
 serviceWorker.unregister();
+

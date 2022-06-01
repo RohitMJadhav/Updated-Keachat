@@ -1,15 +1,29 @@
 import React, { Component } from 'react';
 import { Dropdown } from 'react-bootstrap';
 import { Trans } from 'react-i18next';
+import { Link, useHistory, withRouter } from 'react-router-dom';
 
-class Navbar extends Component {
-  toggleOffcanvas() {
+
+function Navbar() {
+
+
+   function toggleOffcanvas(){
     document.querySelector('.sidebar-offcanvas').classList.toggle('active');
   }
-  toggleRightSidebar() {
+
+   function toggleRightSidebar() {
     document.querySelector('.right-sidebar').classList.toggle('open');
   }
-  render () {  
+
+
+ let history=useHistory()
+
+  function LogoutData(){
+    localStorage.removeItem("user_info")
+    history.push("./Login")
+  }
+
+ 
     return (
       <nav className="navbar col-lg-12 col-12 p-lg-0 fixed-top d-flex flex-row">
         <div className="navbar-menu-wrapper d-flex align-items-center justify-content-between">
@@ -19,43 +33,7 @@ class Navbar extends Component {
           </button>
           <ul className="navbar-nav navbar-nav-left header-links align-self-center">
             <li className="nav-item font-weight-semibold d-none  d-md-flex">Help : +050 2992 709</li>
-            <li className="nav-item dropdown language-dropdown">
-            <Dropdown>
-                <Dropdown.Toggle className="nav-link count-indicator p-0 toggle-arrow-hide bg-transparent">
-                  <div className="d-inline-flex mr-0 mr-md-3">
-                    <div className="flag-icon-holder">
-                      <i className="flag-icon flag-icon-us"></i>
-                    </div>
-                  </div>
-                  <span className="profile-text font-weight-medium d-none d-md-block">English</span>
-                </Dropdown.Toggle>
-                <Dropdown.Menu className="navbar-dropdown preview-list">
-                  <Dropdown.Item className="dropdown-item  d-flex align-items-center" href="!#" onClick={evt =>evt.preventDefault()}>
-                    <div className="flag-icon-holder">
-                      <i className="flag-icon flag-icon-us"></i>
-                    </div>English
-                  </Dropdown.Item>
-                  <div className="dropdown-divider"></div>
-                  <Dropdown.Item className="dropdown-item preview-item d-flex align-items-center" href="!#" onClick={evt =>evt.preventDefault()}>
-                    <div className="flag-icon-holder">
-                      <i className="flag-icon flag-icon-fr"></i>
-                    </div>French
-                  </Dropdown.Item>
-                  <div className="dropdown-divider"></div>
-                  <Dropdown.Item className="dropdown-item preview-item d-flex align-items-center" href="!#" onClick={evt =>evt.preventDefault()}>
-                    <div className="flag-icon-holder">
-                      <i className="flag-icon flag-icon-ae"></i>
-                    </div>Arabic
-                  </Dropdown.Item>
-                  <div className="dropdown-divider"></div>
-                  <Dropdown.Item className="dropdown-item preview-item d-flex align-items-center" href="!#" onClick={evt =>evt.preventDefault()}>
-                    <div className="flag-icon-holder">
-                      <i className="flag-icon flag-icon-ru"></i>
-                    </div>Russian
-                  </Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
-            </li>
+           
           </ul>
           <form className="ml-auto search-form d-none d-md-block" action="#">
             <div className="form-group">
@@ -63,6 +41,11 @@ class Navbar extends Component {
             </div>
           </form>
           <ul className="navbar-nav navbar-nav-right">
+          <li >
+            <div>
+              <button className="btn btn-warning" onClick={LogoutData}>Logout</button>
+            </div>
+          </li>
           <li className="nav-item  nav-profile border-0 pl-4">
               <Dropdown>
                 <Dropdown.Toggle className="nav-link count-indicator p-0 toggle-arrow-hide bg-transparent">
@@ -106,50 +89,7 @@ class Navbar extends Component {
                   </Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
-            </li>
-            <li className="nav-item  nav-profile border-0">
-              <Dropdown>
-                <Dropdown.Toggle className="nav-link count-indicator p-0 toggle-arrow-hide bg-transparent">
-                  <i className="mdi mdi-email-outline"></i>
-                  <span className="count">7</span>
-                </Dropdown.Toggle>
-                <Dropdown.Menu className="navbar-dropdown preview-list">
-                  <Dropdown.Item className="dropdown-item  d-flex align-items-center" href="!#" onClick={evt =>evt.preventDefault()}>
-                    <p className="mb-0 font-weight-medium float-left"><Trans>You have</Trans> 7 <Trans>unread mails</Trans> </p>
-                    <span className="badge badge-pill badge-primary">View all</span>
-                  </Dropdown.Item>
-                  <div className="dropdown-divider"></div>
-                  <Dropdown.Item className="dropdown-item preview-item d-flex align-items-center" href="!#" onClick={evt =>evt.preventDefault()}>
-                    <div className="preview-thumbnail">
-                      <img src={require("../../assets/images/faces/face10.jpg")} alt="profile" className="img-sm profile-pic" /> </div>
-                    <div className="preview-item-content flex-grow py-2">
-                      <p className="preview-subject ellipsis font-weight-medium text-dark"><Trans>Marian Garner</Trans> </p>
-                      <p className="font-weight-light small-text"> <Trans>The meeting is cancelled</Trans> </p>
-                    </div>
-                  </Dropdown.Item>
-                  <div className="dropdown-divider"></div>
-                  <Dropdown.Item className="dropdown-item preview-item d-flex align-items-center" href="!#" onClick={evt =>evt.preventDefault()}>
-                    <div className="preview-thumbnail">
-                      <img src={require("../../assets/images/faces/face12.jpg")} alt="profile" className="img-sm profile-pic" /> </div>
-                    <div className="preview-item-content flex-grow py-2">
-                      <p className="preview-subject ellipsis font-weight-medium text-dark"><Trans>David Grey</Trans> </p>
-                      <p className="font-weight-light small-text"> <Trans>The meeting is cancelled</Trans></p>
-                    </div>
-                  </Dropdown.Item>
-                  <div className="dropdown-divider"></div>
-                  <Dropdown.Item className="dropdown-item preview-item d-flex align-items-center" href="!#" onClick={evt =>evt.preventDefault()}>
-                    <div className="preview-thumbnail">
-                      <img src={require("../../assets/images/faces/face1.jpg")} alt="profile" className="img-sm profile-pic" /> </div>
-                    <div className="preview-item-content flex-grow py-2">
-                      <p className="preview-subject ellipsis font-weight-medium text-dark"><Trans>Travis Jenkins</Trans> </p>
-                      <p className="font-weight-light small-text"> <Trans>The meeting is cancelled</Trans> </p>
-                    </div>
-                  </Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
-            </li>
-            
-            
+            </li> 
             <li className="nav-item  nav-profile border-0">
               <Dropdown>
                 <Dropdown.Toggle className="nav-link count-indicator bg-transparent">
@@ -185,13 +125,13 @@ class Navbar extends Component {
               </Dropdown>
             </li>
           </ul>
-          <button className="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" onClick={this.toggleOffcanvas}>
+          <button className="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" onClick={toggleOffcanvas}>
             <span className="mdi mdi-menu"></span>
           </button>
         </div>
       </nav>
     );
   }
-}
+
 
 export default Navbar;

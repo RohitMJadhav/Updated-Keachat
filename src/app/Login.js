@@ -23,6 +23,24 @@ export default function Login(){
 
   let history=useHistory()
 
+  const [items, setItems] = useState([]);
+
+  // useEffect(() => {
+  //   const items = JSON.parse(localStorage.getItem('items'));
+  //   console.log("hii")
+  //   console.log(items)
+  //   console.log("hii")
+  //   if (items) {
+  //    setItems(items);
+  //   }
+  // }, []);
+
+  useEffect(()=>{
+if(!localStorage.getItem("user_info")){
+  history.push("/Login")
+}
+  },[])
+
   async function onSubmit(data){
  let result=await fetch(`${process.env.REACT_APP_API_URL}auth/login`,{
    method:"POST",
@@ -34,12 +52,14 @@ export default function Login(){
  });
  result=await result.json();
  localStorage.setItem("user_info",JSON.stringify(result))
- console.log(result)
- console.log()
+
+
  if(result.statusCode==401){
+  localStorage.clear("user_info")
   history.push("/Login")
  }
  else{
+ 
   history.push("/dashboard")
  }
  toast.error("Wrong Username/Password", {
@@ -102,21 +122,21 @@ export default function Login(){
                     <button type='submit' className='btn btn-primary'>Login</button>
                   </div>
                   <div className="my-2 d-flex justify-content-between align-items-center">
-                    <div className="form-check">
+                    {/* <div className="form-check">
                       <label className="form-check-label text-muted">
                         <input type="checkbox" className="form-check-input"/>
                         <i className="input-helper"></i>
                         Keep me signed in
                       </label>
-                    </div>
+                    </div> */}
                     <a href="!#" onClick={event => event.preventDefault()} className="auth-link text-black">Forgot password?</a>
                   </div>
                   <div className="mb-2">
                   </div>
-                  <div className="text-center mt-4 font-weight-light">
+                  {/* <div className="text-center mt-4 font-weight-light">
                     Don't have an account? <Link to="/user-pages/register" className="text-primary">Create</Link>
-                  </div>
-                  <ToastContainer autoClose={3500} /> 
+                  </div> */}
+                  <ToastContainer autoClose={2500} /> 
                 </form>
               </div>
             </div>

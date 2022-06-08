@@ -43,14 +43,16 @@ function QuestionList(){
       })
   }
 
-  function editForm(){
-    alert("hello how are you");
+  // function editForm(){
+  //   alert("hello how are you");
     
-  }
+  // }
   
  let id=1;
   const renderBody = () => {
+    console.log(employees)
     return employees && employees.map(({_id,question_no,question}) => {
+     
         return (
             <tr key={_id.$oid}>
                  <td>{id++}</td>

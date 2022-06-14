@@ -82,87 +82,22 @@ export class Conversation extends Component {
               <tbody>
                 <tr>
                   <td><img className="img-sm rounded-circle" src={require("../../assets/images/faces/face1.jpg")} alt="profile" /></td>
-                  <td>Rahul Kumar <br/> <small>Nothing</small></td>
+                  <td onClick={()=>alert("hello")}>Rohit Jadhav <br/> <small>Nothing</small></td>
                   <td><small>11:55 PM</small></td>
                 </tr>
                 <tr>
                   <td><img className="img-sm rounded-circle" src={require("../../assets/images/faces/face1.jpg")} alt="profile" /></td>
-                  <td>Rahul Kumar <br/> <small>Nothing</small></td>
-                  <td><small>11:55 PM</small></td>
-                </tr>
-                <tr>
-                  <td><img className="img-sm rounded-circle" src={require("../../assets/images/faces/face1.jpg")} alt="profile" /></td>
-                  <td>Rahul Kumar <br/> <small>Nothing</small></td>
-                  <td><small>11:55 PM</small></td>
-                </tr>
-                <tr>
-                  <td><img className="img-sm rounded-circle" src={require("../../assets/images/faces/face1.jpg")} alt="profile" /></td>
-                  <td>Rahul Kumar <br/> <small>Nothing</small></td>
-                  <td><small>11:55 PM</small></td>
-                </tr>
-                <tr>
-                  <td><img className="img-sm rounded-circle" src={require("../../assets/images/faces/face1.jpg")} alt="profile" /></td>
-                  <td>Rahul Kumar <br/> <small>Nothing</small></td>
-                  <td><small>11:55 PM</small></td>
-                </tr>
-                <tr>
-                  <td><img className="img-sm rounded-circle" src={require("../../assets/images/faces/face1.jpg")} alt="profile" /></td>
-                  <td>Rahul Kumar <br/> <small>Nothing</small></td>
-                  <td><small>11:55 PM</small></td>
-                </tr>
-                <tr>
-                  <td><img className="img-sm rounded-circle" src={require("../../assets/images/faces/face1.jpg")} alt="profile" /></td>
-                  <td>Rahul Kumar <br/> <small>Nothing</small></td>
-                  <td><small>11:55 PM</small></td>
-                </tr>
-                <tr>
-                  <td><img className="img-sm rounded-circle" src={require("../../assets/images/faces/face1.jpg")} alt="profile" /></td>
-                  <td>Rahul Kumar <br/> <small>Nothing</small></td>
-                  <td><small>11:55 PM</small></td>
-                </tr>
-                <tr>
-                  <td><img className="img-sm rounded-circle" src={require("../../assets/images/faces/face1.jpg")} alt="profile" /></td>
-                  <td>Rahul Kumar <br/> <small>Nothing</small></td>
-                  <td><small>11:55 PM</small></td>
-                </tr>
-                <tr>
-                  <td><img className="img-sm rounded-circle" src={require("../../assets/images/faces/face1.jpg")} alt="profile" /></td>
-                  <td>Rahul Kumar <br/> <small>Nothing</small></td>
-                  <td><small>11:55 PM</small></td>
-                </tr>
-                <tr>
-                  <td><img className="img-sm rounded-circle" src={require("../../assets/images/faces/face1.jpg")} alt="profile" /></td>
-                  <td>Rahul Kumar <br/> <small>Nothing</small></td>
+                  <td onClick={()=>alert("hii")}>Dinesh Jadhav <br/> <small>Nothing</small></td>
                   <td><small>11:55 PM</small></td>
                 </tr>
                 <tr>
                   <td><img className="img-sm rounded-circle" src={require("../../assets/images/faces/face2.jpg")} alt="profile" /></td>
-                  <td>Jack <br/> <small>Bye tata</small></td>
+                  <td onClick={()=>alert("how are you")}>Kishore Pawar <br/> <small>Bye tata</small></td>
                   <td><small>10:09 PM</small></td>
                 </tr>
-                <tr>
-                  <td><img className="img-sm rounded-circle" src={require("../../assets/images/faces/face4.jpg")} alt="profile" /></td>
-                  <td>Bullywood Mafia <br/> <small>hii</small></td>
-                  <td><small>Monday</small></td>
-                </tr>
-                <tr>
-                  <td><img className="img-sm rounded-circle" src={require("../../assets/images/faces/face5.jpg")} alt="profile" /></td>
-                  <td>Sumit Jha<br/> <small>hello</small></td>
-                  <td><small>9/22/20</small></td>
-                </tr>
-                <tr>
-                  <td><img className="img-sm rounded-circle" src={require("../../assets/images/faces/face3.jpg")} alt="profile" /></td>
-                  <td>News Channel <br/> <small>hiii</small></td>
-                  <td><small>Sunday</small></td>
-                </tr>
-                
-               
-                
               </tbody>
             </table>
           </div>
-
-
         </div>
         <div className="col-sm-8 message-area">
         <div className="message-table-scroll">
@@ -193,52 +128,7 @@ export class Conversation extends Component {
                   <td>
                     <p className="bg-primary p-2 mt-2 mr-5 shadow-sm text-white float-left rounded">Hello Rahul</p><br/>
                   </td>
-                </tr>
-               
-                <tr>
-                  <td>
-                     <p className="bg-light p-2 mt-2 mr-3 shadow-sm text-black float-right rounded">Hello Sagar.. How are You
-                    </p>
-                  </td>
-                </tr>
-                
-                <tr>
-                  <td>
-                    <p className="bg-primary rounded p-2 mt-2 mr-5 shadow-sm text-white float-left">I'm fine
-                      </p>
-                  </td>
-                  
-                </tr>
-
-                <tr>
-                  <td>
-                    <p className="bg-primary rounded p-2 mt-2 mr-5 shadow-sm text-white float-left">n how r u</p>
-                  </td>
-                  
-                </tr>
-                <tr>
-                  <td>
-                    <p className="bg-light rounded p-2 mt-2 mr-5 shadow-sm text-black float-right">im fine
-                    </p>.
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <p className="bg-primary rounded p-2 mt-2 mr-5 shadow-sm text-white float-left">okk</p>
-                   </td>
-                </tr>
-                <tr>
-                  <td>
-                    <p className="bg-light rounded p-2 mt-2 mr-5 shadow-sm text-black float-right">What r u doing</p>
-                  </td>
-                </tr>
-                
-                <tr>
-                  <td>
-                    <p className="bg-primary rounded p-2 mt-2 mr-5 shadow-sm text-white float-left">Nothing</p>
-                  </td> 
-                </tr>
-                
+                </tr> 
               </tbody>
             </table>
          

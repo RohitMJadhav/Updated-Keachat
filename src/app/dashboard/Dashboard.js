@@ -682,174 +682,174 @@ export class Dashboard extends Component {
     }
   };
 
-  componentDidMount(){
+  // componentDidMount(){
 
-    //your code
-    var ctx = document.getElementById('visitChart').getContext("2d")
-    var gradientBar1 = ctx.createLinearGradient(0, 0, 0, 181)
-    gradientBar1.addColorStop(1, 'rgba(110,123,247,0.7)')
-    gradientBar1.addColorStop(0, 'rgba(255,255,255,0)')
+  //   //your code
+  //   var ctx = document.getElementById('visitChart').getContext("2d")
+  //   var gradientBar1 = ctx.createLinearGradient(0, 0, 0, 181)
+  //   gradientBar1.addColorStop(1, 'rgba(110,123,247,0.7)')
+  //   gradientBar1.addColorStop(0, 'rgba(255,255,255,0)')
 
-    var ctx2 = document.getElementById('imoressionChart').getContext("2d")
-    var gradientBar2 = ctx2.createLinearGradient(0, 0, 0, 181)
-    gradientBar2.addColorStop(1, 'rgba(110,123,247,0.7)')
-    gradientBar2.addColorStop(0, 'rgba(255,255,255,0)')
+  //   var ctx2 = document.getElementById('imoressionChart').getContext("2d")
+  //   var gradientBar2 = ctx2.createLinearGradient(0, 0, 0, 181)
+  //   gradientBar2.addColorStop(1, 'rgba(110,123,247,0.7)')
+  //   gradientBar2.addColorStop(0, 'rgba(255,255,255,0)')
 
-    var ctx3 = document.getElementById('conversionChart').getContext("2d")
-    var gradientBar3 = ctx3.createLinearGradient(0, 0, 0, 181)
-    gradientBar3.addColorStop(1, 'rgba(110,123,247,0.7)')
-    gradientBar3.addColorStop(0, 'rgba(255,255,255,0)')
+  //   var ctx3 = document.getElementById('conversionChart').getContext("2d")
+  //   var gradientBar3 = ctx3.createLinearGradient(0, 0, 0, 181)
+  //   gradientBar3.addColorStop(1, 'rgba(110,123,247,0.7)')
+  //   gradientBar3.addColorStop(0, 'rgba(255,255,255,0)')
 
-    var ctx4 = document.getElementById('downloadChart').getContext("2d")
-    var gradientBar4 = ctx4.createLinearGradient(0, 0, 0, 181)
-    gradientBar4.addColorStop(1, 'rgba(110,123,247,0.7)')
-    gradientBar4.addColorStop(0, 'rgba(255,255,255,0)')
+  //   var ctx4 = document.getElementById('downloadChart').getContext("2d")
+  //   var gradientBar4 = ctx4.createLinearGradient(0, 0, 0, 181)
+  //   gradientBar4.addColorStop(1, 'rgba(110,123,247,0.7)')
+  //   gradientBar4.addColorStop(0, 'rgba(255,255,255,0)')
 
-    var ctx5 = document.getElementById('salesStatisticsChart').getContext("2d")
-    var gradientBar5 = ctx5.createLinearGradient(0, 0, 0, 450)
-    gradientBar5.addColorStop(1, 'rgba(255,255,255, 0.0)')
-    gradientBar5.addColorStop(0, 'rgba(102,78,235, 0.2)')
+  //   var ctx5 = document.getElementById('salesStatisticsChart').getContext("2d")
+  //   var gradientBar5 = ctx5.createLinearGradient(0, 0, 0, 450)
+  //   gradientBar5.addColorStop(1, 'rgba(255,255,255, 0.0)')
+  //   gradientBar5.addColorStop(0, 'rgba(102,78,235, 0.2)')
 
-    var ctx6 = document.getElementById('salesStatisticsChart').getContext("2d")
-    var gradientBar6 = ctx6.createLinearGradient(0, 0, 0, 400)
-    gradientBar6.addColorStop(1, 'rgba(255, 255, 255, 0.01)')
-    gradientBar6.addColorStop(0, '#14c671')
+  //   var ctx6 = document.getElementById('salesStatisticsChart').getContext("2d")
+  //   var gradientBar6 = ctx6.createLinearGradient(0, 0, 0, 400)
+  //   gradientBar6.addColorStop(1, 'rgba(255, 255, 255, 0.01)')
+  //   gradientBar6.addColorStop(0, '#14c671')
 
-    var ctx7 = document.getElementById('totaltransactionChart').getContext("2d")
-    var gradientBar7 = ctx7.createLinearGradient(0, 100, 200, 0)
-    gradientBar7.addColorStop(1, '#fa3252')
-    gradientBar7.addColorStop(0, '#fa5539')
+  //   var ctx7 = document.getElementById('totaltransactionChart').getContext("2d")
+  //   var gradientBar7 = ctx7.createLinearGradient(0, 100, 200, 0)
+  //   gradientBar7.addColorStop(1, '#fa3252')
+  //   gradientBar7.addColorStop(0, '#fa5539')
 
     
 
-    const visitData = {
-      labels: ["Day 1", "Day 2", "Day 3", "Day 4", "Day 5", "Day 6", "Day 7", "Day 8", "Day 9", "Day 10", "Day 11", "Day 12", "Day 13"],
-      datasets: [{
-        label: 'Profit',
-        data: [7, 6, 9, 7, 8, 6, 8, 5, 7, 8, 6, 7, 7],
-        borderColor: '#6d7cfc',
-        backgroundColor: gradientBar1,
-        borderWidth: 3,
-        fill: true
-      }]
-    };
-    const impressionData = {
-      labels: ["Day 1", "Day 2", "Day 3", "Day 4", "Day 5", "Day 6", "Day 7", "Day 8", "Day 9", "Day 10", "Day 11", "Day 12", "Day 13"],
-      datasets: [{
-        label: 'Profit',
-        data: [7, 6, 8, 5, 7, 8, 6, 7, 7, 6, 9, 7, 8],
-        borderColor: '#6d7cfc',
-        backgroundColor: gradientBar2,
-        borderWidth: 3,
-        fill: true
-      }]
-    };
-    const conversionData = {
-      labels: ["Day 1", "Day 2", "Day 3", "Day 4", "Day 5", "Day 6", "Day 7", "Day 8", "Day 9", "Day 10", "Day 11", "Day 12", "Day 13"],
-      datasets: [{
-        label: 'Profit',
-        data: [8, 6, 7, 8, 5, 7, 9, 7, 8, 7, 6, 7, 6],
-        borderColor: '#6d7cfc',
-        backgroundColor: gradientBar3,
-        borderWidth: 3,
-        fill: true
-      }]
-    };
-    const downloadData = {
-      labels: ["Day 1", "Day 2", "Day 3", "Day 4", "Day 5", "Day 6", "Day 7", "Day 8", "Day 9", "Day 10", "Day 11", "Day 12", "Day 13"],
-      datasets: [{
-        label: 'Profit',
-        data: [7, 6, 8, 5, 8, 6, 8, 7, 8, 6, 9, 7, 7],
-        borderColor: '#6d7cfc',
-        backgroundColor: gradientBar4,
-        borderWidth: 3,
-        fill: true
-      }]
-    };
+  //   const visitData = {
+  //     labels: ["Day 1", "Day 2", "Day 3", "Day 4", "Day 5", "Day 6", "Day 7", "Day 8", "Day 9", "Day 10", "Day 11", "Day 12", "Day 13"],
+  //     datasets: [{
+  //       label: 'Profit',
+  //       data: [7, 6, 9, 7, 8, 6, 8, 5, 7, 8, 6, 7, 7],
+  //       borderColor: '#6d7cfc',
+  //       backgroundColor: gradientBar1,
+  //       borderWidth: 3,
+  //       fill: true
+  //     }]
+  //   };
+  //   const impressionData = {
+  //     labels: ["Day 1", "Day 2", "Day 3", "Day 4", "Day 5", "Day 6", "Day 7", "Day 8", "Day 9", "Day 10", "Day 11", "Day 12", "Day 13"],
+  //     datasets: [{
+  //       label: 'Profit',
+  //       data: [7, 6, 8, 5, 7, 8, 6, 7, 7, 6, 9, 7, 8],
+  //       borderColor: '#6d7cfc',
+  //       backgroundColor: gradientBar2,
+  //       borderWidth: 3,
+  //       fill: true
+  //     }]
+  //   };
+  //   const conversionData = {
+  //     labels: ["Day 1", "Day 2", "Day 3", "Day 4", "Day 5", "Day 6", "Day 7", "Day 8", "Day 9", "Day 10", "Day 11", "Day 12", "Day 13"],
+  //     datasets: [{
+  //       label: 'Profit',
+  //       data: [8, 6, 7, 8, 5, 7, 9, 7, 8, 7, 6, 7, 6],
+  //       borderColor: '#6d7cfc',
+  //       backgroundColor: gradientBar3,
+  //       borderWidth: 3,
+  //       fill: true
+  //     }]
+  //   };
+  //   const downloadData = {
+  //     labels: ["Day 1", "Day 2", "Day 3", "Day 4", "Day 5", "Day 6", "Day 7", "Day 8", "Day 9", "Day 10", "Day 11", "Day 12", "Day 13"],
+  //     datasets: [{
+  //       label: 'Profit',
+  //       data: [7, 6, 8, 5, 8, 6, 8, 7, 8, 6, 9, 7, 7],
+  //       borderColor: '#6d7cfc',
+  //       backgroundColor: gradientBar4,
+  //       borderWidth: 3,
+  //       fill: true
+  //     }]
+  //   };
   
 
-    var Datas = [60, 75, 65, 130, 130, 145, 110, 145, 155, 149, 170];
-    var Datas1 = [0, 25, 20, 40, 70, 52, 49, 90, 70, 94, 110, 135];
+  //   var Datas = [60, 75, 65, 130, 130, 145, 110, 145, 155, 149, 170];
+  //   var Datas1 = [0, 25, 20, 40, 70, 52, 49, 90, 70, 94, 110, 135];
 
 
 
 
   
 
-    const salesStatisticsData = {
-      labels: ["Jan 1", "Jan 7", "Jan 14", "Jan 21", "Jan 28", "Feb 4", "Feb 11", "Feb 18"],
-      datasets: [{
-        label: 'Revenue',
-        data: Datas,
-        borderColor: '#8862e0',
-        backgroundColor: gradientBar5,
-        borderWidth: 2,
-        fill: true
-      }, {
-        label: 'Sales',
-        data: Datas1,
-        borderColor: '#5ed2a1',
-        backgroundColor: gradientBar6,
-        borderWidth: 2,
-        fill: true
-      }]
-    };
+  //   const salesStatisticsData = {
+  //     labels: ["Jan 1", "Jan 7", "Jan 14", "Jan 21", "Jan 28", "Feb 4", "Feb 11", "Feb 18"],
+  //     datasets: [{
+  //       label: 'Revenue',
+  //       data: Datas,
+  //       borderColor: '#8862e0',
+  //       backgroundColor: gradientBar5,
+  //       borderWidth: 2,
+  //       fill: true
+  //     }, {
+  //       label: 'Sales',
+  //       data: Datas1,
+  //       borderColor: '#5ed2a1',
+  //       backgroundColor: gradientBar6,
+  //       borderWidth: 2,
+  //       fill: true
+  //     }]
+  //   };
 
-    this.setState(salesStatisticsData);
+  //   this.setState(salesStatisticsData);
 
 
 
-    const netProfitData = {
-      labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug"],
-          datasets: [{
-            label: "Sales",
-            backgroundColor: 'rgba(88, 208, 222,0.8)',
-            borderColor: 'rgba(88, 208, 222,0.8)',
-            borderWidth: 0,
-            fill: true,
-            radius: 0,
-            pointRadius: 0,
-            pointBorderWidth: 0,
-            pointBackgroundColor: 'rgba(88, 208, 222,0.8)',
-            pointHoverRadius: 10,
-            pointHitRadius: 5,
-            data: [54, 45, 60, 70, 54, 75, 60, 54]
-          }, {
-            label: "Orders",
-            backgroundColor: 'rgba(150, 77, 247,1)',
-            borderColor: 'rgba(150, 77, 247,1)',
-            borderWidth: 0,
-            fill: true,
-            radius: 0,
-            pointRadius: 0,
-            pointBorderWidth: 0,
-            pointBackgroundColor: 'rgba(150, 77, 247,1)',
-            pointHoverRadius: 10,
-            pointHitRadius: 5,
-            data: [65, 75, 70, 80, 60, 80, 36, 60]
-          }]
-    };
-    const totaltransactionData = {
-      labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-      datasets: [{
-        label: 'Sessions',
-        data: [320, 280, 300, 280, 300, 270, 350],
-        backgroundColor: gradientBar7,
-        borderColor: '#fa394e',
-        borderWidth: 0,
-        pointBackgroundColor: "#fa394e",
-        pointRadius: 7,
-        pointBorderWidth: 3,
-        pointBorderColor: '#fff',
-        pointHoverRadius: 7,
-        pointHoverBackgroundColor: "#fa394e",
-        pointHoverBorderColor: "#fa394e",
-        pointHoverBorderWidth: 2,
-        pointHitRadius: 7,
-      }]
-    };
-    this.setState({visitChartData: visitData, impressionChartData:impressionData, conversionChartData:conversionData, downloadChartData:downloadData, salesStatisticsChartData:salesStatisticsData, netProfitChartData:netProfitData, totaltransactionChartData:totaltransactionData} )
-  }
+  //   const netProfitData = {
+  //     labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug"],
+  //         datasets: [{
+  //           label: "Sales",
+  //           backgroundColor: 'rgba(88, 208, 222,0.8)',
+  //           borderColor: 'rgba(88, 208, 222,0.8)',
+  //           borderWidth: 0,
+  //           fill: true,
+  //           radius: 0,
+  //           pointRadius: 0,
+  //           pointBorderWidth: 0,
+  //           pointBackgroundColor: 'rgba(88, 208, 222,0.8)',
+  //           pointHoverRadius: 10,
+  //           pointHitRadius: 5,
+  //           data: [54, 45, 60, 70, 54, 75, 60, 54]
+  //         }, {
+  //           label: "Orders",
+  //           backgroundColor: 'rgba(150, 77, 247,1)',
+  //           borderColor: 'rgba(150, 77, 247,1)',
+  //           borderWidth: 0,
+  //           fill: true,
+  //           radius: 0,
+  //           pointRadius: 0,
+  //           pointBorderWidth: 0,
+  //           pointBackgroundColor: 'rgba(150, 77, 247,1)',
+  //           pointHoverRadius: 10,
+  //           pointHitRadius: 5,
+  //           data: [65, 75, 70, 80, 60, 80, 36, 60]
+  //         }]
+  //   };
+  //   const totaltransactionData = {
+  //     labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+  //     datasets: [{
+  //       label: 'Sessions',
+  //       data: [320, 280, 300, 280, 300, 270, 350],
+  //       backgroundColor: gradientBar7,
+  //       borderColor: '#fa394e',
+  //       borderWidth: 0,
+  //       pointBackgroundColor: "#fa394e",
+  //       pointRadius: 7,
+  //       pointBorderWidth: 3,
+  //       pointBorderColor: '#fff',
+  //       pointHoverRadius: 7,
+  //       pointHoverBackgroundColor: "#fa394e",
+  //       pointHoverBorderColor: "#fa394e",
+  //       pointHoverBorderWidth: 2,
+  //       pointHitRadius: 7,
+  //     }]
+  //   };
+  //   this.setState({visitChartData: visitData, impressionChartData:impressionData, conversionChartData:conversionData, downloadChartData:downloadData, salesStatisticsChartData:salesStatisticsData, netProfitChartData:netProfitData, totaltransactionChartData:totaltransactionData} )
+  // }
 
   toggleProBanner() {
     document.querySelector('.proBanner').classList.toggle("hide");
@@ -1058,7 +1058,7 @@ export class Dashboard extends Component {
             </div>
           </div>
         </div>
-        <div className="row">
+        {/* <div className="row">
           <div className="col-md-8">
             <div className="row">
               <div className="col-xl-6 col-lg-12 grid-margin stretch-card">
@@ -1375,8 +1375,8 @@ export class Dashboard extends Component {
               </div>
             </div>
           </div>
-        </div>
-        <div className="row">
+        </div> */}
+        {/* <div className="row">
           <div className="col-md-4 grid-margin stretch-card">
             <div className="card">
               <div className="card-body">
@@ -1495,7 +1495,7 @@ export class Dashboard extends Component {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
         
       </div> 
     );

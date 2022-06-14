@@ -5,10 +5,10 @@ import {Link, useParams} from "react-router-dom"
 import "./agent.css"
 import { useHistory } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
-import{useState,useEffect} from "react"
+import{useEffect} from "react"
 import 'react-toastify/dist/ReactToastify.css';
 
-function AgentEdit(){
+export default function AgentEdit(){
  
   // const [client, setClient] = useState([])
   // const [group, setGroups] = useState([])
@@ -360,7 +360,7 @@ const onSubmit = data => {
   
     }
 
-export default AgentEdit;
+
 
 
 

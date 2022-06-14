@@ -5,7 +5,7 @@ import Axios from "axios";
 import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
-  import 'react-toastify/dist/ReactToastify.css';
+import 'react-toastify/dist/ReactToastify.css';
 import "./question.css"
 
 export default function QuestionAdd(){

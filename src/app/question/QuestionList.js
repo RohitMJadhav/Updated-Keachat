@@ -6,7 +6,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
-function QuestionList(){
+export default function QuestionList(){
   const [employees, setEmployees] = useState([])
   const [popup, setPopup] = useState(false);
  
@@ -43,14 +43,16 @@ function QuestionList(){
       })
   }
 
-  function editForm(){
-    alert("hello how are you");
+  // function editForm(){
+  //   alert("hello how are you");
     
-  }
+  // }
   
  let id=1;
   const renderBody = () => {
+    console.log(employees)
     return employees && employees.map(({_id,question_no,question}) => {
+     
         return (
             <tr key={_id.$oid}>
                  <td>{id++}</td>
@@ -93,8 +95,7 @@ function QuestionList(){
                 <tr>{renderHeader()}</tr>
             </thead>
             <tbody>
-                {renderBody()}
-               
+                {renderBody()}    
             </tbody>
         </table>
         </div>
@@ -107,7 +108,5 @@ function QuestionList(){
     );
   }
 
-
-export default  QuestionList
 
 

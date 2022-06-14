@@ -1,4 +1,4 @@
-import React, { Component,useState,useEffect} from 'react';
+import React, { useState,useEffect} from 'react';
 import { useForm } from 'react-hook-form';
 import Axios from "axios";
 import { Link } from 'react-router-dom';
@@ -7,7 +7,7 @@ import { ToastContainer, toast } from 'react-toastify';
   import 'react-toastify/dist/ReactToastify.css';
 import "./group.css"
 
-function GroupEdit(){
+export default function GroupEdit(){
 
 //   const[dept,setDept]=useState([])
 
@@ -178,5 +178,5 @@ useEffect(()=>{
   
     }
 
-export default GroupEdit;
+
 

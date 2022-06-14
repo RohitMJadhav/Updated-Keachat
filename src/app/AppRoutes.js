@@ -1,9 +1,10 @@
 import React, { Component,Suspense, lazy } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
+import Protected from '../Protected';
 
 import Spinner from '../app/shared/Spinner';
 import Conversation from './conversation/Conversation';
-import LanguageEdit from './language/LanguageEdits';
+
 // import QuestionEdit from './question/QuestionEdit';
 
 const Dashboard = lazy(() => import('./dashboard/Dashboard'));
@@ -70,86 +71,76 @@ const Error500 = lazy(() => import('./error-pages/Error500'));
 
 const Login = lazy(() => import('./Login'));
 // const Register = lazy(() => import('./user-pages/Register'));
-const LandingPage = lazy(() => import("./general-pages/LandingPage"));
+// const LandingPage = lazy(() => import("./general-pages/LandingPage"));
 
 
-class AppRoutes extends Component {
-  render () {
+export default function AppRoutes()  {
+ 
     return (
-      <Suspense fallback={<Spinner/>}>
+        <Suspense fallback={<Spinner/>}>
         <Switch>
-          <Route exact path="/dashboard" component={ Dashboard } />
+          <Route exact path="/dashboard"><Protected Cmp={ Dashboard } /></Route> 
 
-          <Route path="/basic-ui/buttons" component={ Buttons } />
-          <Route path="/basic-ui/dropdowns" component={ Dropdowns } />
+          <Route path="/basic-ui/buttons"><Protected Cmp={ Buttons } /></Route> 
+          <Route path="/basic-ui/dropdowns"><Protected Cmp={ Dropdowns } /></Route> 
 
-          <Route path="/organization/OrganizationAdd" component={ OrganizationAdd } />
-          <Route path="/organization/organizationList" component={ OrganizationList } />
-          <Route path="/organization/organizationEdit/:id" component={ OrganizationEdit } />
+          <Route path="/organization/OrganizationAdd">< Protected Cmp={ OrganizationAdd}/></Route>
+          <Route path="/organization/OrganizationList">< Protected Cmp={ OrganizationList}/></Route> 
+          <Route path="/organization/OrganizationEdit/:id">< Protected Cmp={ OrganizationEdit}/></Route> 
 
-          <Route path="/department/departmentAdd" component={ DepartmentAdd } />
-          <Route path="/department/department-list" component={ DepartmentList } />
-          <Route path="/department/DepartmentEdit/:id" component={ DepartmentEdit } />
+          <Route path="/department/DepartmentAdd"><Protected Cmp={ DepartmentAdd } /></Route> 
+          <Route path="/department/DepartmentList" ><Protected Cmp={ DepartmentList } /></Route>
+          <Route path="/department/DepartmentEdit/:id">< Protected Cmp={ DepartmentEdit } /></Route>
 
-          <Route path="/client/ClientAdd" component={ ClientAdd  } />
-          <Route path="/client/ClientList" component={ ClientList } />
-          <Route path="/client/ClientEdit/:id" component={ ClientEdit } />
+          <Route path="/client/ClientAdd"><Protected Cmp={ ClientAdd  } /></Route> 
+          <Route path="/client/ClientList"><Protected Cmp={ ClientList } /></Route> 
+          <Route path="/client/ClientEdit/:id"><Protected Cmp={ ClientEdit } /></Route> 
 
-          <Route path="/user/UserAdd" component={ UserAdd  } />
-          <Route path="/user/UserList" component={ UserList } />
-          <Route path="/user/UserEdit/:id" component={ UserEdit } />
+          <Route path="/user/UserAdd" >< Protected Cmp={UserAdd}/> </Route>
+          <Route path="/user/UserList"><Protected Cmp={UserList}/></Route>
+          <Route path="/user/UserEdit/:id"><Protected Cmp={UserEdit}/></Route> 
 
-          <Route path="/role/RoleAdd" component={ RoleAdd  } />
-          <Route path="/role/RoleList" component={ RoleList } />
-          <Route path="/role/RoleEdit/:id" component={ RoleEdit } />
+          <Route path="/role/RoleAdd"><Protected Cmp={ RoleAdd  } /></Route> 
+          <Route path="/role/RoleList"><Protected Cmp={ RoleList } /></Route> 
+          <Route path="/role/RoleEdit/:id"><Protected Cmp={ RoleEdit } /></Route> 
 
-          <Route path="/agent/AgentAdd" component={ AgentAdd  } />
-          <Route path="/agent/AgentList" component={ AgentList } />
-          <Route path="/agent/AgentEdit/:id" component={ AgentEdit } />
+          <Route path="/agent/AgentAdd"><Protected Cmp={ AgentAdd  } /></Route> 
+          <Route path="/agent/AgentList"><Protected Cmp={ AgentList } /></Route> 
+          <Route path="/agent/AgentEdit/:id"><Protected Cmp={ AgentEdit } /></Route> 
 
-          <Route path="/agentshift/AgentShiftAdd" component={ AgentShiftAdd  } />
-          <Route path="/agentshift/AgentShiftList" component={ AgentShiftList } />
-          <Route path="/agentshift/AgentShiftEdit/:id" component={ AgentShiftEdit } />
+          <Route path="/agentshift/AgentShiftAdd"><Protected Cmp={ AgentShiftAdd  } /></Route> 
+          <Route path="/agentshift/AgentShiftList"><Protected Cmp={ AgentShiftList } /></Route> 
+          <Route path="/agentshift/AgentShiftEdit/:id"><Protected Cmp={ AgentShiftEdit } /></Route> 
 
-          <Route path="/group/GroupAdd" component={ GroupAdd  } />
-          <Route path="/group/GroupList" component={ GroupList } />
-          <Route path="/group/GroupEdit/:id" component={ GroupEdit } />
+          <Route path="/group/GroupAdd"><Protected Cmp={ GroupAdd  } /></Route> 
+          <Route path="/group/GroupList"><Protected Cmp={ GroupList } /></Route> 
+          <Route path="/group/GroupEdit/:id"><Protected Cmp={ GroupEdit } /></Route> 
+
+          <Route path="/language/LanguageAdd"><Protected Cmp={ LanguageAdd } /></Route> 
+          <Route path="/language/LanguageList"><Protected Cmp={ LanguageList } /></Route> 
+          <Route path="/language/LanguageEdits/:id"><Protected Cmp={ LanguageEdits } /></Route> 
+
+          <Route path="/question/QuestionAdd"><Protected Cmp={ QuestionAdd } /></Route> 
+          <Route path="/question/QuestionList"><Protected Cmp={ QuestionList } /></Route> 
+          <Route path="/question/QuestionEdit/:id"><Protected Cmp={ QuestionEdit } /></Route> 
 
 
-          <Route path="/language/LanguageAdd" component={ LanguageAdd } />
-          <Route path="/language/LanguageList" component={ LanguageList } />
-          <Route path="/language/LanguageEdits/:id" component={ LanguageEdits } />
+          {/* <Route path="/facebooksetting/facebooksetting"> <Protected Cmp={ FacebookSetting} /></Route> */}
 
-          <Route path="/question/QuestionAdd" component={ QuestionAdd } />
-          <Route path="/question/QuestionList" component={ QuestionList } />
-          <Route path="/question/QuestionEdit/:id" component={ QuestionEdit } />
+          <Route path="/whatsappsetting/whatsappsetting"><Protected Cmp={ WhatsappSetting} /></Route> 
 
-
-          <Route path="/facebooksetting/facebooksetting" component={ FacebookSetting} />
-
-          <Route path="/whatsappsetting/whatsappsetting" component={ WhatsappSetting} />
-
-          <Route path="/conversation/conversation" component={ Conversation } />
+          <Route path="/conversation/conversation"> <Protected Cmp={ Conversation } /></Route>
         
-          <Route path="/icons/mdi" component={ Mdi } />
+          {/* <Route path="/icons/mdi"><Protected Cmp={ Mdi } /></Route>  */}
 
-          <Route path="/charts/chart-js" component={ ChartJs } />
-
-
-          <Route path="/Login" component={ Login } />
-          {/* <Route path="/user-pages/register" component={ Register } /> */}
-          <Route path="/general-pages/LandingPage" component={ LandingPage } />
-
-          <Route path="/error-pages/error-404" component={ Error404 } />
-          <Route path="/error-pages/error-500" component={ Error500 } />
-
-
-          {/* <Redirect to="/dashboard" /> */}
+          {/* <Route path="/charts/chart-js"> <Protected Cmp={ ChartJs } /></Route> */}
+          <Route path="/Login" component={Login}/> 
           <Redirect to="/Login" />
         </Switch>
       </Suspense>
     );
   }
-}
 
-export default AppRoutes;
+
+//Older Routes
+{/* <Route path="/organization/OrganizationAdd" component={OrganizationAdd}/> */}

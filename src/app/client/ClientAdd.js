@@ -8,7 +8,7 @@ import{useState,useEffect} from "react"
 import 'react-toastify/dist/ReactToastify.css';
 import "./client.css"
 
-function ClientAdd(){
+export default function ClientAdd(){
  
 const [org, setOrg] = useState([])
 
@@ -316,7 +316,7 @@ const renderBody = () => {
   
     }
 
-export default ClientAdd;
+
 
 
 

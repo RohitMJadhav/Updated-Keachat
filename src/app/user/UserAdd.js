@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Axios from "axios";
-// import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Link } from 'react-router-dom';
 import "./user.css"
 import { useHistory } from 'react-router-dom';
@@ -14,17 +13,6 @@ export default function UserAdd(){
   const [org, setOrg] = useState([])
   const [role, setRole] = useState([])
 
-
-  // const [passwordShown,setpasswordShown] = useState(false);
-  // const togglePassword =()=>{
-  //   setpasswordShown(!passwordShown);
-  // }
- 
-  // const [confirmpasswordShown,setconfirmpasswordShown] = useState(false);
-  // const toggleConfirmPassword =()=>{
-  //   setconfirmpasswordShown(!confirmpasswordShown);
-  // }
- 
  const {
   register,
   handleSubmit,
@@ -86,72 +74,7 @@ const renderBody = () => {
           <div className="col-md-12 grid-margin stretch-card">
             <div className="card">
               <div className="card-body">
-              <form onSubmit={handleSubmit(onSubmit)}>
-                  {/* <div className="row">
-                    <label htmlFor="first_name" className="col-sm-2 col-form-label"> First Name</label>
-                    <div className="col-sm-4">
-                  <input
-                    type="text"
-                    name="first_name"
-                    autoComplete="off"
-                    className={`form-control ${
-                      errors.first_name ? "is-invalid" : ""
-                    }`}
-                    placeholder="First Name"
-                    {...register("first_name", {
-                      required: "First Name is required",
-                      pattern: {
-                        value: /^[a-zA-Z ]+$/,
-                        message: "First Name must be a valid string",
-                      },
-                      minLength: {
-                        value: 3,
-                        message: "First Name should be greater than 3 characters",
-                      },
-                      maxLength: {
-                        value: 20,
-                        message: "First Name shouldn't be greater than 20 characters",
-                      },
-                    })}
-                  />
-                  <div className="invalid-feedback">
-                    {errors?.first_name?.message}
-                  </div>
-                  </div>
-                  <label htmlFor="last_name" className="col-sm-2 col-form-label"> Last Name </label>
-                    <div className="col-sm-4">
-                  <input
-                    type="text"
-                    name="last_name"
-                    autoComplete="off"
-                    className={`form-control ${
-                      errors.last_name ? "is-invalid" : ""
-                    }`}
-                    placeholder="Last Name"
-                    {...register("last_name", {
-                      required: "Last Name is required",
-                      pattern: {
-                        value: /^[a-zA-Z ]+$/,
-                        message: "Last Name must be a valid string",
-                      },
-                      minLength: {
-                        value: 3,
-                        message: "Last Name should be greater than 3 characters",
-                      },
-                      maxLength: {
-                        value: 20,
-                        message: " Last Name shouldn't be greater than 20 characters",
-                      },
-                    })}
-                  />
-                  <div className="invalid-feedback">
-                    {errors?.last_name?.message}
-                  </div>
-                  </div>
-
-
-                    </div> */}
-                  
+              <form onSubmit={handleSubmit(onSubmit)}>  
                   <div className="row">
                      <label htmlFor="address" className="col-sm-2 col-form-label"> Username </label>
                     <div className="col-sm-4">
@@ -230,40 +153,11 @@ const renderBody = () => {
                     {errors?._password?.message}
                   </div>
                   </div>
-
-                  {/* <label htmlFor="confirmpassword" className="col-sm-2 col-form-label"> Confirm Password </label>
-                    <div className="col-sm-4">
-                  <input
-                    type="password"
-                    name="confirmpassword"
-                    autoComplete="off"
-                    className={`form-control ${
-                      errors.confirmpassword? "is-invalid" : ""
-                    }`}
-                    placeholder="confirmpassword"
-                    {...register("confirmpassword", {
-                      required: "confirmpassword is required",
-                      minLength: {
-                        value: 6,
-                        message: "confirmpassword should be greater than 6 characters",
-                      },
-                      maxLength: {
-                        value: 10,
-                        message: "confirmpassword name shouldn't be greater than 10 characters",
-                      },
-                    })}
-                  />
-                  <div className="invalid-feedback">
-                    {errors?.confirmpassword?.message}
-                  </div>
-                  </div> */}
-
                   </div>
 
                   <div className="row">
                     <label htmlFor="org_id" className="col-sm-2 col-form-label">Organization</label>
                     <div className="col-sm-4" >{renderBody()}</div>
-
                     <label htmlFor="role_id" className="col-sm-2 col-form-label">Role</label>
                     <div className="col-sm-4">{renderRole()}</div>
                   </div>
@@ -273,8 +167,6 @@ const renderBody = () => {
                  
                   <ToastContainer autoClose={1500} /> 
                   </form> 
-               
-             
             </div>
            </div>
           </div>

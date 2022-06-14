@@ -8,9 +8,9 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {useState,useEffect} from "react"
 
-function DepartmentAdd() {
+export default function DepartmentAdd() {
 
-    const [orgid, setOrgid] = useState([])
+  const [orgid, setOrgid] = useState([])
 
   const {
     register,
@@ -154,4 +154,4 @@ function DepartmentAdd() {
   );
 }
 
-export default DepartmentAdd;
+

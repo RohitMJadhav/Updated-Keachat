@@ -19,7 +19,7 @@ function Navbar() {
  let history=useHistory()
 
   function LogoutData(){
-    localStorage.removeItem("user_info")
+    localStorage.clear("user_info")
     history.push("./Login")
   }
 

@@ -6,7 +6,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
-function DepartmentList(){
+export default function DepartmentList(){
   const [employees, setEmployees] = useState([])
   const [popup, setPopup] = useState(false);
 
@@ -113,4 +113,4 @@ function DepartmentList(){
   }
 
 
-export default DepartmentList
+

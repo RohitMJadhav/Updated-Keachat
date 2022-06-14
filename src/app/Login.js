@@ -1,9 +1,7 @@
-import React, { Component, useEffect,useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
-// import './Login.css'
+import React, {useEffect,useState } from 'react';
+import {useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-// import demo from '../images/demo.jpg';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -23,23 +21,32 @@ export default function Login(){
 
   let history=useHistory()
 
+  useEffect(()=>{
+if(!localStorage.getItem("user_info")){
+  history.push("/Login")
+}
+  },[])
+
   async function onSubmit(data){
  let result=await fetch(`${process.env.REACT_APP_API_URL}auth/login`,{
    method:"POST",
    headers:{
      "Content-Type":"application/json",
-     "Accept":"application/json"
+     "Accept":"application/json",
+    //  "Authorization":"Bearer "+access_token
    },
    body:JSON.stringify(data)
  });
  result=await result.json();
  localStorage.setItem("user_info",JSON.stringify(result))
- console.log(result)
- console.log()
+
+
  if(result.statusCode==401){
+  localStorage.clear("user_info")
   history.push("/Login")
  }
  else{
+ 
   history.push("/dashboard")
  }
  toast.error("Wrong Username/Password", {
@@ -58,23 +65,27 @@ export default function Login(){
                 <h6 className="font-weight-light">Sign in to continue.</h6>
                   <form onSubmit={handleSubmit(onSubmit)}>
                   <div className="col">
-                    <label htmlFor="username" className="col-sm-1 col-form-label"> UserName </label>
+                    <label htmlFor="email" className="col-sm-1 col-form-label"> Email</label>
                     <div className="col-sm-12">
                   <input
-                    type="text"
-                    name="username"
+                    type="email"
+                    name="email"
                     style={{fontSize:"16px"}}
                     autoComplete="off"
                     className={`form-control ${
-                      errors.username ? "is-invalid" : ""
+                      errors.email ? "is-invalid" : ""
                     }`}
-                    placeholder="User Name"
-                    {...register("username", {
-                      required: "User Name is required",
+                    placeholder="abc@gmail.com"
+                    {...register("email", {
+                      required: "Email is required",
+                      pattern: {
+                        value: /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/,
+                        message: "Email must be a valid email address",
+                      }
                     })}
                   />
                   <div className="invalid-feedback">
-                    {errors?.username?.message}
+                    {errors?.email?.message}
                   </div>
                   </div>
                      <label htmlFor="password" className="col-sm-1 col-form-label"> Password </label>
@@ -92,31 +103,31 @@ export default function Login(){
                       required: "Password is required",
                     })}
                   />
-                   <VisibilityIcon onClick = {togglePassword} fontSize="small" className='iconposition'/> 
+                   <VisibilityIcon onClick = {togglePassword} fontSize="small" className='iconposition' style={{marginLeft:"300px"}}/> 
                   <div className="invalid-feedback">
                     {errors?.password?.message}
                   </div>
                   </div>
                     </div>
                   <div className="mt-3">
-                    <button type='submit' className='btn btn-primary'>Login</button>
+                    <button type='submit' className='btn btn-success' style={{width:"340px",height:"40px",marginLeft:"25px",fontSize:"18px"}}>Login</button>
                   </div>
                   <div className="my-2 d-flex justify-content-between align-items-center">
-                    <div className="form-check">
+                    {/* <div className="form-check">
                       <label className="form-check-label text-muted">
                         <input type="checkbox" className="form-check-input"/>
                         <i className="input-helper"></i>
                         Keep me signed in
                       </label>
-                    </div>
-                    <a href="!#" onClick={event => event.preventDefault()} className="auth-link text-black">Forgot password?</a>
+                    </div> */}
+                    {/* <a href="!#" onClick={event => event.preventDefault()} className="auth-link text-black" style={{marginLeft:"140px"}}>Forgot password?</a> */}
                   </div>
                   <div className="mb-2">
                   </div>
-                  <div className="text-center mt-4 font-weight-light">
+                  {/* <div className="text-center mt-4 font-weight-light">
                     Don't have an account? <Link to="/user-pages/register" className="text-primary">Create</Link>
-                  </div>
-                  <ToastContainer autoClose={3500} /> 
+                  </div> */}
+                  <ToastContainer autoClose={2500} /> 
                 </form>
               </div>
             </div>

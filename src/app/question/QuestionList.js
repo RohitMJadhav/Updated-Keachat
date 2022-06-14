@@ -6,7 +6,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
-function QuestionList(){
+export default function QuestionList(){
   const [employees, setEmployees] = useState([])
   const [popup, setPopup] = useState(false);
  
@@ -95,8 +95,7 @@ function QuestionList(){
                 <tr>{renderHeader()}</tr>
             </thead>
             <tbody>
-                {renderBody()}
-               
+                {renderBody()}    
             </tbody>
         </table>
         </div>
@@ -109,7 +108,5 @@ function QuestionList(){
     );
   }
 
-
-export default  QuestionList
 
 

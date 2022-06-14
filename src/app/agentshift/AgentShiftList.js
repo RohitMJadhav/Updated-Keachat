@@ -7,7 +7,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
-function AgentShiftList(){
+export default function AgentShiftList(){
   const [employees, setEmployees] = useState([])
   const [popup, setPopup] = useState(false);
 
@@ -120,5 +120,3 @@ const removeData = ( index) => {
     );
   }
 
-
-export default AgentShiftList

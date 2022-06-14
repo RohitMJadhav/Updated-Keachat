@@ -22,7 +22,7 @@ export default function LanguageEdits() {
   let history=useHistory();
   let {id}=useParams();
 
-const onSubmit = data => {
+  const onSubmit = data => {
   let id = data['_id'].$oid;
   delete data['_id'];
   delete data['_id.$oid'];

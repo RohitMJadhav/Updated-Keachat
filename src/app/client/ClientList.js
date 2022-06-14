@@ -9,7 +9,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
-function ClientList(){
+export default function ClientList(){
   const [employees, setEmployees] = useState([])
   const [popup, setPopup] = useState(false);
 
@@ -120,6 +120,6 @@ let id=1;
   }
 
 
-export default ClientList
+
 
 

@@ -63,27 +63,27 @@ class Sidebar extends Component {
       <nav className="sidebar sidebar-offcanvas" id="sidebar">
         <div className="text-center sidebar-brand-wrapper d-flex align-items-center">
           {/* <a className="sidebar-brand brand-logo" href="index.html"><img src={require("../../assets/images/logo.svg")} alt="logo" /></a> */}
-          <h2 className='logo' style={{color:"Yellow",backgroundColor:"black",borderRadius:"8px"}} >Keachat</h2>
+          <h2 className='logo' style={{color:"Yellow",fontSize:"40px",paddingLeft:"50px", fontStyle:"oblique"}} >Keachat</h2>
           {/* <a className="sidebar-brand brand-logo-mini pt-3" href="index.html"><img src={require("../../assets/images/logo-mini.svg")} alt="logo" /></a> */}
         </div>
         <ul className="nav">
           <li className="nav-item nav-profile not-navigation-link">
-            <div className="nav-link">
+            {/* <div className="nav-link">
               <Dropdown>
                 <Dropdown.Toggle className="nav-link user-switch-dropdown-toggler p-0 toggle-arrow-hide bg-transparent border-0 w-100">
                   <div className="d-flex justify-content-between align-items-start">
                   <h2>SIDEBAR</h2>
-                    <div className="profile-image">
+                    <div className="profile-image"> */}
                       {/* <img className="img-xs rounded-circle" src={require("../../assets/images/faces/face8.jpg")} alt="profile" /> */}
                       
                       {/* <div className="dot-indicator bg-success"></div> */}
 
                      
-                    </div>
-                    <div className="text-wrapper">
+                    {/* </div>
+                    <div className="text-wrapper"> */}
                       {/* <p className="profile-name">Allen Moreno</p>
                       <p className="designation">Premium user</p> */}
-                    </div>
+                    {/* </div>
 
                   </div>
                 </Dropdown.Toggle>
@@ -115,28 +115,13 @@ class Sidebar extends Component {
                   </Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
-            </div>
+            </div> */}
           </li>
            
-          {/* <li className={this.isPathActive('/registration') ? 'nav-item active' : 'nav-item'}>
-            <div className={this.state.tablesMenuOpen ? 'nav-link menu-expanded' : 'nav-link'} onClick={() => this.toggleMenuState('tablesMenuOpen')} data-toggle="collapse">
-              <i className="mdi mdi-table-large menu-icon"></i>
-              <Link to="/user-pages/Register"><span className="menu-title"><Trans>Register</Trans></span></Link>
-              <i className="menu-arrow"></i>
-            </div>
-          </li> */}
-          {/* <li className={this.isPathActive('/Login') ? 'nav-item active' : 'nav-item'}>
-            <div className={this.state.tablesMenuOpen ? 'nav-link menu-expanded' : 'nav-link'} onClick={() => this.toggleMenuState('tablesMenuOpen')} data-toggle="collapse">
-              <i className="mdi mdi-table-large menu-icon"></i>
-              <Link to="/user-pages/Login"><span className="menu-title"><Trans>Login</Trans></span></Link>
-              <i className="menu-arrow"></i>
-            </div>
-          </li> */}
-
           <li className={this.isPathActive('/organization') ? 'nav-item active' : 'nav-item'}>
             <div className={this.state.tablesMenuOpen ? 'nav-link menu-expanded' : 'nav-link'} onClick={() => this.toggleMenuState('tablesMenuOpen')} data-toggle="collapse">
               <i className="mdi mdi-table-large menu-icon"></i>
-              <Link to="/organization/organizationList"><span className="menu-title"><Trans>Organization</Trans></span></Link>
+              <Link to="/organization/OrganizationList"><span className="menu-title"><Trans>Organization</Trans></span></Link>
               <i className="menu-arrow"></i>
             </div>
 
@@ -146,7 +131,7 @@ class Sidebar extends Component {
           <li className={this.isPathActive('/department') ? 'nav-item active' : 'nav-item'}>
             <div className={this.state.tablesMenuOpen ? 'nav-link menu-expanded' : 'nav-link'} onClick={() => this.toggleMenuState('tablesMenuOpen')} data-toggle="collapse">
               <i className="mdi mdi-table-large menu-icon"></i>
-              <Link to="/department/department-list"><span className="menu-title"><Trans>Department</Trans></span></Link>
+              <Link to="/department/DepartmentList"><span className="menu-title"><Trans>Department</Trans></span></Link>
               <i className="menu-arrow"></i>
             </div>
 
@@ -230,12 +215,12 @@ class Sidebar extends Component {
             </Link>
           </li>
 
-          <li className={this.isPathActive('/general-pages') ? 'nav-item active' : 'nav-item'}>
+          {/* <li className={this.isPathActive('/general-pages') ? 'nav-item active' : 'nav-item'}>
             <Link className="nav-link" to="/general-pages/LandingPage">
               <i className="mdi mdi-television menu-icon"></i>
               <span className="menu-title"><Trans>Landing Page</Trans></span>
             </Link>
-          </li>
+          </li> */}
 
           
           <li className={this.isPathActive('/basic-ui') ? 'nav-item active' : 'nav-item'}>

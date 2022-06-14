@@ -46,7 +46,6 @@ editData()
   
     const result = await Axios.get( `${process.env.REACT_APP_API_URL}api/v1/organizations/${id}`)
     reset(result.data[0])
-    console.log(result.data[0])
    }
 
     return (

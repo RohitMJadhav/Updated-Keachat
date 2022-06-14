@@ -6,9 +6,9 @@ import "./department.css";
 import { useHistory,useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import {useState,useEffect} from "react"
+import {useEffect} from "react"
 
-function DepartmentEdit() {
+export default function DepartmentEdit() {
 
 // const [orgid, setOrgid] = useState([])
 
@@ -171,4 +171,4 @@ useEffect(()=>{
   );
 }
 
-export default DepartmentEdit;
+

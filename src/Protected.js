@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 
- function Protected(props) {
+ export default function Protected(props) {
     let Cmp=props.Cmp
     let history=useHistory();
     
@@ -19,5 +19,5 @@ import { Link, useHistory } from 'react-router-dom';
   )
 }
 
-export default Protected
+
 

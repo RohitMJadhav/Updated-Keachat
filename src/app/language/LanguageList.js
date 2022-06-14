@@ -6,7 +6,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
-function LanguageList(){
+export default function LanguageList(){
   const [employees, setEmployees] = useState([])
   const [popup, setPopup] = useState(false);
  
@@ -105,6 +105,5 @@ function LanguageList(){
   }
 
 
-export default  LanguageList
 
 

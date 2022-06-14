@@ -8,7 +8,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import{useState,useEffect} from "react"
 import 'react-toastify/dist/ReactToastify.css';
 
-function AgentAdd(){
+export default function AgentAdd(){
  
   const [client, setClient] = useState([])
   const [group, setGroups] = useState([])
@@ -344,7 +344,7 @@ const renderGroup = () => {
   
     }
 
-export default AgentAdd;
+
 
 
 

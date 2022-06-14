@@ -5,9 +5,9 @@ import Axios from "axios";
 import  { useState,useEffect} from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Modal, Button } from "react-bootstrap";
 
-function OrganizationList(){
+
+export default function OrganizationList(){
   const [employees, setEmployees] = useState([])
   const [popup, setPopup] = useState(false);
 
@@ -112,4 +112,4 @@ let i=1;
   }
 
 
-export default OrganizationList
+

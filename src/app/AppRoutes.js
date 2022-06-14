@@ -4,7 +4,7 @@ import Protected from '../Protected';
 
 import Spinner from '../app/shared/Spinner';
 import Conversation from './conversation/Conversation';
-import LanguageEdit from './language/LanguageEdits';
+
 // import QuestionEdit from './question/QuestionEdit';
 
 const Dashboard = lazy(() => import('./dashboard/Dashboard'));
@@ -71,87 +71,12 @@ const Error500 = lazy(() => import('./error-pages/Error500'));
 
 const Login = lazy(() => import('./Login'));
 // const Register = lazy(() => import('./user-pages/Register'));
-const LandingPage = lazy(() => import("./general-pages/LandingPage"));
+// const LandingPage = lazy(() => import("./general-pages/LandingPage"));
 
 
-class AppRoutes extends Component {
-  render () {
+export default function AppRoutes()  {
+ 
     return (
-      // <Suspense fallback={<Spinner/>}>
-      //   <Switch>
-      //     <Route exact path="/dashboard" <Protected Cmp={ Dashboard } />
-
-      //     <Route path="/basic-ui/buttons" <Protected Cmp={ Buttons } />
-      //     <Route path="/basic-ui/dropdowns" <Protected Cmp={ Dropdowns } />
-
-      //     <Route path="/organization/OrganizationAdd" <Protected Cmp={ OrganizationAdd } />
-      //     <Route path="/organization/organizationList" <Protected Cmp={ OrganizationList } />
-      //     <Route path="/organization/organizationEdit/:id" <Protected Cmp={ OrganizationEdit } />
-
-      //     <Route path="/department/departmentAdd" <Protected Cmp={ DepartmentAdd } />
-      //     <Route path="/department/department-list" <Protected Cmp={ DepartmentList } />
-      //     <Route path="/department/DepartmentEdit/:id" <Protected Cmp={ DepartmentEdit } />
-
-      //     <Route path="/client/ClientAdd" <Protected Cmp={ ClientAdd  } />
-      //     <Route path="/client/ClientList" <Protected Cmp={ ClientList } />
-      //     <Route path="/client/ClientEdit/:id" <Protected Cmp={ ClientEdit } />
-
-      //     <Route path="/user/UserAdd" <Protected Cmp={ UserAdd  } />
-      //     <Route path="/user/UserList" <Protected Cmp={ UserList } />
-      //     <Route path="/user/UserEdit/:id" <Protected Cmp={ UserEdit } />
-
-      //     <Route path="/role/RoleAdd" <Protected Cmp={ RoleAdd  } />
-      //     <Route path="/role/RoleList" <Protected Cmp={ RoleList } />
-      //     <Route path="/role/RoleEdit/:id" <Protected Cmp={ RoleEdit } />
-
-      //     <Route path="/agent/AgentAdd" <Protected Cmp={ AgentAdd  } />
-      //     <Route path="/agent/AgentList" <Protected Cmp={ AgentList } />
-      //     <Route path="/agent/AgentEdit/:id" <Protected Cmp={ AgentEdit } />
-
-      //     <Route path="/agentshift/AgentShiftAdd" <Protected Cmp={ AgentShiftAdd  } />
-      //     <Route path="/agentshift/AgentShiftList" <Protected Cmp={ AgentShiftList } />
-      //     <Route path="/agentshift/AgentShiftEdit/:id" <Protected Cmp={ AgentShiftEdit } />
-
-      //     <Route path="/group/GroupAdd" <Protected Cmp={ GroupAdd  } />
-      //     <Route path="/group/GroupList" <Protected Cmp={ GroupList } />
-      //     <Route path="/group/GroupEdit/:id" <Protected Cmp={ GroupEdit } />
-
-
-      //     <Route path="/language/LanguageAdd" <Protected Cmp={ LanguageAdd } />
-      //     <Route path="/language/LanguageList" <Protected Cmp={ LanguageList } />
-      //     <Route path="/language/LanguageEdits/:id" <Protected Cmp={ LanguageEdits } />
-
-      //     <Route path="/question/QuestionAdd" <Protected Cmp={ QuestionAdd } />
-      //     <Route path="/question/QuestionList" <Protected Cmp={ QuestionList } />
-      //     <Route path="/question/QuestionEdit/:id" <Protected Cmp={ QuestionEdit } />
-
-
-      //     <Route path="/facebooksetting/facebooksetting" <Protected Cmp={ FacebookSetting} />
-
-      //     <Route path="/whatsappsetting/whatsappsetting" <Protected Cmp={ WhatsappSetting} />
-
-      //     <Route path="/conversation/conversation" <Protected Cmp={ Conversation } />
-        
-      //     <Route path="/icons/mdi" <Protected Cmp={ Mdi } />
-
-      //     <Route path="/charts/chart-js" <Protected Cmp={ ChartJs } />
-
-
-      //     <Route path="/Login" <Protected Cmp={ Login } />
-      //     {/* <Route path="/user-pages/register" <Protected Cmp={ Register } /> */}
-      //     <Route path="/general-pages/LandingPage" <Protected Cmp={ LandingPage } />
-
-      //     <Route path="/error-pages/error-404" <Protected Cmp={ Error404 } />
-      //     <Route path="/error-pages/error-500" <Protected Cmp={ Error500 } />
-
-
-    
-      //     <Redirect to="/Login" />
-      //   </Switch>
-      // </Suspense>
-
-
-
         <Suspense fallback={<Spinner/>}>
         <Switch>
           <Route exact path="/dashboard"><Protected Cmp={ Dashboard } /></Route> 
@@ -160,11 +85,11 @@ class AppRoutes extends Component {
           <Route path="/basic-ui/dropdowns"><Protected Cmp={ Dropdowns } /></Route> 
 
           <Route path="/organization/OrganizationAdd">< Protected Cmp={ OrganizationAdd}/></Route>
-          <Route path="/organization/organizationList">< Protected Cmp={ OrganizationList}/></Route> 
-          <Route path="/organization/organizationEdit/:id">< Protected Cmp={ OrganizationEdit}/></Route> 
+          <Route path="/organization/OrganizationList">< Protected Cmp={ OrganizationList}/></Route> 
+          <Route path="/organization/OrganizationEdit/:id">< Protected Cmp={ OrganizationEdit}/></Route> 
 
-          <Route path="/department/departmentAdd"><Protected Cmp={ DepartmentAdd } /></Route> 
-          <Route path="/department/department-list" ><Protected Cmp={ DepartmentList } /></Route>
+          <Route path="/department/DepartmentAdd"><Protected Cmp={ DepartmentAdd } /></Route> 
+          <Route path="/department/DepartmentList" ><Protected Cmp={ DepartmentList } /></Route>
           <Route path="/department/DepartmentEdit/:id">< Protected Cmp={ DepartmentEdit } /></Route>
 
           <Route path="/client/ClientAdd"><Protected Cmp={ ClientAdd  } /></Route> 
@@ -200,24 +125,22 @@ class AppRoutes extends Component {
           <Route path="/question/QuestionEdit/:id"><Protected Cmp={ QuestionEdit } /></Route> 
 
 
-          <Route path="/facebooksetting/facebooksetting"> <Protected Cmp={ FacebookSetting} /></Route>
+          {/* <Route path="/facebooksetting/facebooksetting"> <Protected Cmp={ FacebookSetting} /></Route> */}
 
           <Route path="/whatsappsetting/whatsappsetting"><Protected Cmp={ WhatsappSetting} /></Route> 
 
           <Route path="/conversation/conversation"> <Protected Cmp={ Conversation } /></Route>
         
-          <Route path="/icons/mdi"><Protected Cmp={ Mdi } /></Route> 
+          {/* <Route path="/icons/mdi"><Protected Cmp={ Mdi } /></Route>  */}
 
-          <Route path="/charts/chart-js"> <Protected Cmp={ ChartJs } /></Route>
+          {/* <Route path="/charts/chart-js"> <Protected Cmp={ ChartJs } /></Route> */}
           <Route path="/Login" component={Login}/> 
           <Redirect to="/Login" />
         </Switch>
       </Suspense>
     );
   }
-}
 
-export default AppRoutes;
 
 //Older Routes
 {/* <Route path="/organization/OrganizationAdd" component={OrganizationAdd}/> */}

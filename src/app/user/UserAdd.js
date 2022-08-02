@@ -21,7 +21,11 @@ export default function UserAdd(){
 
 let history=useHistory();
 
-const onSubmit = data => {Axios.post( process.env.REACT_APP_API_URL+"api/v1/users", data)
+const onSubmit = data => {Axios.post( process.env.REACT_APP_API_URL+"api/v1/users", data,{ headers:{
+  "Content-Type":"application/json",
+  "Accept":"application/json",
+  "Authorization":"Bearer "+JSON.parse(localStorage.getItem("user_info")).access_token
+}})
  .then(response=>{ history.push('/user/UserList')},
  toast.success("Thanks for Submitting!", {
    position: toast.POSITION.TOP_CENTER
@@ -38,10 +42,10 @@ useEffect(()=>{
 const getData = async () => {
  
   const response = await Axios.get( process.env.REACT_APP_API_URL+"api/v1/organizations")
-  setOrg(response.data)
+  setOrg(response.data.organizations)
   
   const output = await Axios.get( process.env.REACT_APP_API_URL+"api/v1/roles")
-  setRole(output.data)
+  setRole(output.data.roles)
  
 }
 

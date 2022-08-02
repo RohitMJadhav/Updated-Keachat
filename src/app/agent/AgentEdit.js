@@ -10,9 +10,6 @@ import 'react-toastify/dist/ReactToastify.css';
 
 export default function AgentEdit(){
  
-  // const [client, setClient] = useState([])
-  // const [group, setGroups] = useState([])
-  // const [shift, setShift] = useState([])
 
  const {
   register,
@@ -27,14 +24,18 @@ let {id}=useParams();
 
 const onSubmit = data => {
   let id = data['_id'].$oid;
-  // delete data['_id.$oid'];
   delete data['_id'];
   delete data['created_at'];
   delete data['updated_at'];
   delete data["agentshift_id"]
   delete data["client_id"]
   delete data["group_id"]
-  Axios.put(`${process.env.REACT_APP_API_URL}api/v1/agents/${id}`,data)
+  delete data["org_id"]
+  Axios.put(`${process.env.REACT_APP_API_URL}api/v1/agents/${id}`,data,{ headers:{
+    "Content-Type":"application/json",
+    "Accept":"application/json",
+    "Authorization":"Bearer "+JSON.parse(localStorage.getItem("user_info")).access_token
+  }})
  .then(response=>{ history.push('/agent/AgentList')},
  toast.success("Updating Sucessfully!", {
    position: toast.POSITION.TOP_CENTER
@@ -42,41 +43,7 @@ const onSubmit = data => {
  .catch(error => console.log(error)); 
 };
 
-// useEffect(() => {
-//   getData()
-  
-// }, [])
 
-// const getData = async () => {
- 
-//   const response = await Axios.get( `${process.env.REACT_APP_API_URL}api/v1/clients`)
-//   setClient(response.data)
-  
-//   const result = await Axios.get( `${process.env.REACT_APP_API_URL}api/v1/groups`)
-//   setGroups(result.data)
-
-//   const output = await Axios.get( `${process.env.REACT_APP_API_URL}api/v1/agentshifts`)
-//   setShift(output.data)
- 
-// }
-
-// const renderClient = () => {
-//  return <select {...register("client_id")} className="form-control" style={{fontSize:"16px",fontWeight:"bold"}}>
-//   {client.map(({ _id, name }, index) =><option key={index} value={_id.$oid} >{name}</option>)}
-//   </select>
-// }
-
-// const renderGroup = () => {
-//   return <select {...register("group_id")} className="form-control" style={{fontSize:"16px",fontWeight:"bold"}}>
-//    {group.map(({ _id, name }, index) =><option key={index} value={_id.$oid} >{name}</option>)}
-//    </select>
-//  }
-
-//  const renderShift = () => {
-//   return <select {...register("agentshift_id")} className="form-control" style={{fontSize:"16px",fontWeight:"bold"}}>
-//    {shift.map(({ _id, shift_name }, index) =><option key={index} value={_id.$oid} >{shift_name}</option>)}
-//    </select>
-//  }
 
  useEffect(()=>{
     editData()
@@ -85,8 +52,12 @@ const onSubmit = data => {
     
       const editData=async()=>{
       
-        const result = await Axios.get( `${process.env.REACT_APP_API_URL}api/v1/agents/${id}`)
-        reset(result.data[0])
+        const result = await Axios.get( `${process.env.REACT_APP_API_URL}api/v1/agents/${id}`,{ headers:{
+          "Content-Type":"application/json",
+          "Accept":"application/json",
+          "Authorization":"Bearer "+JSON.parse(localStorage.getItem("user_info")).access_token
+        }})
+        reset(result.data.agent)
        }
     
 
@@ -168,8 +139,6 @@ const onSubmit = data => {
                     {errors?.last_name?.message}
                   </div>
                   </div>
-
-
                     </div>
                   
                   <div className="row">
@@ -310,10 +279,8 @@ const onSubmit = data => {
                     {errors?.pincode?.message}
                   </div>
                   </div>
-                    {/* <label htmlFor="group_id" className="col-sm-1 col-form-label">Group</label>
-                    <div className="col-sm-5" >{renderGroup()}</div> */}
-
-<label htmlFor="email" className="col-sm-1 col-form-label"> Email </label>
+                   
+                   <label htmlFor="email" className="col-sm-1 col-form-label"> Email </label>
                      <div className="col-sm-5">
                   <input
                     type="text"
@@ -337,14 +304,58 @@ const onSubmit = data => {
                   </div>
                   </div>
 
-                  {/* <div className="row">
-                    
-                    <label htmlFor="agentshift_id" className="col-sm-1 col-form-label">Shift</label>
-                    <div className="col-sm-5">{renderShift()}</div>
-                    <label htmlFor="client_id" className="col-sm-1 col-form-label">Client</label>
-                  <div className="col-sm-5">{renderClient()}</div>
-                  </div> */}
+
+                  <div className="row">
+                  <label htmlFor="languages" className="col-sm-2 col-form-label">Language</label>
+                  <div className="col-sm-4">
+                  <div className="row" >
+                      
+                    <div className="mr-3">
+                      <input 
+                      type="checkbox"
+                      value="Marathi" 
+                      
+                      {
+                        ...register("languages",{required:{
+                          value:true,
+                          message:"language is required"
+                        }})
+                      }/>
+                      <p >Marathi</p>
+                    </div>
                   
+                    <div className="mr-4">
+                      <input 
+                      type="checkbox"
+                      value="Hindi"
+                      
+                      {
+                        ...register("languages",{required:{
+                          value:true,
+                          message:"language is required"
+                        }})
+                      }/>
+                      <p >Hindi</p>
+                    </div>
+                  
+                    <div className="mr-3">
+                      <input 
+                      type="checkbox"
+                      value="English"
+                     
+                      {
+                        ...register("languages",{required:{
+                          value:true,
+                          message:"language is required"
+                        }})
+                      }/>
+                      <p >English</p>
+                    </div>
+                   
+                  </div>
+                  {errors.languages && <span style={{color:"red"}}>{errors.languages.message}</span>}
+                  </div>
+                  </div>
                    <div className="bposition">
                    <button type="submit" className="btn btn-info" style={{fontSize:"16px"}}>Update</button>
                   </div>

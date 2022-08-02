@@ -20,7 +20,11 @@ export default function RoleAdd() {
   let history = useHistory();
 
   const onSubmit = (data) => {
-    Axios.post(process.env.REACT_APP_API_URL + "api/v1/roles", data)
+    Axios.post(process.env.REACT_APP_API_URL + "api/v1/roles", data,{ headers:{
+      "Content-Type":"application/json",
+      "Accept":"application/json",
+      "Authorization":"Bearer "+JSON.parse(localStorage.getItem("user_info")).access_token
+    }})
       .then(
         (response) => {
           history.push("/role/RoleList");
@@ -33,13 +37,6 @@ export default function RoleAdd() {
         history.push("/role/RoleList");
       });
   };
-
-
-//   useEffect(() => {
-//     getData()
-    
-// }, [])
-
 
   return (
     <div>

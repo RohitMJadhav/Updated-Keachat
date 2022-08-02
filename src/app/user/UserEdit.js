@@ -42,7 +42,11 @@ const onSubmit = (data) => {
   delete data['created_at'];
   delete data['updated_at'];
   console.log(data)
-  Axios.put(`${process.env.REACT_APP_API_URL}api/v1/users/${id}`, data)
+  Axios.put(`${process.env.REACT_APP_API_URL}api/v1/users/${id}`, data,{ headers:{
+    "Content-Type":"application/json",
+    "Accept":"application/json",
+    "Authorization":"Bearer "+JSON.parse(localStorage.getItem("user_info")).access_token
+  }})
     .then(
       (response) => {
         history.push("/user/UserList");
@@ -61,11 +65,19 @@ useEffect(()=>{
 
 const getData = async () => {
  
-  const response = await Axios.get( process.env.REACT_APP_API_URL+"api/v1/organizations")
-  setOrg(response.data)
+  const response = await Axios.get( process.env.REACT_APP_API_URL+"api/v1/organizations",{ headers:{
+    "Content-Type":"application/json",
+    "Accept":"application/json",
+    "Authorization":"Bearer "+JSON.parse(localStorage.getItem("user_info")).access_token
+  }})
+  setOrg(response.data.organizations)
   
-  const output = await Axios.get( process.env.REACT_APP_API_URL+"api/v1/roles")
-  setRole(output.data)
+  const output = await Axios.get( process.env.REACT_APP_API_URL+"api/v1/roles",{ headers:{
+    "Content-Type":"application/json",
+    "Accept":"application/json",
+    "Authorization":"Bearer "+JSON.parse(localStorage.getItem("user_info")).access_token
+  }})
+  setRole(output.data.roles)
  
 }
 
@@ -90,7 +102,11 @@ const renderBody = () => {
 
       const editData=async()=>{
       
-        const result = await Axios.get( `${process.env.REACT_APP_API_URL}api/v1/users/${id}`)
+        const result = await Axios.get( `${process.env.REACT_APP_API_URL}api/v1/users/${id}`,{ headers:{
+          "Content-Type":"application/json",
+          "Accept":"application/json",
+          "Authorization":"Bearer "+JSON.parse(localStorage.getItem("user_info")).access_token
+        }})
         reset(result.data[0])
         console.log(result.data[0])
        }

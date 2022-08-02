@@ -26,8 +26,12 @@ const onSubmit = (data) => {
     delete data["_id"]
     delete data["org_id"]
     console.log(data)
-  Axios.put(`${process.env.REACT_APP_API_URL}api/v1/clients/${id}`,data)
- .then(response=>{ history.push("/client/ClientList")},
+  Axios.put(`${process.env.REACT_APP_API_URL}api/v1/clients/${id}`,data,{ headers:{
+    "Content-Type":"application/json",
+    "Accept":"application/json",
+    "Authorization":"Bearer "+JSON.parse(localStorage.getItem("user_info")).access_token
+  }})
+ .then(response=>{ history.push("/client/clientlist")},
  toast.success("Updating Sucessfully!", {
    position: toast.POSITION.TOP_CENTER
  }))
@@ -40,11 +44,13 @@ useEffect(() => {
   }, [])
 
 const editData=async()=>{
-    const result = await Axios.get(`${process.env.REACT_APP_API_URL}api/v1/clients/${id}`)
-    console.log("hii")
-    console.log(result.data[0])
-    console.log("hii")
-    reset(result.data[0])
+    const result = await Axios.get(`${process.env.REACT_APP_API_URL}api/v1/clients/${id}`,{ headers:{
+      "Content-Type":"application/json",
+      "Accept":"application/json",
+      "Authorization":"Bearer "+JSON.parse(localStorage.getItem("user_info")).access_token
+    }})
+    reset(result.data.client)
+   
    }
 
     return (
@@ -53,7 +59,7 @@ const editData=async()=>{
           <h3 className="page-title"> Client</h3>
           <nav aria-label="breadcrumb">
             <ol className="breadcrumb">           
-              <li> <Link to="/client/ClientList"> <button type="button" className='btn btn-primary'>Back</button></Link></li>      
+              <li> <Link to="/client/clientlist"> <button type="button" className='btn btn-primary'>Back</button></Link></li>      
             </ol>
           </nav>
         </div>

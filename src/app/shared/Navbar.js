@@ -1,115 +1,84 @@
-import React, { Component } from 'react';
-import { Dropdown } from 'react-bootstrap';
-import { Trans } from 'react-i18next';
-import { Link, useHistory, withRouter } from 'react-router-dom';
-
+import React, { Component,useContext } from "react";
+import { Dropdown } from "react-bootstrap";
+import { Trans } from "react-i18next";
+import { Link, useHistory, withRouter } from "react-router-dom";
+import Axios from "axios";
+// import AuthContext from "../AuthContext";
 
 function Navbar() {
-
-
-   function toggleOffcanvas(){
-    document.querySelector('.sidebar-offcanvas').classList.toggle('active');
+  function toggleOffcanvas() {
+    document.querySelector(".sidebar-offcanvas").classList.toggle("active");
   }
 
-   function toggleRightSidebar() {
-    document.querySelector('.right-sidebar').classList.toggle('open');
+  function toggleRightSidebar() {
+    document.querySelector(".right-sidebar").classList.toggle("open");
   }
 
+//  let {logoutUser}=useContext(AuthContext)
 
- let history=useHistory()
+  let history = useHistory();
+  const LogoutData = () => {
+    
+    var role = JSON.parse(localStorage.getItem("user_info")).userinfo.role;
+   
+    if (role == "Agent") {
+      var data = {
+        user_id: JSON.parse(localStorage.getItem("user_info")).userinfo
+          .agent_id.$oid,
+        role: JSON.parse(localStorage.getItem("user_info")).userinfo.role,
+      };
+    } else {
+      var data = {
+        user_id: JSON.parse(localStorage.getItem("user_info")).userinfo._id
+          .$oid,
+        role: JSON.parse(localStorage.getItem("user_info")).userinfo.role,
+      };
+    }
 
-  function LogoutData(){
-    localStorage.clear("user_info")
-    history.push("./Login")
-  }
+    Axios.post(process.env.REACT_APP_API_URL + "auth/logout", data, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization:
+          "Bearer " +
+          JSON.parse(localStorage.getItem("user_info")).access_token,
+      },
+    })
+   .then((response)=>{ localStorage.clear("user_info");
+   history.push("./Login");})
+   
+  };
 
- 
-    return (
-      <nav className="navbar col-lg-12 col-12 p-lg-0 fixed-top d-flex flex-row">
-        <div className="navbar-menu-wrapper d-flex align-items-center justify-content-between">
-        <a className="navbar-brand brand-logo-mini align-self-center d-lg-none" href="!#" onClick={evt =>evt.preventDefault()}><img src={require("../../assets/images/logo-mini.svg")} alt="logo" /></a>
-          <button className="navbar-toggler navbar-toggler align-self-center" type="button" onClick={ () => document.body.classList.toggle('sidebar-icon-only') }>
-            <i className="mdi mdi-menu"></i>
-          </button>
-          <ul className="navbar-nav navbar-nav-left header-links align-self-center">
-            <li className="nav-item font-weight-semibold d-none  d-md-flex">Help : +050 2992 709</li>
-           
-          </ul>
-          <form className="ml-auto search-form d-none d-md-block" action="#">
-            <div className="form-group">
-              <input type="search" className="form-control" placeholder="Search Here" />
-            </div>
-          </form>
-          <ul className="navbar-nav navbar-nav-right">
-          <li >
-            <div>
-              <button className="btn btn-warning" onClick={LogoutData}>Logout</button>
-            </div>
-          </li>
-          <li className="nav-item  nav-profile border-0 pl-4">
-              <Dropdown>
-                <Dropdown.Toggle className="nav-link count-indicator p-0 toggle-arrow-hide bg-transparent">
-                  <i className="mdi mdi-bell-outline"></i>
-                  <span className="count bg-success">4</span>
-                </Dropdown.Toggle>
-                <Dropdown.Menu className="navbar-dropdown preview-list">
-                  <Dropdown.Item className="dropdown-item py-3 d-flex align-items-center" href="!#" onClick={evt =>evt.preventDefault()}>
-                    <p className="mb-0 font-weight-medium float-left"><Trans>You have</Trans> 4 <Trans>new notifications</Trans> </p>
-                    <span className="badge badge-pill badge-primary float-right">View all</span>
-                  </Dropdown.Item>
-                  <div className="dropdown-divider"></div>
-                  <Dropdown.Item className="dropdown-item preview-item d-flex align-items-center" href="!#" onClick={evt =>evt.preventDefault()}>
-                    <div className="preview-thumbnail">
-                      <i className="mdi mdi-alert m-auto text-primary"></i>
-                    </div>
-                    <div className="preview-item-content py-2">
-                      <h6 className="preview-subject font-weight-normal text-dark mb-1"><Trans>Application Error</Trans></h6>
-                      <p className="font-weight-light small-text mb-0"> <Trans>Just now</Trans> </p>
-                    </div>
-                  </Dropdown.Item>
-                  <div className="dropdown-divider"></div>
-                  <Dropdown.Item className="dropdown-item preview-item d-flex align-items-center" href="!#" onClick={evt =>evt.preventDefault()}>
-                    <div className="preview-thumbnail">
-                      <i className="mdi mdi-settings m-auto text-primary"></i>
-                    </div>
-                    <div className="preview-item-content py-2">
-                      <h6 className="preview-subject font-weight-normal text-dark mb-1"><Trans>Settings</Trans></h6>
-                      <p className="font-weight-light small-text mb-0"> <Trans>Private message</Trans> </p>
-                    </div>
-                  </Dropdown.Item>
-                  <div className="dropdown-divider"></div>
-                  <Dropdown.Item className="dropdown-item preview-item d-flex align-items-center" href="!#" onClick={evt =>evt.preventDefault()}>
-                    <div className="preview-thumbnail">
-                      <i className="mdi mdi-airballoon m-auto text-primary"></i>
-                    </div>
-                    <div className="preview-item-content py-2">
-                      <h6 className="preview-subject font-weight-normal text-dark mb-1"><Trans>New user registration</Trans></h6>
-                      <p className="font-weight-light small-text mb-0"> 2 <Trans>days ago</Trans> </p>
-                    </div>
-                  </Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
-            </li> 
-            <li className="nav-item  nav-profile border-0">
-              <Dropdown>
-                <Dropdown.Toggle className="nav-link count-indicator bg-transparent">
-                  <img className="img-xs rounded-circle" src={require("../../assets/images/faces/face8.jpg")} alt="Profile" />
-                </Dropdown.Toggle>
-                <Dropdown.Menu className="preview-list navbar-dropdown pb-3">
-                  <Dropdown.Item className="dropdown-item p-0 preview-item d-flex align-items-center border-bottom" href="!#" onClick={evt =>evt.preventDefault()}>
-                    <div className="d-flex">
-                      <div className="py-3 px-4 d-flex align-items-center justify-content-center">
-                        <i className="mdi mdi-bookmark-plus-outline mr-0"></i>
-                      </div>
-                      <div className="py-3 px-4 d-flex align-items-center justify-content-center border-left border-right">
-                        <i className="mdi mdi-account-outline mr-0"></i>
-                      </div>
-                      <div className="py-3 px-4 d-flex align-items-center justify-content-center">
-                        <i className="mdi mdi-alarm-check mr-0"></i>
-                      </div>
-                    </div>
-                  </Dropdown.Item>
-                  <Dropdown.Item className="dropdown-item preview-item d-flex align-items-center border-0 mt-2" onClick={evt =>evt.preventDefault()}>
+  return (
+    <nav className="navbar col-lg-12 col-12 p-lg-0 fixed-top d-flex flex-row">
+      <div className="navbar-menu-wrapper d-flex align-items-center justify-content-between">
+        <a
+          className="navbar-brand brand-logo-mini align-self-center d-lg-none"
+          href="!#"
+          onClick={(evt) => evt.preventDefault()}
+        >
+          <img src={require("../../assets/images/logo-mini.svg")} alt="logo" />
+        </a>
+        <button
+          className="navbar-toggler navbar-toggler align-self-center"
+          type="button"
+          onClick={() => document.body.classList.toggle("sidebar-icon-only")}
+        >
+          <i className="mdi mdi-menu"></i>
+        </button>
+
+        <ul className="navbar-nav navbar-nav-right">
+          <li className="nav-item  nav-profile border-0">
+            <Dropdown>
+              <Dropdown.Toggle className="nav-link count-indicator bg-transparent">
+                <img
+                  className="img-xs rounded-circle"
+                  src={require("../../assets/images/faces-clipart/pic-4.png")}
+                  alt="Profile"
+                />
+              </Dropdown.Toggle>
+              <Dropdown.Menu className="preview-list navbar-dropdown pb-3">
+                {/* <Dropdown.Item className="dropdown-item preview-item d-flex align-items-center border-0 mt-2" onClick={evt =>evt.preventDefault()}>
                     <Trans>Manage Accounts</Trans>
                   </Dropdown.Item>
                   <Dropdown.Item className="dropdown-item preview-item d-flex align-items-center border-0" onClick={evt =>evt.preventDefault()}>
@@ -117,21 +86,29 @@ function Navbar() {
                   </Dropdown.Item>
                   <Dropdown.Item className="dropdown-item preview-item d-flex align-items-center border-0" onClick={evt =>evt.preventDefault()}>
                     <Trans>Check Inbox</Trans>
-                  </Dropdown.Item>
-                  <Dropdown.Item className="dropdown-item preview-item d-flex align-items-center border-0" onClick={evt =>evt.preventDefault()}>
-                    <Trans>Sign Out</Trans>
-                  </Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
-            </li>
-          </ul>
-          <button className="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" onClick={toggleOffcanvas}>
-            <span className="mdi mdi-menu"></span>
-          </button>
-        </div>
-      </nav>
-    );
-  }
+                  </Dropdown.Item> */}
 
+                {/* <Dropdown.Item onClick={LogoutData}> */}
+                  <Dropdown.Item >
+
+                  <Trans>
+                    <button className="btn btn-primary" onClick={()=>LogoutData()}>Sign Out</button>
+                  </Trans>
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </li>
+        </ul>
+        <button
+          className="navbar-toggler navbar-toggler-right d-lg-none align-self-center"
+          type="button"
+          onClick={toggleOffcanvas}
+        >
+          <span className="mdi mdi-menu"></span>
+        </button>
+      </div>
+    </nav>
+  );
+}
 
 export default Navbar;

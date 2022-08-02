@@ -7,7 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 export default function LanguageList(){
-  const [employees, setEmployees] = useState([])
+  const [languages, setLanguage] = useState([])
   const [popup, setPopup] = useState(false);
  
 
@@ -17,17 +17,25 @@ export default function LanguageList(){
 
   const getData = async () => {
 
-      const response = await Axios.get(process.env.REACT_APP_API_URL+"api/v1/languages")
-      setEmployees(response.data)
+      const response = await Axios.get(process.env.REACT_APP_API_URL+"api/v1/languages",{ headers:{
+        "Content-Type":"application/json",
+        "Accept":"application/json",
+        "Authorization":"Bearer "+JSON.parse(localStorage.getItem("user_info")).access_token
+      }})
+      setLanguage(response.data.languages)
   }
 
   const removeData = ( index) => {
 
-    Axios.delete(`${process.env.REACT_APP_API_URL+"api/v1/languages/"}${index}`)
+    Axios.delete(`${process.env.REACT_APP_API_URL+"api/v1/languages/"}${index}`,{ headers:{
+      "Content-Type":"application/json",
+      "Accept":"application/json",
+      "Authorization":"Bearer "+JSON.parse(localStorage.getItem("user_info")).access_token
+    }})
     .then(res => {
-        const del = employees.filter(employee => index !== employee._id.$oid)
+        const del = languages.filter(language => index !== language._id.$oid)
         console.log(del)
-        setEmployees(del)
+        setLanguage(del)
         setPopup(true);
     },
     toast.error("Deleted Sucessfully!", {
@@ -47,16 +55,13 @@ export default function LanguageList(){
   
  let id=1;
   const renderBody = () => {
-    return employees && employees.map(({_id, language_name}) => {
+    return languages && languages.map(({_id, language_name}) => {
         return (
             <tr key={_id.$oid}>
                  <td>{id++}</td>
                 <td>{language_name} </td>
-                {/* <td>{agent_id} </td>
-                <td>{client_id} </td> */}
                 <td className='opration'>
-                <Link to={`/language/LanguageEdits/${_id.$oid}`}> <button type="button" className='btn btn-dark mr-1'>Edit</button></Link>
-                 
+                <Link to={`/language/languageedits/${_id.$oid}`}> <button type="button" className='btn btn-dark mr-1'>Edit</button></Link>       
                     <button type="button" className="btn btn-danger" onClick={() => removeData(_id.$oid)}>Delete</button>
                     <ToastContainer autoClose={1500} />
                 </td>
@@ -72,7 +77,7 @@ export default function LanguageList(){
        <h3 className="page-title"> Language</h3>
        <nav aria-label="breadcrumb">
          <ol className="breadcrumb">
-           <li> <Link to="/language/LanguageAdd"> <button type="button" className='btn btn-primary'>Add Language</button></Link></li>
+           <li> <Link to="/language/languageadd"> <button type="button" className='btn btn-primary'>Add Language</button></Link></li>
          </ol>
        </nav>
      </div>

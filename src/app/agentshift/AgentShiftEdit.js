@@ -9,8 +9,6 @@ import 'react-toastify/dist/ReactToastify.css';
 
 export default function AgentShiftEdit() {
 
-  const [orgid, setOrgid] = useState([])
-
   const {
     register,
     handleSubmit,
@@ -28,8 +26,12 @@ export default function AgentShiftEdit() {
     delete data['created_at'];
     delete data['updated_at'];
     console.log(data)
-    Axios.put( `${process.env.REACT_APP_API_URL}api/v1/agentshifts/${id}`,data)
-    .then(response=>{ history.push("/agentshift/AgentShiftList")},
+    Axios.put( `${process.env.REACT_APP_API_URL}api/v1/agentshifts/${id}`,data,{ headers:{
+      "Content-Type":"application/json",
+      "Accept":"application/json",
+      "Authorization":"Bearer "+JSON.parse(localStorage.getItem("user_info")).access_token
+    }})
+    .then(response=>{ history.push("/agentshift/agentshiftlist")},
     toast.success("Updating Sucessfully!", {
       position: toast.POSITION.TOP_CENTER
     }))
@@ -39,21 +41,6 @@ export default function AgentShiftEdit() {
   };
 
 
-  useEffect(() => {
-    getData()   
-}, [])
-
-  const getData = async () => {
-    const response = await Axios.get( process.env.REACT_APP_API_URL+"api/v1/organizations")
-    setOrgid(response.data)  
-}
-
-  const renderBody = () => {
-   return <select {...register("org_id")} className="form-control" style={{fontSize:"16px",fontWeight:"bold"}}>
-    {orgid.map(({ _id, name }, index) =><option key={index} value={_id.$oid} >{name}</option>)}
-    </select>
-}
-
 useEffect(()=>{
     editData()
     },[])
@@ -61,8 +48,12 @@ useEffect(()=>{
     
       const editData=async()=>{
       
-        const result = await Axios.get( `${process.env.REACT_APP_API_URL}api/v1/agentshifts/${id}`)
-        reset(result.data[0])
+        const result = await Axios.get( `${process.env.REACT_APP_API_URL}api/v1/agentshifts/${id}`,{ headers:{
+          "Content-Type":"application/json",
+          "Accept":"application/json",
+          "Authorization":"Bearer "+JSON.parse(localStorage.getItem("user_info")).access_token
+        }})
+        reset(result.data.agentshift)
        }
     
 
@@ -70,11 +61,11 @@ useEffect(()=>{
   return (
     <div>
       <div className="page-header">
-        <h3 className="page-title"> AgentShift </h3>
+        <h3 className="page-title"> Agent Shift </h3>
         <nav aria-label="breadcrumb">
           <ol className="breadcrumb">
             <li>
-              <Link to="/agentshift/AgentShiftList"><button type="button" className="btn btn-primary">Back </button></Link>
+              <Link to="/agentshift/agentshiftlist"><button type="button" className="btn btn-primary">Back </button></Link>
             </li>
           </ol>
         </nav>
@@ -85,8 +76,8 @@ useEffect(()=>{
             <div className="card-body">
               <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="row">
-                     <label htmlFor="shift_name" className="col-sm-1.1 col-form-label"> Shift Name </label>
-                    <div className="col-sm-5">
+                     <label htmlFor="shift_name" className="col-sm-2 col-form-label"> Shift Name </label>
+                    <div className="col-sm-4">
                   <input
                     type="text"
                     name="shift_name"
@@ -115,24 +106,15 @@ useEffect(()=>{
                     {errors?.shift_name?.message}
                   </div>
                   </div>
-
-
-                  <label
-                    htmlFor="org_id"
-                    className="col-sm-1.1 col-form-label"
-                  >
-                    Organization
-                  </label>
-                    <div className="col-sm-4">{renderBody()}</div>  
                  
                 </div>
              
                 <div className="row">
-                <div className="labelpositionstart">
-                    <label htmlFor="start_time" className="col-sm-1.1 col-form-label"> Start Time </label>
-                   </div>
-                    <div className="col-sm-5">
-                    <div className="textboxstart">
+                {/* <div className="labelpositionstart"> */}
+                    <label htmlFor="start_time" className="col-sm-2 col-form-label"> Start Time </label>
+                   {/* </div> */}
+                    <div className="col-sm-4">
+                    {/* <div className="textboxstart"> */}
                   <input
                     type="time"
                     name="start_time"
@@ -145,16 +127,16 @@ useEffect(()=>{
                       required: "Start Time is required",
                     })}
                   />
-                  </div>
+                  {/* </div> */}
                   <div className="invalid-feedback">
                     {errors?.start_time?.message}
                   </div>
                   </div>
-                  <div className="labelposition">
-                  <label htmlFor="end_time" className="col-sm-1.1 col-form-label"> End Time </label>
-                  </div>
-                    <div className="col-sm-5">
-                      <div className="textboxend">
+                  {/* <div className="labelposition"> */}
+                  <label htmlFor="end_time" className="col-sm-2 col-form-label"> End Time </label>
+                  {/* </div> */}
+                    <div className="col-sm-4">
+                      {/* <div className="textboxend"> */}
                   <input
                     type="time"
                     name="end_time"
@@ -167,7 +149,7 @@ useEffect(()=>{
                       required: "End Time is required",
                     })}
                   />
-                  </div>
+                  {/* </div> */}
                   <div className="invalid-feedback">
                     {errors?.end_time?.message}
                   </div>

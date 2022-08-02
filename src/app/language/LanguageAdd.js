@@ -19,12 +19,16 @@ export default function LanguageAdd() {
   } = useForm();
 
   let history=useHistory();
-const onSubmit = data => {Axios.post(process.env.REACT_APP_API_URL + "api/v1/languages", data)
- .then(response=>{ history.push('/language/LanguageList')},
+const onSubmit = data => {Axios.post(process.env.REACT_APP_API_URL + "api/v1/languages", data,{ headers:{
+  "Content-Type":"application/json",
+  "Accept":"application/json",
+  "Authorization":"Bearer "+JSON.parse(localStorage.getItem("user_info")).access_token
+}})
+ .then(response=>{ history.push('/language/languagelist')},
  toast.success("Thanks for Submitting!", {
    position: toast.POSITION.TOP_CENTER
  }))
- .catch(error => {history.push('/language/LanguageList')}
+ .catch(error => {history.push('/language/languagelist')}
  );
  
 };
@@ -34,11 +38,19 @@ getData()
   },[])
 
   const getData=async()=>{
-    const response = await Axios.get( `${process.env.REACT_APP_API_URL}api/v1/clients`)
-  setClient(response.data)
+    const response = await Axios.get( `${process.env.REACT_APP_API_URL}api/v1/clients`,{ headers:{
+      "Content-Type":"application/json",
+      "Accept":"application/json",
+      "Authorization":"Bearer "+JSON.parse(localStorage.getItem("user_info")).access_token
+    }})
+  setClient(response.data.clients)
 
-  const result = await Axios.get( `${process.env.REACT_APP_API_URL}api/v1/agents`)
-  setAgent(result.data)
+  const result = await Axios.get( `${process.env.REACT_APP_API_URL}api/v1/agents`,{ headers:{
+    "Content-Type":"application/json",
+    "Accept":"application/json",
+    "Authorization":"Bearer "+JSON.parse(localStorage.getItem("user_info")).access_token
+  }})
+  setAgent(result.data.agents)
   }
 
   const renderClient = () => {
@@ -59,7 +71,7 @@ getData()
         <h3 className="page-title"> Language </h3>
         <nav aria-label="breadcrumb">
           <ol className="breadcrumb">
-          <li> <Link to="/language/LanguageList"> <button type="button" className='btn btn-primary'>Back</button></Link></li>
+          <li> <Link to="/language/languagelist"> <button type="button" className='btn btn-primary'>Back</button></Link></li>
           </ol>
         </nav>
       </div>

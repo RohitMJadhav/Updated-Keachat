@@ -1,10 +1,11 @@
-import React, {useEffect,useState } from 'react';
+import React, {useContext, useEffect,useState } from 'react';
 import {useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import login from "./login.css"
+// import AuthContext from './AuthContext';
 
 export default function Login(){
 
@@ -22,18 +23,24 @@ export default function Login(){
   let history=useHistory()
 
   useEffect(()=>{
+let isAuth = JSON.parse(localStorage.getItem('user_info'));
 if(!localStorage.getItem("user_info")){
   history.push("/Login")
 }
+
+else if(isAuth && isAuth !== null) {
+  history.push("/dashboard");
+}
+
   },[])
 
   async function onSubmit(data){
- let result=await fetch(`${process.env.REACT_APP_API_URL}auth/login`,{
-   method:"POST",
-   headers:{
+  
+    let result=await fetch(`${process.env.REACT_APP_API_URL}auth/login`,{
+    method:"POST",
+    headers:{
      "Content-Type":"application/json",
      "Accept":"application/json",
-    //  "Authorization":"Bearer "+access_token
    },
    body:JSON.stringify(data)
  });
@@ -54,16 +61,20 @@ if(!localStorage.getItem("user_info")){
 })
   }
 
+
+// let {loginUser}=useContext(AuthContext)
+
     return (
         <div>
             {/* <img src={demo} style={{height:"150vh",width:"100vw"}} /> ,*/}
-        <div className="d-flex align-items-center auth px-0" style={{backgroundColor:"#728FCE"}}>    
-          <div className="row w-100 mx-0  ">
-            <div className="col-lg-4 mx-auto ">
-              <div className="auth-form-light text-left py-5 px-4 px-sm-5 shadow p-3 mb-5 bg-white rounded">
+        <div className="d-flex align-items-center auth px-0" id="backgroundpage">    
+          <div className="row w-100 mx-0  " >
+            <div className="col-lg-4 mx-auto " id="loginpage" >
+              <div className="auth-form-light text-left py-5 px-4 px-sm-5 shadow p-3 mb-5 bg-white rounded" >
                 <h4>Hello! let's get started</h4>
                 <h6 className="font-weight-light">Sign in to continue.</h6>
                   <form onSubmit={handleSubmit(onSubmit)}>
+                  {/* <form onSubmit={handleSubmit(loginUser)}> */}
                   <div className="col">
                     <label htmlFor="email" className="col-sm-1 col-form-label"> Email</label>
                     <div className="col-sm-12">
@@ -89,7 +100,7 @@ if(!localStorage.getItem("user_info")){
                   </div>
                   </div>
                      <label htmlFor="password" className="col-sm-1 col-form-label"> Password </label>
-                     <div className="col-sm-12">
+                     <div className="col-sm-12" id="passinputbox">
                   <input
                     type={passwordShown ? "text" : "password"}
                     name="password"
@@ -103,14 +114,14 @@ if(!localStorage.getItem("user_info")){
                       required: "Password is required",
                     })}
                   />
-                   <VisibilityIcon onClick = {togglePassword} fontSize="small" className='iconposition' style={{marginLeft:"300px"}}/> 
+                   <VisibilityIcon onClick = {togglePassword} fontSize="small" className='iconposition' id="togglebtnposition"/> 
                   <div className="invalid-feedback">
                     {errors?.password?.message}
                   </div>
                   </div>
                     </div>
                   <div className="mt-3">
-                    <button type='submit' className='btn btn-success' style={{width:"340px",height:"40px",marginLeft:"25px",fontSize:"18px"}}>Login</button>
+                    <button type='submit' className='btn btn-success' id="loginbtnposition">Login</button>
                   </div>
                   <div className="my-2 d-flex justify-content-between align-items-center">
                     {/* <div className="form-check">

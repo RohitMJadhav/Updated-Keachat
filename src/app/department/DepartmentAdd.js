@@ -10,7 +10,6 @@ import {useState,useEffect} from "react"
 
 export default function DepartmentAdd() {
 
-  const [orgid, setOrgid] = useState([])
 
   const {
     register,
@@ -21,45 +20,33 @@ export default function DepartmentAdd() {
   let history = useHistory();
 
   const onSubmit = (data) => {
-    Axios.post(process.env.REACT_APP_API_URL + "api/v1/departments", data)
+    data.org_id=JSON.parse(localStorage.getItem("user_info")).userinfo.org_id.$oid 
+    Axios.post(process.env.REACT_APP_API_URL + "api/v1/departments",data,{ headers:{
+      "Content-Type":"application/json",
+      "Accept":"application/json",
+      "Authorization":"Bearer "+JSON.parse(localStorage.getItem("user_info")).access_token
+    }})
       .then(
         (response) => {
-          history.push("/department/department-list");
+          history.push("/department/departmentlist");
         },
         toast.success("Thanks for Submitting!", {
           position: toast.POSITION.TOP_CENTER,
         })
       )
       .catch((error) => {
-        history.push("/department/department-list");
+        history.push("/department/departmentlist");
       });
   };
 
-
-  useEffect(() => {
-    getData()
-    
-}, [])
-
-  const getData = async () => {
-    const response = await Axios.get( process.env.REACT_APP_API_URL+"api/v1/organizations")
-    setOrgid(response.data)  
-}
-
-  const renderBody = () => {
-   return <select {...register("org_id")} className="form-control" style={{fontSize:"16px",fontWeight:"bold"}}>
-    {orgid.map(({ _id, name }, index) =><option key={index} value={_id.$oid} >{name}</option>)}
-    </select>
-}
-
   return (
-    <div>
+    <>
       <div className="page-header">
         <h3 className="page-title"> Department</h3>
         <nav aria-label="breadcrumb">
           <ol className="breadcrumb">
             <li>
-              <Link to="/department/department-List"><button type="button" className="btn btn-primary">Back</button></Link>
+              <Link to="/department/departmentlist"><button type="button" className="btn btn-primary">Back</button></Link>
             </li>
           </ol>
         </nav>
@@ -70,7 +57,7 @@ export default function DepartmentAdd() {
             <div className="card-body">
               <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="row">
-                   <label htmlFor="name" className="col-sm-1 col-form-label"> Name </label>
+                   <label htmlFor="name" className="col-sm-2 col-form-label"> Name </label>
                     <div className="col-sm-5">
                   <input
                     type="text"
@@ -100,15 +87,10 @@ export default function DepartmentAdd() {
                     {errors?.name?.message}
                   </div>
                   </div>
-
-                  <label htmlFor="org_id" className="col-sm-1.1 col-form-label">
-                    Organization Id
-                  </label>
-                   <div className="col-sm-4">{renderBody()}</div>  
                 </div>
-                <div className="position">
+                {/* <div className="position"> */}
                 <div className="row">
-                <label htmlFor="name" className="col-sm-1.1 col-form-label"> Description </label>
+                <label htmlFor="name" className="col-sm-2 col-form-label"> Description </label>
                     <div className="col-sm-5">
                   <textarea
                     type="text"
@@ -140,7 +122,7 @@ export default function DepartmentAdd() {
                   </div>
                   </div>
                 </div>
-                </div>
+                {/* </div> */}
                 <div className="bposition">
                 <button type="submit" className="btn btn-primary" style={{fontSize:"16px"}}>Submit</button>
                 </div>
@@ -150,7 +132,7 @@ export default function DepartmentAdd() {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

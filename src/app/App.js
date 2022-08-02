@@ -7,31 +7,45 @@ import Sidebar from './shared/Sidebar';
 import SettingsPanel from './shared/SettingsPanel';
 import Footer from './shared/Footer';
 import { withTranslation } from "react-i18next";
+// import {AuthProvider} from './AuthContext';
+
+
 
 class App extends Component {
   state = {}
   componentDidMount() {
     this.onRouteChanged();
   }
+
+ 
+    
   render () {
     let navbarComponent = !this.state.isFullPageLayout ? <Navbar/> : '';
     let sidebarComponent = !this.state.isFullPageLayout ? <Sidebar/> : '';
     let SettingsPanelComponent = !this.state.isFullPageLayout ? <SettingsPanel/> : '';
     let footerComponent = !this.state.isFullPageLayout ? <Footer/> : '';
     return (
+     
       <div className="container-scroller">
+        
         { navbarComponent }
         <div className="container-fluid page-body-wrapper">
           { sidebarComponent }
           <div className="main-panel">
             <div className="content-wrapper">
+           
+            {/* <AuthProvider> */}
               <AppRoutes/>
+              {/* </AuthProvider> */}
               { SettingsPanelComponent }
             </div>
             { footerComponent }
           </div>
         </div>
+       
       </div>
+      
+     
     );
   }
 
@@ -42,7 +56,7 @@ class App extends Component {
   }
 
   onRouteChanged() {
-    console.log("ROUTE CHANGED");
+  
     const { i18n } = this.props;
     const body = document.querySelector('body');
     if(this.props.location.pathname === '/layout/RtlLayout') {
@@ -55,7 +69,7 @@ class App extends Component {
     }
     window.scrollTo(0, 0);
     // const fullPageLayoutRoutes = ['/user-pages/login-1', '/user-pages/login-2', '/user-pages/register-1', '/user-pages/register-2', '/user-pages/lockscreen', '/error-pages/error-404', '/error-pages/error-500', '/general-pages/landing-page'];
-    const fullPageLayoutRoutes = ['/Login','/general-pages/LandingPage']
+    const fullPageLayoutRoutes = ['/Login']
     for ( let i = 0; i < fullPageLayoutRoutes.length; i++ ) {
       if (this.props.location.pathname === fullPageLayoutRoutes[i]) {
         this.setState({

@@ -7,7 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 export default function RoleList(){
-  const [employees, setEmployees] = useState([])
+  const [roles, setRoles] = useState([])
   const [popup, setPopup] = useState(false);
 
   useEffect(() => {
@@ -16,17 +16,25 @@ export default function RoleList(){
 
   const getData = async ( ) => {
 
-      const response = await Axios.get(process.env.REACT_APP_API_URL+"api/v1/roles")
-      setEmployees(response.data)
+      const response = await Axios.get(process.env.REACT_APP_API_URL+"api/v1/roles",{ headers:{
+        "Content-Type":"application/json",
+        "Accept":"application/json",
+        "Authorization":"Bearer "+JSON.parse(localStorage.getItem("user_info")).access_token
+      }})
+      setRoles(response.data.roles)
    
   }
 
   const removeData = ( index) => {
 
-    Axios.delete(`${process.env.REACT_APP_API_URL+"api/v1/roles/"}${index}`)
+    Axios.delete(`${process.env.REACT_APP_API_URL+"api/v1/roles/"}${index}`,{ headers:{
+      "Content-Type":"application/json",
+      "Accept":"application/json",
+      "Authorization":"Bearer "+JSON.parse(localStorage.getItem("user_info")).access_token
+    }})
     .then(res => {
-        const del = employees.filter(employee => index !== employee._id.$oid)
-        setEmployees(del)
+        const del = roles.filter(role => index !== role._id.$oid)
+        setRoles(del)
         setPopup(true);
     },
     toast.error("Deleted Sucessfully!", {
@@ -44,13 +52,10 @@ export default function RoleList(){
 
   let id=1;
   const renderBody = () => {
-    return employees && employees.map(({_id, type_name, description }) => {
+    return roles && roles.map(({_id, type_name, description }) => {
         return (
             <tr key={_id.$oid}>
-                {/* <td>{id}</td> */}
-                {/* <td>{org_id} </td> */}
                 <td>{id++}</td>
-                {/* <td>{_id.$oid}</td> */}
                 <td>{type_name}</td>
                 <td>{description}</td>
                 <td className='opration'>

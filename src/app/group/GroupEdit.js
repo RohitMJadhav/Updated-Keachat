@@ -9,7 +9,6 @@ import "./group.css"
 
 export default function GroupEdit(){
 
-//   const[dept,setDept]=useState([])
 
 const {
   register,
@@ -27,11 +26,15 @@ const onSubmit = (data) => {
   delete data['updated_at'];
   delete data['created_at'];
   delete data['dept_id'];
-  console.log(data)
-  Axios.put(`${process.env.REACT_APP_API_URL}api/v1/groups/${id}`, data)
+ 
+  Axios.put(`${process.env.REACT_APP_API_URL}api/v1/groups/${id}`, data,{ headers:{
+    "Content-Type":"application/json",
+    "Accept":"application/json",
+    "Authorization":"Bearer "+JSON.parse(localStorage.getItem("user_info")).access_token
+  }})
     .then(
       (response) => {
-        history.push("/group/GroupList");
+        history.push("/group/grouplist");
       },
       toast.success("Updating Sucessfully!", {
         position: toast.POSITION.TOP_CENTER,
@@ -41,22 +44,6 @@ const onSubmit = (data) => {
 };
 
 
-// useEffect(() => {
-//   getData()
-  
-// }, [])
-
-// const getData = async () => {
-//   const response = await Axios.get( process.env.REACT_APP_API_URL+"api/v1/departments")
-//   setDept(response.data) 
-// }
-
-// const renderBody = () => {
-//   return <select {...register("dept_id")} className="form-control" style={{fontSize:"16px",fontWeight:"bold"}}>
-//    {dept.map(({ _id, name }, index) =><option key={index} value={_id.$oid} >{name}</option>)}
-//    </select>
-// }
-
 useEffect(()=>{
   editData()
   },[])
@@ -64,9 +51,13 @@ useEffect(()=>{
   
     const editData=async()=>{
     
-      const result = await Axios.get( `${process.env.REACT_APP_API_URL}api/v1/groups/${id}`)
-      reset(result.data[0])
-      console.log(result.data[0])
+      const result = await Axios.get( `${process.env.REACT_APP_API_URL}api/v1/groups/${id}`,{ headers:{
+        "Content-Type":"application/json",
+        "Accept":"application/json",
+        "Authorization":"Bearer "+JSON.parse(localStorage.getItem("user_info")).access_token
+      }})
+      reset(result.data.group)
+     
      }
 
     return (
@@ -75,7 +66,7 @@ useEffect(()=>{
           <h3 className="page-title"> Group</h3>
           <nav aria-label="breadcrumb">
             <ol className="breadcrumb">
-        <li> <Link to="/group/GroupList"> <button type="button" className='btn btn-primary'>Back</button></Link></li>
+        <li> <Link to="/group/grouplist"> <button type="button" className='btn btn-primary'>Back</button></Link></li>
             </ol>
           </nav>
         </div>
@@ -87,7 +78,7 @@ useEffect(()=>{
               <div className="card-body">          
               <form onSubmit={handleSubmit(onSubmit)}>
                   <div className="row">
-                  <label htmlFor="name" className="col-sm-1 col-form-label"> Name </label>
+                  <label htmlFor="name" className="col-sm-2 col-form-label"> Name </label>
                     <div className="col-sm-5">
                   <input
                     type="text"
@@ -116,18 +107,11 @@ useEffect(()=>{
                   <div className="invalid-feedback">
                     {errors?.name?.message}
                   </div>
-                  </div>
-
-
-                    {/* <label htmlFor="dept_id" className="col-sm-1.1 col-form-label">
-                    Department Id
-                  </label>
-                     <div className="col-sm-4">{renderBody()}</div>   */}
-                  
+                  </div>              
                 </div>
                 <div className='position'>
                 <div className="row">
-                <label htmlFor="description" className="col-sm-1.1 col-form-label"> Description </label>
+                <label htmlFor="description" className="col-sm-2 col-form-label"> Description </label>
                     <div className="col-sm-5">
                   <textarea
                     type="text"
@@ -159,8 +143,6 @@ useEffect(()=>{
                   </div>
                   </div>
                   </div>
-
-
                 </div>
 
                   <div className='bposition'>

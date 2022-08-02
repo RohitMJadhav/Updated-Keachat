@@ -9,7 +9,7 @@ import "./group.css"
 
 export default function GroupAdd(){
 
-  const[dept,setDept]=useState([])
+
  const {
   register,
   handleSubmit,
@@ -19,40 +19,24 @@ export default function GroupAdd(){
 let history=useHistory()
 
 const onSubmit = data => {
+  data.dept_id=JSON.parse(localStorage.getItem("current_dept_id"))
   Axios
   .post(
-   process.env.REACT_APP_API_URL+"/api/v1/groups",
-      data,
+   process.env.REACT_APP_API_URL+"api/v1/groups", data,{ headers:{
+    "Content-Type":"application/json",
+    "Accept":"application/json",
+    "Authorization":"Bearer "+JSON.parse(localStorage.getItem("user_info")).access_token
+  }}
+     
    )
- .then(response=>{ history.push("/group/GroupList")},
+ .then(response=>{ history.push("/group/grouplist")},
  toast.success("Thanks for Submitting!", {
    position: toast.POSITION.TOP_CENTER
  }))
- .catch(error => {history.push("/group/GroupList")}
+ .catch(error => {history.push("/group/grouplist")}
  );
 };
 
-useEffect(() => {
-  getData()
-  
-}, [])
-
-const getData = async () => {
-  console.log("getData")
-  const response = await Axios.get( process.env.REACT_APP_API_URL+"api/v1/departments")
-  console.log(response.data)
-  console.log("hello")
-  setDept(response.data)
-  console.log(response.data)
-  console.log("hello")
- 
-}
-
-const renderBody = () => {
-  return <select {...register("dept_id")} className="form-control" style={{fontSize:"16px",fontWeight:"bold"}}>
-   {dept.map(({ _id, name }, index) =><option key={index} value={_id.$oid} >{name}</option>)}
-   </select>
-}
 
     return (
       <div>
@@ -60,7 +44,7 @@ const renderBody = () => {
           <h3 className="page-title"> Group</h3>
           <nav aria-label="breadcrumb">
             <ol className="breadcrumb">
-        <li> <Link to="/group/GroupList"> <button type="button" className='btn btn-primary'>Back</button></Link></li>
+        <li> <Link to="/group/grouplist"> <button type="button" className='btn btn-primary'>Back</button></Link></li>
             </ol>
           </nav>
         </div>
@@ -72,7 +56,7 @@ const renderBody = () => {
               <div className="card-body">          
               <form onSubmit={handleSubmit(onSubmit)}>
                   <div className="row">
-                  <label htmlFor="name" className="col-sm-1 col-form-label"> Name </label>
+                  <label htmlFor="name" className="col-sm-2 col-form-label"> Name </label>
                     <div className="col-sm-5">
                   <input
                     type="text"
@@ -103,16 +87,10 @@ const renderBody = () => {
                   </div>
                   </div>
 
-
-                    <label htmlFor="dept_id" className="col-sm-1.1 col-form-label">
-                    Department Id
-                  </label>
-                     <div className="col-sm-4">{renderBody()}</div>  
-                  
                 </div>
-                <div className='position'>
+                {/* <div className='position'> */}
                 <div className="row">
-                <label htmlFor="name" className="col-sm-1.1 col-form-label"> Description </label>
+                <label htmlFor="name" className="col-sm-2 col-form-label"> Description </label>
                     <div className="col-sm-5">
                   <textarea
                     type="text"
@@ -144,10 +122,7 @@ const renderBody = () => {
                   </div>
                   </div>
                   </div>
-
-
-                </div>
-
+                {/* </div> */}
                   <div className='bposition'>
                   <button type="submit" className="btn btn-primary" style={{fontSize:"16px"}}>Submit</button>
                   </div>

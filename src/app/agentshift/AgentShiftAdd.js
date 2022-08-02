@@ -9,8 +9,6 @@ import 'react-toastify/dist/ReactToastify.css';
 
 export default function AgentShiftAdd() {
 
-  const [orgid, setOrgid] = useState([])
-
   const {
     register,
     handleSubmit,
@@ -19,45 +17,31 @@ export default function AgentShiftAdd() {
 
   let history=useHistory();
   const onSubmit = data => {
-    Axios
-     .post(
-      process.env.REACT_APP_API_URL+"api/v1/agentshifts",
-         data,
+    data.org_id=JSON.parse(localStorage.getItem("user_info")).userinfo.org_id.$oid
+    Axios.post(process.env.REACT_APP_API_URL+"api/v1/agentshifts",data,{ headers:{
+        "Content-Type":"application/json",
+        "Accept":"application/json",
+        "Authorization":"Bearer "+JSON.parse(localStorage.getItem("user_info")).access_token
+      }},
+         
       )
-    .then(response=>{ history.push("/agentshift/AgentShiftList")},
+    .then(response=>{ history.push("/agentshift/agentshiftlist")},
     toast.success("Thanks for Submitting!", {
       position: toast.POSITION.TOP_CENTER
     }))
-    .catch(error => {history.push("/agentshift/AgentShiftList")}
+    .catch(error => {history.push("/agentshift/agentshiftlist")}
     );
     
   };
 
-
-  useEffect(() => {
-    getData()   
-}, [])
-
-  const getData = async () => {
-    const response = await Axios.get( process.env.REACT_APP_API_URL+"api/v1/organizations")
-    setOrgid(response.data)  
-}
-
-  const renderBody = () => {
-   return <select {...register("org_id")} className="form-control" style={{fontSize:"16px",fontWeight:"bold"}}>
-    {orgid.map(({ _id, name }, index) =><option key={index} value={_id.$oid} >{name}</option>)}
-    </select>
-}
-
-
   return (
     <div>
       <div className="page-header">
-        <h3 className="page-title"> AgentShift </h3>
+        <h3 className="page-title"> Agent Shift </h3>
         <nav aria-label="breadcrumb">
           <ol className="breadcrumb">
             <li>
-              <Link to="/agentshift/AgentShiftList"><button type="button" className="btn btn-primary">Back </button></Link>
+              <Link to="/agentshift/agentshiftlist"><button type="button" className="btn btn-primary">Back </button></Link>
             </li>
           </ol>
         </nav>
@@ -68,8 +52,8 @@ export default function AgentShiftAdd() {
             <div className="card-body">
               <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="row">
-                     <label htmlFor="shift_name" className="col-sm-1.1 col-form-label"> Shift Name </label>
-                    <div className="col-sm-5">
+                     <label htmlFor="shift_name" className="col-sm-2 col-form-label"> Shift Name </label>
+                    <div className="col-sm-4">
                   <input
                     type="text"
                     name="shift_name"
@@ -97,25 +81,15 @@ export default function AgentShiftAdd() {
                   <div className="invalid-feedback">
                     {errors?.shift_name?.message}
                   </div>
-                  </div>
-
-
-                  <label
-                    htmlFor="org_id"
-                    className="col-sm-1.1 col-form-label"
-                  >
-                    Organization
-                  </label>
-                    <div className="col-sm-4">{renderBody()}</div>  
-                 
+                  </div>                
                 </div>
              
                 <div className="row">
-                <div className="labelpositionstart">
-                    <label htmlFor="start_time" className="col-sm-1.1 col-form-label"> Start Time </label>
-                   </div>
-                    <div className="col-sm-5">
-                    <div className="textboxstart">
+                {/* <div className="labelpositionstart"> */}
+                    <label htmlFor="start_time" className="col-sm-2 col-form-label"> Start Time </label>
+                   {/* </div> */}
+                    <div className="col-sm-4">
+                    {/* <div className="textboxstart"> */}
                   <input
                     type="time"
                     name="start_time"
@@ -128,16 +102,16 @@ export default function AgentShiftAdd() {
                       required: "Start Time is required",
                     })}
                   />
-                  </div>
+                  {/* </div> */}
                   <div className="invalid-feedback">
                     {errors?.start_time?.message}
                   </div>
                   </div>
-                  <div className="labelposition">
-                  <label htmlFor="end_time" className="col-sm-1.1 col-form-label"> End Time </label>
-                  </div>
-                    <div className="col-sm-5">
-                      <div className="textboxend">
+                  {/* <div className="labelposition"> */}
+                  <label htmlFor="end_time" className="col-sm-2 col-form-label"> End Time </label>
+                  {/* </div> */}
+                    <div className="col-sm-4">
+                      {/* <div className="textboxend"> */}
                   <input
                     type="time"
                     name="end_time"
@@ -150,7 +124,7 @@ export default function AgentShiftAdd() {
                       required: "End Time is required",
                     })}
                   />
-                  </div>
+                  {/* </div> */}
                   <div className="invalid-feedback">
                     {errors?.end_time?.message}
                   </div>
@@ -158,9 +132,9 @@ export default function AgentShiftAdd() {
                
                 </div>
                 <div className="form-check"></div>
-                <div className="bposition">
+                {/* <div className="bposition"> */}
                 <button type="submit" className="btn btn-primary" style={{fontSize:"16px"}}> Submit</button>
-                </div>
+                {/* </div> */}
                 <ToastContainer autoClose={1500} />
               </form>
             </div>

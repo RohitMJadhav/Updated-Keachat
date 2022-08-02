@@ -10,8 +10,7 @@ import { ToastContainer, toast } from 'react-toastify';
 
 
 export default function LanguageEdits() {
-  // const [client, setClient] = useState([])
-
+ 
   const {
     register,
     handleSubmit,
@@ -31,30 +30,20 @@ export default function LanguageEdits() {
   delete data['agent_id'];
   delete data['client_id'];
   Axios
-  .put(`${process.env.REACT_APP_API_URL}api/v1/languages/${id}`,data)
- .then(response=>{ history.push('/language/LanguageList')},
+  .put(`${process.env.REACT_APP_API_URL}api/v1/languages/${id}`,data,{ headers:{
+    "Content-Type":"application/json",
+    "Accept":"application/json",
+    "Authorization":"Bearer "+JSON.parse(localStorage.getItem("user_info")).access_token
+  }})
+ .then(response=>{ history.push('/language/languagelist')},
  toast.success("Updating Sucessfully!", {
    position: toast.POSITION.TOP_CENTER
  }))
- .catch(error => {history.push('/language/LanguageList')}
+ .catch(error => {history.push('/language/languagelist')}
  );
  
 };
 
-//   useEffect(()=>{
-// getData()
-//   },[])
-
-//   const getData=async()=>{
-//     const response = await Axios.get( process.env.REACT_APP_API_URL+"api/v1/clients")
-//   setClient(response.data)
-//   }
-
-//   const renderClient = () => {
-//     return <select {...register("client_id")} className="form-control" style={{fontSize:"16px",fontWeight:"bold"}}>
-//      {client.map(({ _id, name }, index) =><option key={index} value={_id.$oid} >{name}</option>)}
-//      </select>
-//    }
 
    useEffect(()=>{
     editData()
@@ -63,7 +52,11 @@ export default function LanguageEdits() {
     
       const editData=async()=>{
       
-        const result = await Axios.get( `${process.env.REACT_APP_API_URL}api/v1/languages/${id}`)
+        const result = await Axios.get( `${process.env.REACT_APP_API_URL}api/v1/languages/${id}`,{ headers:{
+          "Content-Type":"application/json",
+          "Accept":"application/json",
+          "Authorization":"Bearer "+JSON.parse(localStorage.getItem("user_info")).access_token
+        }})
         reset(result.data[0])
        }
     
@@ -74,7 +67,7 @@ export default function LanguageEdits() {
         <h3 className="page-title"> Language </h3>
         <nav aria-label="breadcrumb">
           <ol className="breadcrumb">
-          <li> <Link to="/language/LanguageList"> <button type="button" className='btn btn-primary'>Back</button></Link></li>
+          <li> <Link to="/language/languagelist"> <button type="button" className='btn btn-primary'>Back</button></Link></li>
           </ol>
         </nav>
       </div>
@@ -93,9 +86,6 @@ export default function LanguageEdits() {
                       <option value="Marathi">Marathi</option>
                     </select>
                   </div>
-
-                  {/* <label htmlFor="client_id" className="col-sm-1 col-form-label">client_id</label>
-                  <div className="col-sm-5">{renderClient()}</div> */}
                   </div>
                 <br/>
                 <button type="submit" className="btn btn-info " style={{fontSize:"16px"}}>

@@ -112,7 +112,8 @@ $sidebar-width-icon: 70px;
 $sidebar-light-bg: #fff;
 $sidebar-light-menu-color: #fff;
 $sidebar-light-submenu-color: $sidebar-light-menu-color;
-$sidebar-light-menu-active-bg: #0f25d5;
+// $sidebar-light-menu-active-bg: #0f25d5;
+$sidebar-light-menu-active-bg: #3fa95b;
 $sidebar-light-menu-active-color:#fff;
 $sidebar-light-menu-hover-bg: $sidebar-light-menu-active-bg;
 $sidebar-light-menu-hover-color: $sidebar-light-menu-color;
@@ -128,9 +129,16 @@ $sidebar-light-profile-title-color: #8d9498;
 
 
 
-$sidebar-gradient-color-1:#5768f3;
-$sidebar-gradient-color-2:#1c45ef;
-$sidebar-gradient:linear-gradient(to top, $sidebar-gradient-color-1, $sidebar-gradient-color-2);
+// $sidebar-gradient-color-1:#5768f3;
+// $sidebar-gradient-color-2:#1c45ef;
+
+// $sidebar-gradient-color-1:rgba(0, 0, 0, 0.745);
+// $sidebar-gradient-color-2:rgba(0, 0, 0, 0.744);
+
+ $sidebar-gradient-color-1:#2F4050;
+ $sidebar-gradient-color-2:#2F4050;
+
+$sidebar-gradient:linear-gradient(to top,$sidebar-gradient-color-1, $sidebar-gradient-color-2);
 $navbar-dropdown-toggle-arrow-color:grey;
 
 $sidebar-light-submenu-line-color: darken($sidebar-gradient-color-1, 18%);
@@ -141,6 +149,8 @@ $sidebar-nav-item-profile-border-color:1px solid rgba(#fff, 0.11);
 $sidebar-nav-item-profile-bg:rgba(255, 255, 255, 0.1);
 $sidebar-nav-item-profile-color: #fff;
 $sidebar-profile-name-color: #fff !default;
+
+
 $sidebar-profile-designation-color:#fff !default;
 $sidebar-nav-category-border-color:rgba(255, 255, 255, 0.13);
 $sidebar-nav-item-dot-color:#fff;
@@ -197,7 +207,8 @@ $icon-only-menu-bg-dark: $sidebar-dark-bg;
 ///////// NAVBAR ////////
 
 $navbar-height: 63px;
-$navbar-bg: #fff;
+// $navbar-bg: #fff;
+$navbar-bg:#c5d0d0; 
 $navbar-menu-color: #001737;
 $navbar-font-size: 15px;
 $navbar-icon-font-size: 1.25rem;

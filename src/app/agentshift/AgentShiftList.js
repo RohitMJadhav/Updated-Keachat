@@ -5,30 +5,41 @@ import Axios from "axios";
 import  { useState,useEffect} from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import BeatLoader from "react-spinners/BeatLoader";
 
 export default function AgentShiftList(){
-  const [employees, setEmployees] = useState([])
+  const [agentshifts, setAgentShift] = useState([])
   const [popup, setPopup] = useState(false);
+  const [loading,setLoading]=useState(false)
 
   useEffect(() => {
+    setLoading(true)
     getData()
 }, [])
 
 const getData = async ( ) => {
 
-    const response = await Axios.get(process.env.REACT_APP_API_URL+"api/v1/agentshifts")
-    setEmployees(response.data)
-   
+    const response = await Axios.get(process.env.REACT_APP_API_URL+"api/v1/agentshifts/list/"+JSON.parse(localStorage.getItem("user_info")).userinfo.org_id.$oid,{ headers:{
+      "Content-Type":"application/json",
+      "Accept":"application/json",
+      "Authorization":"Bearer "+JSON.parse(localStorage.getItem("user_info")).access_token
+    }})
+    setAgentShift(response.data.agentshifts)
+    setLoading(false)
 }
+
 
 
 const removeData = ( index) => {
 
-  Axios.delete(`${process.env.REACT_APP_API_URL+"api/v1/agentshifts/"}${index}`)
+  Axios.delete(`${process.env.REACT_APP_API_URL+"api/v1/agentshifts/"}${index}`,{ headers:{
+    "Content-Type":"application/json",
+    "Accept":"application/json",
+    "Authorization":"Bearer "+JSON.parse(localStorage.getItem("user_info")).access_token
+  }})
   .then(res => {
-      const del = employees.filter(employee => index !== employee._id.$oid)
-      setEmployees(del)
+      const del = agentshifts.filter(agentshift => index !== agentshift._id.$oid)
+      setAgentShift(del)
       setPopup(true);
   },
   toast.error("Deleted Sucessfully!", {
@@ -45,14 +56,9 @@ const removeData = ( index) => {
       })
   }
 
-  function editForm(){
-    alert("hello how are you");
-    
-  }
-
   let id=1;
   const renderBody = () => {
-    return employees && employees.map(({ _id, shift_name, start_time, end_time }) => {
+    return agentshifts && agentshifts.map(({ _id, shift_name, start_time, end_time }) => {
         return (
             <tr key={_id.$oid}>
                 <td>{id++}</td>
@@ -60,7 +66,7 @@ const removeData = ( index) => {
                 <td>{start_time}</td>
                 <td>{end_time}</td>
                 <td className='opration'>
-                <Link to={`/agentshift/AgentShiftEdit/${_id.$oid}`}> <button type="button" className='btn btn-dark mr-1'>Edit</button></Link>
+                <Link to={`/agentshift/agentshiftedit/${_id.$oid}`}> <button type="button" className='btn btn-success mr-1'>Edit</button></Link>
                  
                     <button type="button" className="btn btn-danger mr-1 " onClick={() =>  
                     {const confirmBox=window.confirm("Are you sure want to delete") 
@@ -81,11 +87,11 @@ const removeData = ( index) => {
         <div>
        
     <div className="page-header">
-       <h3 className="page-title"> AgentShifts</h3>
+       <h3 className="page-title"> Agent Shifts</h3>
        <nav aria-label="breadcrumb">
          <ol className="breadcrumb">
            
-           <li> <Link to="/agentshift/AgentShiftAdd"> <button type="button" className='btn btn-primary'>Add AgentShifts</button></Link></li>
+           <li> <Link to="/agentshift/agentshiftadd"> <button type="button" className='btn btn-primary'>Add Agent Shifts</button></Link></li>
             
          </ol>
        </nav>
@@ -96,7 +102,10 @@ const removeData = ( index) => {
         <div className="card">
            <div className="card-body">
             <h4 className="card-title"></h4>
-            
+            {loading?
+            <div style={{paddingLeft:"500px",paddingTop:"200px"}}>
+            <BeatLoader color={"#7ED321"} loading={loading} size={35} margin={5} />
+            </div>:
             <div className="table-responsive">
                <table className="table table-striped">
 
@@ -109,6 +118,7 @@ const removeData = ( index) => {
             </tbody>
         </table>
         </div>
+           }
           </div>
         </div>
       </div>

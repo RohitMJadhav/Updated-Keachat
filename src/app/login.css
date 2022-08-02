@@ -1,0 +1,28 @@
+#backgroundpage{
+   background-Color:"#728FCE" 
+}
+
+
+#loginpage{
+   
+   position:relative
+}
+
+#loginbtnposition{
+    width:auto;
+    height:40px;
+    font-Size:18px;
+    position: absolute;
+    right:45%;
+}
+
+/* #passinputbox{
+    position:relative;
+} */
+
+#togglebtnposition{
+    position: absolute;
+    right:15px;
+    top:13px;
+    cursor: pointer;
+}

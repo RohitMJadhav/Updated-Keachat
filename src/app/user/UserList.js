@@ -6,29 +6,35 @@ import  { useState,useEffect} from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-
-
 function UserList(){
-  const [employees, setEmployees] = useState([])
+  const [users, setUser] = useState([])
   const [popup, setPopup] = useState(false);
 
+  
   useEffect(() => {
     getInformation()
 }, [])
 
 const getInformation = async ( ) => {
 
-    const result = await Axios.get(`${process.env.REACT_APP_API_URL}api/v1/users`)
-    setEmployees(result.data)
-    console.log(result.data)
+    const result = await Axios.get(`${process.env.REACT_APP_API_URL}api/v1/users`,{ headers:{
+      "Content-Type":"application/json",
+      "Accept":"application/json",
+      "Authorization":"Bearer "+JSON.parse(localStorage.getItem("user_info")).access_token
+    }})
+    setUser(result.data.users)
 }
 
   const removeData = ( index) => {
 
-    Axios.delete(`${process.env.REACT_APP_API_URL+"api/v1/users/"}${index}`)
+    Axios.delete(`${process.env.REACT_APP_API_URL+"api/v1/users/"}${index}`,{ headers:{
+      "Content-Type":"application/json",
+      "Accept":"application/json",
+      "Authorization":"Bearer "+JSON.parse(localStorage.getItem("user_info")).access_token
+    }})
     .then(res => {
-        const del = employees.filter(employee => index !== employee._id.$oid)
-        setEmployees(del)
+        const del = users.filter(user => index !== user._id.$oid)
+        setUser(del)
         setPopup(true);
     },
     toast.error("Deleted Sucessfully!", {
@@ -46,7 +52,7 @@ const getInformation = async ( ) => {
 
 let id=1;
   const renderBody = () => {
-    return employees && employees.map(( {_id,username, email }) => {
+    return users && users.map(( {_id,username, email }) => {
         return (
             <tr key={_id.$oid}>
                 <td>{id++}</td>

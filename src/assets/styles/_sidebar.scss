@@ -177,6 +177,7 @@
 
         .menu-title {
           color: white !important;
+          // color: black !important;//new color added with comment above
           display: inline-block;
           font-size: $sidebar-menu-font-size;
           line-height: 1;
@@ -279,7 +280,7 @@
           height: 10px;
           border-radius: 100%;
           border: 2px solid $sidebar-nav-item-dot-color;
-          display: block;
+          display: none;
 
           .rtl & {
             left: auto;

@@ -7,12 +7,17 @@ import { useHistory } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import{useState,useEffect} from "react"
 import 'react-toastify/dist/ReactToastify.css';
+import Multiselect from 'multiselect-react-dropdown';
+import { useLocation } from "react-router-dom";
+
 
 export default function AgentAdd(){
  
   const [client, setClient] = useState([])
   const [group, setGroups] = useState([])
   const [shift, setShift] = useState([])
+  const [depts, setDepts] = useState([])
+  
 
  const {
   register,
@@ -22,37 +27,65 @@ export default function AgentAdd(){
 
 
 let history=useHistory();
+
 const onSubmit = data => {
-  Axios
-  .post(
-    process.env.REACT_APP_API_URL+"api/v1/agents",
-      data,
+  data.org_id=JSON.parse(localStorage.getItem("user_info")).userinfo.org_id.$oid
+  Axios.post(process.env.REACT_APP_API_URL+"api/v1/agents", data,{ headers:{
+      "Content-Type":"application/json",
+      "Accept":"application/json",
+      "Authorization":"Bearer "+JSON.parse(localStorage.getItem("user_info")).access_token
+    }}
+     
    )
- .then(response=>{ history.push('/agent/AgentList')},
+ .then((response)=>
+  { history.push('/agent/agentlist')},
  toast.success("Thanks for Submitting!", {
    position: toast.POSITION.TOP_CENTER
  }))
- .catch(error => {history.push('/agent/AgentList')}
+ .catch(error => {history.push('/agent/agentlist')}
  );
  
 };
 
 useEffect(() => {
   getData()
-  
+ 
 }, [])
 
-const getData = async () => {
- 
-  const response = await Axios.get( process.env.REACT_APP_API_URL+"api/v1/clients")
-  setClient(response.data)
-  
-  const result = await Axios.get( process.env.REACT_APP_API_URL+"api/v1/groups")
-  setGroups(result.data)
+const location = useLocation();
 
-  const output = await Axios.get( process.env.REACT_APP_API_URL+"api/v1/agentshifts")
-  setShift(output.data)
- 
+const getData = async () => {
+
+  const responseone = await Axios.get( process.env.REACT_APP_API_URL+"api/v1/clients/list/"+JSON.parse(localStorage.getItem("user_info")).userinfo.org_id.$oid,{ headers:{
+    "Content-Type":"application/json",
+    "Accept":"application/json",
+    "Authorization":"Bearer "+JSON.parse(localStorage.getItem("user_info")).access_token
+  }})
+  setClient(responseone.data.clients)
+
+  const responsefour = await Axios.get( process.env.REACT_APP_API_URL+"api/v1/departments/list/"+JSON.parse(localStorage.getItem("user_info")).userinfo.org_id.$oid,{ headers:{
+    "Content-Type":"application/json",
+    "Accept":"application/json",
+    "Authorization":"Bearer "+JSON.parse(localStorage.getItem("user_info")).access_token
+  }})
+  setDepts(responsefour.data.departments)
+
+  if(responsefour.data.departments.length>0){
+    const responsetwo = await Axios.get( process.env.REACT_APP_API_URL+"api/v1/groups/list/"+responsefour.data.departments[0]._id.$oid,{ headers:{
+    "Content-Type":"application/json",
+    "Accept":"application/json",
+    "Authorization":"Bearer "+JSON.parse(localStorage.getItem("user_info")).access_token
+  }})
+  setGroups(responsetwo.data.groups)    
+    console.log(responsefour.data.departments)
+  }
+  
+  const responsethree = await Axios.get( process.env.REACT_APP_API_URL+"api/v1/agentshifts/list/"+JSON.parse(localStorage.getItem("user_info")).userinfo.org_id.$oid,{ headers:{
+    "Content-Type":"application/json",
+    "Accept":"application/json",
+    "Authorization":"Bearer "+JSON.parse(localStorage.getItem("user_info")).access_token
+  }})
+  setShift(responsethree.data.agentshifts) 
 }
 
 const renderClient = () => {
@@ -73,14 +106,42 @@ const renderGroup = () => {
    </select>
  }
 
+//  const renderShift = () => {
+//   return <select {...register("agentshift_id")} className="col-sm-4" style={{fontSize:"16px",fontWeight:"bold"}}>
+//    {shift.map(({ _id, shift_name }, index) =><option key={index} value={_id.$oid} >{shift_name}</option>)}
+//    </select>
+//  }
 
+ const handleChange = async(e)=>{
+    
+    const responsetwo = await Axios.get( process.env.REACT_APP_API_URL+"api/v1/groups/list/"+e.target.value,{ headers:{
+    "Content-Type":"application/json",
+    "Accept":"application/json",
+    "Authorization":"Bearer "+JSON.parse(localStorage.getItem("user_info")).access_token
+  }})
+  setGroups(responsetwo.data.groups)
+ }
+
+ const renderDepartments = () => {
+  return <><select 
+  className="form-control" style={{fontSize:"16px",fontWeight:"bold"}}
+  onChange={(e) => handleChange(e)}  
+  >
+   {depts.map(({ _id, name }, index) =><option key={index} value={_id.$oid} >{name}</option>)}
+   </select>
+  
+   </>
+ }
+ // {...register("dept_id")}
+ 
+ 
     return (
       <div>
         <div className="page-header">
           <h3 className="page-title"> Agent </h3>
           <nav aria-label="breadcrumb">
             <ol className="breadcrumb">
-              <li> <Link to="/agent/AgentList"> <button type="button" className='btn btn-primary'>Back</button></Link></li>
+              <li> <Link to="/agent/agentlist"> <button type="button" className='btn btn-primary'>Back</button></Link></li>
             </ol>
           </nav>
         </div>
@@ -92,8 +153,8 @@ const renderGroup = () => {
                      
               <form onSubmit={handleSubmit(onSubmit)}>
                   <div className="row">
-                    <label htmlFor="first_name" className="col-sm-1 col-form-label"> First </label>
-                    <div className="col-sm-5">
+                    <label htmlFor="first_name" className="col-sm-2 col-form-label"> First Name </label>
+                    <div className="col-sm-4">
                   <input
                     type="text"
                     name="first_name"
@@ -122,8 +183,8 @@ const renderGroup = () => {
                     {errors?.first_name?.message}
                   </div>
                   </div>
-                  <label htmlFor="last_name" className="col-sm-1 col-form-label"> Last </label>
-                    <div className="col-sm-5">
+                  <label htmlFor="last_name" className="col-sm-2 col-form-label"> Last Name </label>
+                    <div className="col-sm-4">
                   <input
                     type="text"
                     name="last_name"
@@ -157,8 +218,8 @@ const renderGroup = () => {
                     </div>
                   
                   <div className="row">
-                     <label htmlFor="address" className="col-sm-1 col-form-label"> Address </label>
-                    <div className="col-sm-5">
+                     <label htmlFor="address" className="col-sm-2 col-form-label"> Address </label>
+                    <div className="col-sm-4">
                   <input
                     type="text"
                     name="address"
@@ -183,8 +244,8 @@ const renderGroup = () => {
                     {errors?.address?.message}
                   </div>
                   </div>
-                  <label htmlFor="city" className="col-sm-1 col-form-label"> City </label>
-                    <div className="col-sm-5">
+                  <label htmlFor="city" className="col-sm-2 col-form-label"> City </label>
+                    <div className="col-sm-4">
                   <input
                     type="text"
                     name="city"
@@ -213,8 +274,8 @@ const renderGroup = () => {
 
                   </div>
                   <div className="row">
-                    <label htmlFor="state" className="col-sm-1 col-form-label"> State </label>
-                    <div className="col-sm-5">
+                    <label htmlFor="state" className="col-sm-2 col-form-label"> State </label>
+                    <div className="col-sm-4">
                   <input
                     type="text"
                     name="state"
@@ -239,8 +300,8 @@ const renderGroup = () => {
                     {errors?.state?.message}
                   </div>
                   </div>
-                  <label htmlFor="country" className="col-sm-1 col-form-label"> Country </label>
-                    <div className="col-sm-5">
+                  <label htmlFor="country" className="col-sm-2 col-form-label"> Country </label>
+                    <div className="col-sm-4">
                   <input
                     type="text"
                     name="country"
@@ -265,10 +326,12 @@ const renderGroup = () => {
                     {errors?.country?.message}
                   </div>
                   </div>
+
+
                   </div>
                   <div className="row">
-                    <label htmlFor="pincode" className="col-sm-1 col-form-label"> Pincode </label>
-                    <div className="col-sm-5">
+                    <label htmlFor="pincode" className="col-sm-2 col-form-label"> Pincode </label>
+                    <div className="col-sm-4">
                     <input
                     type="tel"
                     name="pincode"
@@ -294,20 +357,8 @@ const renderGroup = () => {
                     {errors?.pincode?.message}
                   </div>
                   </div>
-                    <label htmlFor="group_id" className="col-sm-1 col-form-label">Group</label>
-                    <div className="col-sm-5" >{renderGroup()}</div>
-                  </div>
-
-                  <div className="row">
-                    
-                    <label htmlFor="agentshift_id" className="col-sm-1 col-form-label">Shift</label>
-                    <div className="col-sm-5">{renderShift()}</div>
-                    <label htmlFor="client_id" className="col-sm-1 col-form-label">Client</label>
-                  <div className="col-sm-5">{renderClient()}</div>
-                  </div>
-                  <div className="row">
-                  <label htmlFor="email" className="col-sm-1 col-form-label"> Email </label>
-                     <div className="col-sm-5">
+                  <label htmlFor="email" className="col-sm-2 col-form-label"> Email </label>
+                     <div className="col-sm-4">
                   <input
                     type="text"
                     name="email"
@@ -328,7 +379,105 @@ const renderGroup = () => {
                     {errors?.email?.message}
                   </div>
                   </div>
+                 
                   </div>
+
+                  <div className="row">
+                    
+                     <label htmlFor="contact_no" className="col-sm-2 col-form-label"> Contact </label>
+                    <div className="col-sm-4">
+                  <input
+                    type="tel"
+                    name="contact_no"
+                    autoComplete="off"
+                    className={`form-control ${
+                      errors.contact_no ? "is-invalid" : ""
+                    }`}
+                    placeholder="Contact"
+                    {...register("contact_no", {
+                      required: "Contact Number is required",
+                      validate:(value)=>value.length>9 && value.length<11 ,
+                      minLength: {
+                        value: 10,
+                        message: "Contact number should be 10 digit",
+                      },
+                      maxLength: {
+                        value: 10,
+                        message: "Contact number shouldn't be greater than 10 digit",
+                      },
+                    })}
+                  />
+                  <div className="invalid-feedback">
+                    {errors?.contact_no?.message}
+                  </div>
+                  </div>
+
+                    <label htmlFor="client_id" className="col-sm-2 col-form-label">Client</label>
+                  <div className="col-sm-4">{renderClient()}</div>
+                  </div>
+                  <div className="row">
+                  <label htmlFor="dept_id" className="col-sm-2 col-form-label">Department</label>
+                    <div className="col-sm-4" >{renderDepartments()}</div>
+
+                  <label htmlFor="languages" className="col-sm-2 col-form-label">Language</label>
+                  <div className="col-sm-4">
+                  <div className="row" >
+                      
+                    <div className="mr-3">
+                      <input 
+                      type="checkbox"
+                      value="Marathi" 
+                      
+                      {
+                        ...register("languages",{required:{
+                          value:true,
+                          message:"language is required"
+                        }})
+                      }/>
+                      <p >Marathi</p>
+                    </div>
+                  
+                    <div className="mr-4">
+                      <input 
+                      type="checkbox"
+                      value="Hindi"
+                      
+                      {
+                        ...register("languages",{required:{
+                          value:true,
+                          message:"language is required"
+                        }})
+                      }/>
+                      <p >Hindi</p>
+                    </div>
+                  
+                    <div className="mr-3">
+                      <input 
+                      type="checkbox"
+                      value="English"
+                     
+                      {
+                        ...register("languages",{required:{
+                          value:true,
+                          message:"language is required"
+                        }})
+                      }/>
+                      <p >English</p>
+                    </div>
+                   
+                  </div>
+                  {errors.languages && <span style={{color:"red"}}>{errors.languages.message}</span>}
+                  </div>
+                  </div>
+                  <div className="row">
+                   <label htmlFor="group_id" className="col-sm-2 col-form-label">Group</label>
+                    <div className="col-sm-4" >{renderGroup()}</div>
+                   <label htmlFor="agentshift_id" className="col-sm-2 col-form-label">Shift</label>
+                    <div className="col-sm-4">{renderShift()}</div>
+
+                    </div>
+
+
                    <div className="bposition">
                   <button type="submit" className="btn btn-primary" style={{fontSize:"16px"}}>Submit</button>
                   </div>

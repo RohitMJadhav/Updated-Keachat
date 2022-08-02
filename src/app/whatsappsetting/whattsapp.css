@@ -1,0 +1,22 @@
+.row{
+    margin:10px;
+    padding-bottom: 20px;
+   
+}
+
+.msg{
+    color: red;
+}
+
+.selectmenu{
+    padding: 10px;
+    margin:10px;
+}
+
+.form-control{
+    font-size: 16px;
+}
+
+.bposition{
+    margin-left: 20px;
+}

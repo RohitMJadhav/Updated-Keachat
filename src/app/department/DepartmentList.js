@@ -1,32 +1,59 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 import Axios from "axios";
+import "./department.css";
 import  { useState,useEffect} from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {useHistory } from 'react-router-dom';
+import BeatLoader from "react-spinners/BeatLoader";
 
 
 export default function DepartmentList(){
-  const [employees, setEmployees] = useState([])
+  const [departments, setDepartment] = useState([])
   const [popup, setPopup] = useState(false);
+  const[loading,setLoading]=useState(false)
 
+ 
   useEffect(() => {
+    setLoading(true)
       getData()
+
   }, [])
 
-  const getData = async ( ) => {
-
-      const response = await Axios.get(process.env.REACT_APP_API_URL+"api/v1/departments")
-      setEmployees(response.data)
+  const getData = async () => {
+    console.log('---------------')
    
+      const result = await Axios.get(`${process.env.REACT_APP_API_URL}api/v1/departments/list/`+JSON.parse(localStorage.getItem("user_info")).userinfo.org_id.$oid,{ headers:{
+        "Content-Type":"application/json",
+        "Accept":"application/json",
+        "Authorization":"Bearer "+JSON.parse(localStorage.getItem("user_info")).access_token
+      }})
+      // .catch(error => {
+      //   console.log(error.response.status)
+      //   if(error.response.status===401){
+          
+      //     history.push("/login")
+      //   }
+      // }
+      // );
+     
+      setDepartment(result.data.departments)
+      setLoading(false)
+      
+
   }
 
   const removeData = ( index) => {
 
-    Axios.delete(`${process.env.REACT_APP_API_URL+"api/v1/departments/"}${index}`)
+    Axios.delete(`${process.env.REACT_APP_API_URL+"api/v1/departments/"}${index}`,{ headers:{
+      "Content-Type":"application/json",
+      "Accept":"application/json",
+      "Authorization":"Bearer "+JSON.parse(localStorage.getItem("user_info")).access_token
+    }})
     .then(res => {
-        const del = employees.filter(employee => index !== employee._id.$oid)
-        setEmployees(del)
+        const del = departments.filter(department => index !== department._id.$oid)
+        setDepartment(del)
         setPopup(true);
     },
     toast.error("Deleted Sucessfully!", {
@@ -35,27 +62,40 @@ export default function DepartmentList(){
 }
 
   const renderHeader = () => {
-      let headerElement = [ 'id', 'name', 'description', 'operation']
+      let headerElement = [ 'id', 'name', 'description',"group", 'operation']
 
       return headerElement.map((key, index) => {
           return <th key={index}>{key.toUpperCase()}</th>
       })
   }
 
+  let history=useHistory()
+
+  const handleSet=(_id)=>{
+    
+    let setvalue=_id.$oid
+    localStorage.setItem("current_dept_id",JSON.stringify(setvalue))
+    history.push("/group/grouplist")
+  //   history.push({
+  //     pathname: '/group/grouplist',
+  //     search: '?query=abc',
+  //     state: _id.$oid
+  // })
+  }
+
   let id=1;
   const renderBody = () => {
-    return employees && employees.map(({_id, name, description }) => {
+    return departments && departments.map(({_id, name, description }) => {
         return (
             <tr key={_id.$oid}>
-                {/* <td>{id}</td> */}
-                {/* <td>{org_id} </td> */}
                 <td>{id++}</td>
-                {/* <td>{_id.$oid}</td> */}
                 <td>{name}</td>
                 <td>{description}</td>
+                <td>
+               <button type="button"  className='btn btn-primary mr-1' onClick={(event) => handleSet(_id)}>Group</button>
+                </td> 
                 <td className='opration'>
-                <Link to={`/department/DepartmentEdit/${_id.$oid}`}> <button type="button" className='btn btn-dark mr-1'>Edit</button></Link>
-                 
+                <Link to={`/department/departmentedit/${_id.$oid}`}> <button type="button" className='btn btn-success mr-1'>Edit</button></Link>
                     <button type="button" className="btn btn-danger mr-1" onClick={() => 
                     {const confirmBox=window.confirm("Are you sure want to delete") 
                     if(confirmBox===true)
@@ -70,25 +110,26 @@ export default function DepartmentList(){
 
   return(<>
 
-        <div>
-       
     <div className="page-header">
        <h3 className="page-title"> Department</h3>
        <nav aria-label="breadcrumb">
-         <ol className="breadcrumb">
-           
-           <li> <Link to="/department/DepartmentAdd"> <button type="button" className='btn btn-primary'>Add Department</button></Link></li>
-            
+         <ol className="breadcrumb">         
+           <li> <Link to="/department/departmentadd"> <button type="button" className='btn btn-primary'>Add Department</button></Link></li>   
          </ol>
        </nav>
      </div>
-     <div className="row">
+     <div className="row" >
     
        <div className="col-lg-12 grid-margin stretch-card">
         <div className="card">
            <div className="card-body">
+          
             <h4 className="card-title"></h4>
-            
+            {/* <BeatLoader color={"#50E3C2"} loading={loading} size={40} margin={6} /> */}
+            {loading?
+            <div style={{paddingLeft:"500px",paddingTop:"200px"}}>
+            <BeatLoader color={"#7ED321"} loading={loading} size={35} margin={5} />
+            </div>:
             <div className="table-responsive">
                <table className="table table-striped">
 
@@ -97,16 +138,17 @@ export default function DepartmentList(){
             </thead>
             <tbody>
                 {renderBody()}
-               
+            
             </tbody>
         </table>
-        </div>
+        </div>}
+            
           </div>
         </div>
       </div>
-      
-    </div>
-  </div>
+      </div>
+   
+  
   </>
 
     );

@@ -214,22 +214,22 @@ inputChangeHandler(event) {
                     </div>
                   </div>
                 </div>
-                <div className="events py-4 border-bottom px-3">
+                {/* <div className="events py-4 border-bottom px-3">
                   <div className="wrapper d-flex mb-2">
                     <i className="mdi mdi-circle-outline text-primary"></i>
                     <span><Trans>Feb</Trans> 11 2018</span>
                   </div>
                   <p className="mb-0 font-weight-thin text-gray"><Trans>Creating component page</Trans></p>
                   <p className="text-gray mb-0"><Trans>build a js based app</Trans></p>
-                </div>
-                <div className="events pt-4 px-3">
+                </div> */}
+                {/* <div className="events pt-4 px-3">
                   <div className="wrapper d-flex mb-2">
                     <i className="mdi mdi-circle-outline text-primary"></i>
                     <span><Trans>Feb</Trans> 7 2018</span>
                   </div>
                   <p className="mb-0 font-weight-thin text-gray"><Trans>Meeting with Alisa</Trans></p>
                   <p className="text-gray mb-0 "><Trans>Call Sarah Graves</Trans></p>
-                </div>
+                </div> */}
               </div>
             </Tab>
             <Tab eventKey="CHATS" title="CHATS">

@@ -17,12 +17,17 @@ export default function OrganizationAdd(){
 
 let history=useHistory();
 const onSubmit = data => {
-  Axios.post(`${process.env.REACT_APP_API_URL}api/v1/organizations`, data)
-  .then(response=>{ history.push("/organization/organizationList")},
+  
+  Axios.post(`${process.env.REACT_APP_API_URL}api/v1/organizations`,data,{ headers:{
+    "Content-Type":"application/json",
+    "Accept":"application/json",
+    "Authorization":"Bearer "+JSON.parse(localStorage.getItem("user_info")).access_token
+  }} )
+  .then(response=>{ history.push("/organization/organizationlist")},
   toast.success("Thanks for Submitting!", {
     position: toast.POSITION.TOP_CENTER
   }))
-  .catch(error => {history.push("/orgainization/organizationList")}
+  .catch(error => {history.push("/orgainization/organizationlist")}
   );
   
 };
@@ -33,7 +38,7 @@ const onSubmit = data => {
           <h3 className="page-title"> Organization </h3>
           <nav aria-label="breadcrumb">
             <ol className="breadcrumb">
-              <li> <Link to="/organization/OrganizationList"> <button type="button" className='btn btn-primary'>Back</button></Link></li>
+              <li> <Link to="/organization/organizationlist"> <button type="button" className='btn btn-primary'>Back</button></Link></li>
             </ol>
           </nav>
         </div>
@@ -42,10 +47,10 @@ const onSubmit = data => {
           <div className="col-md-12 grid-margin stretch-card">
             <div className="card">
               <div className="card-body">
-              <form onSubmit={handleSubmit(onSubmit)}>
+              <form onSubmit={handleSubmit(onSubmit)} >
                   <div className="row">
-                    <label htmlFor="name" className="col-sm-1 col-form-label"> Name </label>
-                    <div className="col-sm-5">
+                    <label htmlFor="name" className="col-sm-2 col-form-label"  > Name </label>
+                    <div className="col-sm-4">
                   <input
                     type="text"
                     name="name"
@@ -74,8 +79,8 @@ const onSubmit = data => {
                     {errors?.name?.message}
                   </div>
                   </div>
-                     <label htmlFor="email" className="col-sm-1 col-form-label"> Email </label>
-                     <div className="col-sm-5">
+                     <label htmlFor="email" className="col-sm-2 col-form-label"> Email </label>
+                     <div className="col-sm-4">
                   <input
                     type="text"
                     name="email"
@@ -99,8 +104,8 @@ const onSubmit = data => {
                     </div>
                   
                   <div className="row">
-                    <label htmlFor="contact_no" className="col-sm-1 col-form-label"> Contact </label>
-                    <div className="col-sm-5">
+                    <label htmlFor="contact_no" className="col-sm-2 col-form-label"> Contact </label>
+                    <div className="col-sm-4">
                   <input
                     type="tel"
                     name="contact_no"
@@ -126,8 +131,9 @@ const onSubmit = data => {
                     {errors?.contact_no?.message}
                   </div>
                   </div>
-                    <label htmlFor="address" className="col-sm-1 col-form-label"> Address </label>
-                    <div className="col-sm-5">
+                  
+                    <label htmlFor="address" className="col-sm-2 col-form-label"> Address </label>
+                    <div className="col-sm-4">
                   <input
                     type="text"
                     name="address"
@@ -155,8 +161,8 @@ const onSubmit = data => {
                   </div>
 
                   <div className="row">
-                   <label htmlFor="city" className="col-sm-1 col-form-label"> City </label>
-                    <div className="col-sm-5">
+                   <label htmlFor="city" className="col-sm-2 col-form-label"> City </label>
+                    <div className="col-sm-4">
                   <input
                     type="text"
                     name="city"
@@ -182,8 +188,8 @@ const onSubmit = data => {
                   </div>
                   </div>
 
-                  <label htmlFor="state" className="col-sm-1 col-form-label"> State </label>
-                    <div className="col-sm-5">
+                  <label htmlFor="state" className="col-sm-2 col-form-label"> State </label>
+                    <div className="col-sm-4">
                   <input
                     type="text"
                     name="state"
@@ -210,8 +216,8 @@ const onSubmit = data => {
                   </div>
                   </div>
                   <div className="row">
-                    <label htmlFor="country" className="col-sm-1 col-form-label"> Country </label>
-                    <div className="col-sm-5">
+                    <label htmlFor="country" className="col-sm-2 col-form-label"> Country </label>
+                    <div className="col-sm-4">
                   <input
                     type="text"
                     name="country"
@@ -236,8 +242,8 @@ const onSubmit = data => {
                     {errors?.country?.message}
                   </div>
                   </div>
-                  <label htmlFor="pincode" className="col-sm-1 col-form-label"> Pincode </label>
-                    <div className="col-sm-5">
+                  <label htmlFor="pincode" className="col-sm-2 col-form-label"> Pincode </label>
+                    <div className="col-sm-4">
                   <input
                     type="tel"
                     name="pincode"
@@ -265,6 +271,7 @@ const onSubmit = data => {
                   </div>
 
                   </div>
+                  <br/>
                   <div className='bposition'>
                   <button type="submit" className="btn btn-primary" style={{fontSize:"16px"}} >Submit</button>
                   </div>

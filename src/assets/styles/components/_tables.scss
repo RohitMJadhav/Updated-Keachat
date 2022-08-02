@@ -19,7 +19,8 @@
     font-size: $default-font-size;
     line-height: 1;
     white-space: nowrap;
-    padding:12px 15px;
+    // padding:12px 15px; made change for chat messages padding
+    padding:5px 15px;
     img {
       width: 36px;
       height: 36px;

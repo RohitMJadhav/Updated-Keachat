@@ -28,7 +28,11 @@ export default function RoleEdit() {
     delete data['created_at'];
     delete data['updated_at'];
     console.log(data)
-    Axios.put(`${process.env.REACT_APP_API_URL}api/v1/roles/${id}`, data)
+    Axios.put(`${process.env.REACT_APP_API_URL}api/v1/roles/${id}`,data,{ headers:{
+      "Content-Type":"application/json",
+      "Accept":"application/json",
+      "Authorization":"Bearer "+JSON.parse(localStorage.getItem("user_info")).access_token
+    }})
       .then(
         (response) => {
           history.push("/role/RoleList");
@@ -49,7 +53,11 @@ export default function RoleEdit() {
 
       const editData=async()=>{
       
-        const result = await Axios.get( `${process.env.REACT_APP_API_URL}api/v1/roles/${id}`)
+        const result = await Axios.get( `${process.env.REACT_APP_API_URL}api/v1/roles/${id}`,{ headers:{
+          "Content-Type":"application/json",
+          "Accept":"application/json",
+          "Authorization":"Bearer "+JSON.parse(localStorage.getItem("user_info")).access_token
+        }})
         reset(result.data[0])
         console.log(result.data[0])
        }

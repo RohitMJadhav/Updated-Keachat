@@ -9,8 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import "./question.css"
 
 export default function QuestionAdd(){
-  const [question, setQuestion] = useState([])
-
+ 
   const {
     register,
     handleSubmit,
@@ -18,30 +17,25 @@ export default function QuestionAdd(){
   } = useForm();
 
   let history=useHistory();
-const onSubmit = data => {Axios.post(process.env.REACT_APP_API_URL+"api/v1/questions", data )
- .then(response=>{ history.push('/question/QuestionList')},
+ 
+const onSubmit = data => 
+
+{
+  data.client_id=JSON.parse(localStorage.getItem("current_client_id"))
+  Axios.post(process.env.REACT_APP_API_URL+"api/v1/questions", data,{ headers:{
+  "Content-Type":"application/json",
+  "Accept":"application/json",
+  "Authorization":"Bearer "+JSON.parse(localStorage.getItem("user_info")).access_token
+}} )
+ .then(response=>{ history.push('/question/questionlist')},
  toast.success("Thanks for Submitting!", {
    position: toast.POSITION.TOP_CENTER
  }))
- .catch(error => {history.push('/question/QuestionList')}
+ .catch(error => {history.push('/question/questionlist')}
  );
  
 };
 
-  useEffect(()=>{
-getData()
-  },[])
-
-  const getData=async()=>{
-    const response = await Axios.get( process.env.REACT_APP_API_URL+"api/v1/clients")
-  setQuestion(response.data)
-  }
-
-  const renderClient = () => {
-    return <select {...register("client_id")} className="form-control" style={{fontSize:"16px",fontWeight:"bold"}}>
-     {question.map(({ _id, name }, index) =><option key={index} value={_id.$oid} >{name}</option>)}
-     </select>
-   }
     return (
       <div>
         <div className="page-header">
@@ -49,7 +43,7 @@ getData()
           <nav aria-label="breadcrumb">
             <ol className="breadcrumb">
              
-              <li> <Link to="/question/QuestionList"> <button type="button" className='btn btn-primary'>Back</button></Link></li>
+              <li> <Link to="/question/questionlist"> <button type="button" className='btn btn-primary'>Back</button></Link></li>
              
             </ol>
           </nav>
@@ -90,9 +84,6 @@ getData()
                   </div>
                   </div>
 
-                    <label htmlFor="client_id" className="col-sm-2 col-form-label">client_id</label>
-                    <div className="col-sm-4">{renderClient()}</div>
-                    
                     </div>
                     <div className="row">
                      <label htmlFor="question" className="col-sm-2 col-form-label"> Name </label>
@@ -115,8 +106,10 @@ getData()
                   </div>
 
                     </div>
-                  <br/><br/>
-                  <button type="submit" className="btn btn-primary mr-2">Submit</button>
+                  <br/>
+                  <div className='bposition'>
+                  <button type="submit" className="btn btn-primary" style={{fontSize:"16px"}}>Submit</button>
+                  </div>
                   <ToastContainer autoClose={1500} /> 
                   
                   </form>

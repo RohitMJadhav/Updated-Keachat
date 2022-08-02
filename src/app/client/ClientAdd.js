@@ -10,7 +10,7 @@ import "./client.css"
 
 export default function ClientAdd(){
  
-const [org, setOrg] = useState([])
+
 
 const {
   register,
@@ -21,36 +21,22 @@ const {
 let history=useHistory();
 
 const onSubmit = data => {
-  Axios
-  .post(
-    process.env.REACT_APP_API_URL+"api/v1/clients",
-      data,
+  data.org_id=JSON.parse(localStorage.getItem("user_info")).userinfo.org_id.$oid
+  Axios.post(process.env.REACT_APP_API_URL+"api/v1/clients", data,{ headers:{
+      "Content-Type":"application/json",
+      "Accept":"application/json",
+      "Authorization":"Bearer "+JSON.parse(localStorage.getItem("user_info")).access_token
+    }},
+     
    )
- .then(response=>{ history.push("/client/ClientList")},
+ .then(response=>{ history.push("/client/clientlist")},
  toast.success("Thanks for Submitting!", {
    position: toast.POSITION.TOP_CENTER
  }))
- .catch(error => {history.push("/client/ClientList")}
+ .catch(error => {history.push("/client/clientlist")}
  );
  
 };
-
-
-useEffect(() => {
-  getData()
-  
-}, [])
-
-const getData = async () => {
-  const response = await Axios.get( process.env.REACT_APP_API_URL+"api/v1/organizations")
-  setOrg(response.data)
-}
-
-const renderBody = () => {
- return <select {...register("org_id")} className="form-control" style={{fontSize:"16px",fontWeight:"bold"}}>
-  {org.map(({ _id, name }, index) =><option key={index} value={_id.$oid} >{name}</option>)}
-  </select>
-}
 
 
     return (
@@ -60,7 +46,7 @@ const renderBody = () => {
           <nav aria-label="breadcrumb">
             <ol className="breadcrumb">
             
-              <li> <Link to="/client/ClientList"> <button type="button" className='btn btn-primary'>Back</button></Link></li>
+              <li> <Link to="/client/clientlist"> <button type="button" className='btn btn-primary'>Back</button></Link></li>
              
             </ol>
           </nav>
@@ -74,8 +60,8 @@ const renderBody = () => {
                
               <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="row">
-                    <label htmlFor="name" className="col-sm-1 col-form-label"> Name </label>
-                    <div className="col-sm-5">
+                    <label htmlFor="name" className="col-sm-2 col-form-label"> Name </label>
+                    <div className="col-sm-4">
                   <input
                     type="text"
                     name="name"
@@ -104,8 +90,8 @@ const renderBody = () => {
                     {errors?.name?.message}
                   </div>
                   </div>
-                     <label htmlFor="email" className="col-sm-1 col-form-label"> Email </label>
-                     <div className="col-sm-5">
+                     <label htmlFor="email" className="col-sm-2 col-form-label"> Email </label>
+                     <div className="col-sm-4">
                   <input
                     type="text"
                     name="email"
@@ -129,8 +115,8 @@ const renderBody = () => {
                     </div>
                   
                   <div className="row">
-                    <label htmlFor="contact_no" className="col-sm-1 col-form-label"> Contact </label>
-                    <div className="col-sm-5">
+                    <label htmlFor="contact_no" className="col-sm-2 col-form-label"> Contact </label>
+                    <div className="col-sm-4">
                   <input
                     type="tel"
                     name="contact_no"
@@ -148,7 +134,7 @@ const renderBody = () => {
                       },
                       maxLength: {
                         value: 10,
-                        message: "Name shouldn't be greater than 10 digit",
+                        message: "Contact number shouldn't be greater than 10 digit",
                       },
                     })}
                   />
@@ -156,8 +142,10 @@ const renderBody = () => {
                     {errors?.contact_no?.message}
                   </div>
                   </div>
-                    <label htmlFor="address" className="col-sm-1 col-form-label"> Address </label>
-                    <div className="col-sm-5">
+
+
+                    <label htmlFor="address" className="col-sm-2 col-form-label"> Address </label>
+                    <div className="col-sm-4">
                   <input
                     type="text"
                     name="address"
@@ -185,8 +173,8 @@ const renderBody = () => {
                   </div>
 
                   <div className="row">
-                   <label htmlFor="city" className="col-sm-1 col-form-label"> City </label>
-                    <div className="col-sm-5">
+                   <label htmlFor="city" className="col-sm-2 col-form-label"> City </label>
+                    <div className="col-sm-4">
                   <input
                     type="text"
                     name="city"
@@ -212,8 +200,8 @@ const renderBody = () => {
                   </div>
                   </div>
 
-                  <label htmlFor="state" className="col-sm-1 col-form-label"> State </label>
-                    <div className="col-sm-5">
+                  <label htmlFor="state" className="col-sm-2 col-form-label"> State </label>
+                    <div className="col-sm-4">
                   <input
                     type="text"
                     name="state"
@@ -239,9 +227,9 @@ const renderBody = () => {
                   </div>
                   </div>
                   </div>
-                  <div className="row">
-                    <label htmlFor="country" className="col-sm-1 col-form-label"> Country </label>
-                    <div className="col-sm-5">
+                   <div className="row">
+                    <label htmlFor="country" className="col-sm-2 col-form-label"> Country </label>
+                    <div className="col-sm-4">
                   <input
                     type="text"
                     name="country"
@@ -266,8 +254,8 @@ const renderBody = () => {
                     {errors?.country?.message}
                   </div>
                   </div>
-                  <label htmlFor="pincode" className="col-sm-1 col-form-label"> Pincode </label>
-                    <div className="col-sm-5">
+                  <label htmlFor="pincode" className="col-sm-2 col-form-label"> Pincode </label>
+                    <div className="col-sm-4">
                   <input
                     type="tel"
                     name="pincode"
@@ -296,10 +284,6 @@ const renderBody = () => {
 
                   </div>
 
-                    <div className="row">
-                    <label className="col-sm-1 col-form-label">Org.Id</label>
-                  <div className="col-sm-5">{renderBody()}</div>  
-                  </div>
                   <div className='bposition'>
                   <button type="submit" className="btn btn-primary" style={{fontSize:"16px"}}>Submit</button>
                   </div>

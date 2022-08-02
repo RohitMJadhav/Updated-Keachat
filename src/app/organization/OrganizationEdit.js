@@ -22,13 +22,19 @@ let {id}=useParams();
 
 
 const onSubmit = (data) => {
+ 
  let id = data['_id'].$oid;
   delete data['_id'];
   delete data['created_at'];
   delete data['updated_at'];
-  console.log(data)
-  Axios.put(`${process.env.REACT_APP_API_URL}api/v1/organizations/${id}`,data)
-    .then((response)=>{history.push("/organization/OrganizationList")},
+  
+  Axios.put(`${process.env.REACT_APP_API_URL}api/v1/organizations/${id}`,data,{ headers:{
+    "Content-Type":"application/json",
+    "Accept":"application/json",
+    "Authorization":"Bearer "+JSON.parse(localStorage.getItem("user_info")).access_token
+  }})
+    .then((response)=>{
+    history.push("/organization/OrganizationList")},
     toast.success("Updating Sucessfully!", {
       position: toast.POSITION.TOP_CENTER
     })
@@ -44,7 +50,11 @@ editData()
 
   const editData=async()=>{
   
-    const result = await Axios.get( `${process.env.REACT_APP_API_URL}api/v1/organizations/${id}`)
+    const result = await Axios.get( `${process.env.REACT_APP_API_URL}api/v1/organizations/${id}`,{ headers:{
+      "Content-Type":"application/json",
+      "Accept":"application/json",
+      "Authorization":"Bearer "+JSON.parse(localStorage.getItem("user_info")).access_token
+    }})
     reset(result.data[0])
    }
 
@@ -65,8 +75,8 @@ editData()
               <div className="card-body">
               <form onSubmit={handleSubmit(onSubmit)}>
                   <div className="row">
-                    <label htmlFor="name" className="col-sm-1 col-form-label"> Name </label>
-                    <div className="col-sm-5">
+                    <label htmlFor="name" className="col-sm-2 col-form-label"> Name </label>
+                    <div className="col-sm-4">
                   <input
                     type="text"
                     name="name"
@@ -95,8 +105,8 @@ editData()
                     {errors?.name?.message}
                   </div>
                   </div>
-                     <label htmlFor="email" className="col-sm-1 col-form-label"> Email </label>
-                     <div className="col-sm-5">
+                     <label htmlFor="email" className="col-sm-2 col-form-label"> Email </label>
+                     <div className="col-sm-4">
                   <input
                     type="text"
                     name="email"
@@ -120,8 +130,8 @@ editData()
                     </div>
                   
                   <div className="row">
-                    <label htmlFor="contact_no" className="col-sm-1 col-form-label"> Contact </label>
-                    <div className="col-sm-5">
+                    <label htmlFor="contact_no" className="col-sm-2 col-form-label"> Contact </label>
+                    <div className="col-sm-4">
                   <input
                     type="tel"
                     name="contact_no"
@@ -147,8 +157,8 @@ editData()
                     {errors?.contact_no?.message}
                   </div>
                   </div>
-                    <label htmlFor="address" className="col-sm-1 col-form-label"> Address </label>
-                    <div className="col-sm-5">
+                    <label htmlFor="address" className="col-sm-2 col-form-label"> Address </label>
+                    <div className="col-sm-4">
                   <input
                     type="text"
                     name="address"
@@ -176,8 +186,8 @@ editData()
                   </div>
 
                   <div className="row">
-                   <label htmlFor="city" className="col-sm-1 col-form-label"> City </label>
-                    <div className="col-sm-5">
+                   <label htmlFor="city" className="col-sm-2 col-form-label"> City </label>
+                    <div className="col-sm-4">
                   <input
                     type="text"
                     name="city"
@@ -203,8 +213,8 @@ editData()
                   </div>
                   </div>
 
-                  <label htmlFor="state" className="col-sm-1 col-form-label"> State </label>
-                    <div className="col-sm-5">
+                  <label htmlFor="state" className="col-sm-2 col-form-label"> State </label>
+                    <div className="col-sm-4">
                   <input
                     type="text"
                     name="state"
@@ -231,8 +241,8 @@ editData()
                   </div>
                   </div>
                   <div className="row">
-                    <label htmlFor="country" className="col-sm-1 col-form-label"> Country </label>
-                    <div className="col-sm-5">
+                    <label htmlFor="country" className="col-sm-2 col-form-label"> Country </label>
+                    <div className="col-sm-4">
                   <input
                     type="text"
                     name="country"
@@ -257,8 +267,8 @@ editData()
                     {errors?.country?.message}
                   </div>
                   </div>
-                  <label htmlFor="pincode" className="col-sm-1 col-form-label"> Pincode </label>
-                    <div className="col-sm-5">
+                  <label htmlFor="pincode" className="col-sm-2 col-form-label"> Pincode </label>
+                    <div className="col-sm-4">
                   <input
                     type="tel"
                     name="pincode"
@@ -286,6 +296,7 @@ editData()
                   </div>
 
                   </div>
+                  <br/>
                   <div className='bposition'>
                   <button type="submit" className="btn btn-info" style={{fontSize:"16px"}}>Update</button>
                   </div>
